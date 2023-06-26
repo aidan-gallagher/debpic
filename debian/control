@@ -1,0 +1,12 @@
+Source: dpkg-buildenv
+Section: misc
+Priority: optional
+Maintainer: Aidan Gallagher <aidgal2@gmail.com>
+Build-Depends: debhelper-compat (= 12), dh-exec
+Standards-Version: 4.5.1
+
+Package: dpkg-buildenv
+Architecture: all
+Depends: docker.io, python3, ${misc:Depends}
+Description: Builds debian packages in a docker container.
+ Invoke without any arguments to simply build packages.

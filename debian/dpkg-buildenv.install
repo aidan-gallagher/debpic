@@ -1,0 +1,7 @@
+#!/usr/bin/dh-exec
+# Note: Ensure this file is able to be executed (`chmod +x debian/install`)
+
+# Path to file in repository => path to install file on target
+debian/dpkg-buildenv.1 => usr/share/man/man1/dpkg-buildenv.1
+Dockerfile => usr/share/dpkg-buildenv/Dockerfile
+dpkg_buildenv.py => usr/bin/dpkg-buildenv
