@@ -69,3 +69,6 @@ The [dpkg-buildenv.py](./dpkg-buildenv.py) script handles the user command line 
 * It runs the Docker image.
 * It calls dpkg-buildpackage within the container to build the package.
 
+# Installation
+
+You must allow docker to run as non-root user. To do this follow the steps in the [official docker documentation](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
