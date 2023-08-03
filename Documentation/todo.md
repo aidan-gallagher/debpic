@@ -1,5 +1,6 @@
 ## ToDo:
 
+* Allow users to specify private APT repo
 * Consider techiniques to speed up docker build. 
     * https://gist.github.com/reegnz/990d0b01b5f5e8670f78257875d8daa8
     * https://docs.docker.com/build/cache/
