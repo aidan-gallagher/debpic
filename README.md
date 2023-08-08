@@ -50,18 +50,32 @@ $ dpkg-buildenv --delete-images
 ### Using With Other Tools
 See documentantion how to use with [Jenkins](./Documentation/using-with-jenkins.md) and [VSCode](./Documentation/using-with-vscode.md).
 
+### Additional Repositories
+
+Additional apt source lists can be configured in `/etc/dpkg-buildenv/sources.list.d`. 
+These files will be copied to `/etc/apt/sources.list.d/` in the container.
+
+dpkg-buildenv copies `/etc/dpkg-buildenv/sources.list.d/default.list` by default.
+
+Other source files can be specified by using the `--sources` flag. For example, the following commands will copy the file `/etc/dpkg-buildenv/sources.list.d/unstable.list`
+```
+$ dpkg-buildenv --source unstable
+```
+
+
 ## Design
 
 The implementation of this program is fairly simple; if are familiar with Python, Docker and Debian packaging then you should understand it fairly easily (within ~15 minutes).  
 
 The [dockerfile](./Dockerfile) contains the instructions to create the containised enviornment.  
 * It sets up the docker user.
-* It adds the private apt repositories.
 * It changes the parent directory permissions.
+* It installs the mk-build-deps program
 * It copies over the debian/control file from the repository.
 * It optionally copies over the developer-packages.txt file from the repository if it exists.
-* It uses mk-build-deps to install all the dependencise in the Build-Depends section of the debian/control file.
-* It installs all the dependencise in the devleper-packages.txt file.
+* It copies over additional apt source lists
+* It uses mk-build-deps to install all the dependencies in the Build-Depends section of the debian/control file.
+* It installs all the dependencies in the devleper-packages.txt file.
 
 The [dpkg-buildenv.py](./dpkg-buildenv.py) script handles the user command line options and invokes Docker.
 * It finds the current folder's name and uses that as the image name.
