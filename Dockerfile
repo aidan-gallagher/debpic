@@ -43,7 +43,14 @@ RUN apt-get update && \
 # If it exists, copy over the developer-packages.txt file which contains optional
 # recommended packages for the developer (gitlint, flake8, autopep8, etc).
 # [t] is a necessary work around to allow conditional copying https://stackoverflow.com/a/46801962/13365272.
-COPY ./debian/control ./developer-packages.tx[t] /tmp/
+COPY ./debian/control ./developer-packages.tx[t] ./*.deb /tmp/
+# ---------------------------------------------------------------------------- #
+
+
+# ----------------------- Install local debian packages ---------------------- #
+# "|| true" is used to ignore erros dependency errors from dpkg which are later 
+# fixed using apt-get with --fix-broken.
+RUN dpkg -i /tmp/*.deb || true && apt-get install --fix-broken --assume-yes 
 # ---------------------------------------------------------------------------- #
 
 
