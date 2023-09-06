@@ -47,13 +47,6 @@ COPY ./debian/control ./developer-packages.tx[t] ./*.deb /tmp/
 # ---------------------------------------------------------------------------- #
 
 
-# ----------------------- Install local debian packages ---------------------- #
-# "|| true" is used to ignore erros dependency errors from dpkg which are later 
-# fixed using apt-get with --fix-broken.
-RUN dpkg -i /tmp/*.deb || true && apt-get install --fix-broken --assume-yes 
-# ---------------------------------------------------------------------------- #
-
-
 # --------------------- Copy additional apt sources files -------------------- #
 COPY ./dpkg-buildenv/sources.list.d/ /etc/apt/sources.list.d/
 
@@ -75,4 +68,12 @@ RUN test -f /tmp/developer-packages.txt && \
     apt-get install --yes --no-install-recommends $(cat /tmp/developer-packages.txt) && \ 
     rm /tmp/developer-packages.txt; \
     exit 0
+# ---------------------------------------------------------------------------- #
+
+
+# ----------------------- Install local debian packages ---------------------- #
+# "|| true" is used to ignore erros dependency errors from dpkg which are later 
+# fixed using apt-get with --fix-broken.
+# Do this after other installations so they are not overwritten.
+RUN dpkg -i /tmp/*.deb || true && apt-get install --fix-broken --assume-yes 
 # ---------------------------------------------------------------------------- #
