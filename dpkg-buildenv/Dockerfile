@@ -57,6 +57,27 @@ COPY ./debian/control ./developer-packages.tx[t] ./*.deb /tmp/
 # ---------------------------------------------------------------------------- #
 
 
+# ----------------------------- VYATTA specifi1c ----------------------------- #
+RUN apt-get install --yes wget && \
+    mkdir --parents /etc/apt/keyrings && \
+    wget http://repos.eng.vyatta.net/Tools/Debian11/Release.key -O /etc/apt/keyrings/tools.key && \
+    wget http://repos.eng.vyatta.net/Vyatta:/Tools/Debian11/Release.key -O /etc/apt/keyrings/vyatta-tools.key && \
+    wget http://build-release.eng.vyatta.net:82/Vyatta:/Unstable/standard/Release.key -O /etc/apt/keyrings/build-release.key
+
+RUN echo '\
+deb [signed-by=/etc/apt/keyrings/tools.key] http://repos.eng.vyatta.net/Tools/Debian11/ ./ \n\
+deb [signed-by=/etc/apt/keyrings/vyatta-tools.key] http://repos.eng.vyatta.net/Vyatta:/Tools/Debian11/ ./ \n\
+deb [signed-by=/etc/apt/keyrings/build-release.key] http://build-release.eng.vyatta.net:82/Vyatta:/Unstable/standard/ ./' \
+>> /etc/apt/sources.list.d/dpkg-buildenv.list
+
+RUN echo '\n\
+Package: * \n\
+Pin: origin build-release.eng.vyatta.net \n\
+Pin-Priority: 1001 \n\
+' > /etc/apt/preferences
+# ---------------------------------------------------------------------------- #
+
+
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
 RUN apt-get update && \
