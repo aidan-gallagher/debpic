@@ -47,6 +47,13 @@ parser.add_argument(
 args = parser.parse_args()
 
 
+def dpkg_directory_check():
+    if not os.path.isfile("./debian/control"):
+        sys.exit(
+            f"Could not find /debian/control file. Are you in the correct directory?"
+        )
+
+
 def delete_images():
     find_cmd = "docker images *buildenv --format {{.Repository}}"
     find_result = (
@@ -141,6 +148,7 @@ docker run
 
 
 if __name__ == "__main__":
+    dpkg_directory_check()
     if args.delete_images is True:
         delete_images()
         sys.exit()
