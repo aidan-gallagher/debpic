@@ -1,8 +1,10 @@
 FROM debian:11
 USER root
 
+# ---------------------------------------------------------------------------- #
 # Prevent apt from asking the user questions like which time zone.
 ARG DEBIAN_FRONTEND=noninteractive
+# ---------------------------------------------------------------------------- #
 
 
 # --------------------- Add docker user & set working dir -------------------- #
@@ -32,6 +34,14 @@ RUN mkdir -p /var/lib/jenkins/workspace/ && \
 # ---------------------------------------------------------------------------- #
 
 
+# --------------------------- Add convenience alias -------------------------- #
+# If the user is in interactive move and runs `dpkg-buildpackage` the generated
+# .debs are placed in the parent directory which isn't mounted and therefore not
+# avilable to the host.
+RUN echo 'alias mv-debs="mkdir --parents ./built_packages;  mv ../*.deb ./built_packages/"' >> ~/.bashrc
+# ---------------------------------------------------------------------------- #
+
+
 # ---------------------- Install mk-build-deps program. ---------------------- #
 RUN apt-get update && \
     apt-get install --yes --fix-missing --no-install-recommends devscripts equivs
@@ -49,6 +59,7 @@ COPY ./debian/control ./developer-packages.tx[t] ./*.deb /tmp/
 
 # --------------------- Copy additional apt sources files -------------------- #
 COPY ./dpkg-buildenv/sources.list.d/ /etc/apt/sources.list.d/
+# ---------------------------------------------------------------------------- #
 
 
 # ---------------- Install Debian build/packaging dependencies --------------- #
