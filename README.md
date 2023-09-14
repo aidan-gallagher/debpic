@@ -48,7 +48,7 @@ $ dpkg-buildenv --delete-images
 ```
 
 ### Using With Other Tools
-See documentantion how to use with [Jenkins](./Documentation/using-with-jenkins.md) and [VSCode](./Documentation/using-with-vscode.md).
+See documentantion how to use with [Jenkins](./dpkg-buildenv/Documentation/using-with-jenkins.md) and [VSCode](./dpkg-buildenv/Documentation/using-with-vscode.md).
 
 ### Additional Repositories
 
