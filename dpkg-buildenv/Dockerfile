@@ -57,11 +57,6 @@ COPY ./debian/control ./developer-packages.tx[t] ./*.deb /tmp/
 # ---------------------------------------------------------------------------- #
 
 
-# --------------------- Copy additional apt sources files -------------------- #
-COPY ./dpkg-buildenv/sources.list.d/ /etc/apt/sources.list.d/
-# ---------------------------------------------------------------------------- #
-
-
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
 RUN apt-get update && \
