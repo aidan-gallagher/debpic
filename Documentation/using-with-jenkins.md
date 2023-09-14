@@ -1,14 +1,14 @@
 # Using With Jenkins
 
 
-Install dpkg-buildenv on the Jenkins server.
+1. Install dpkg-buildenv on the Jenkins server.
 ```
 sudo dpkg -i ./dpkg-buildenv_1.0.0_all.deb
 ```
-It will store the Dockerfile in /opt/dpkg-buildenv.
+It will store the Dockerfile in /usr/share/dpkg-buildenv/.
 
 
-In the Jenkinsfile reference the installed Dockerfile by adding the following.
+2. In the Jenkinsfile reference the installed Dockerfile by adding the following.
 ```
     agent {
         dockerfile {
