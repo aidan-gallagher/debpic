@@ -53,10 +53,9 @@ COPY ./dpkg-buildenv/sources.list.d/ /etc/apt/sources.list.d/
 
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
-# Remove generated files.
 RUN apt-get update && \
-    mk-build-deps --install --remove --tool='apt-get --yes --fix-missing --no-install-recommends -o Debug::pkgProblemResolver=yes' /tmp/control && \
-    rm *.buildinfo *.changes /tmp/control
+    mk-build-deps /tmp/control && \
+    apt-get install --yes --fix-missing --no-install-recommends ./*build-deps*.deb
 # ---------------------------------------------------------------------------- #
 
 
