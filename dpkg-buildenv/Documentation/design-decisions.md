@@ -1,3 +1,9 @@
+# Build time vs run time
+dpkg-buildenv has most of the logic in the Dockfile. An alternative approach be to do little in the Dockerfile and then run various commands after the container has been built to set up in the environment. 
+The benefit are that the Dockerfile is easily integrated with tools like Jenkins and VSCode.
+The drawback is the complexity of conditionally copying files, copying files from outwith repository (e.g /etc/dpkg-buildenv/sources/list.d) and conditionally running certain parts of the Dockerfile.
+
+
 # mk-build-deps
 
 Prefer to build the *build-deps*.deb and install it as two seperate commands rather than combining it into once (`mk-build-deps --install --remove  /tmp/control`).
@@ -13,3 +19,4 @@ As two seperate commands, if it fails, you are informed of which packages it fai
 #12 2.091                                 Depends: golang-github-danos-vci-dev but it is not installable
 #12 2.096 E: Unable to correct problems, you have held broken packages.
 ```
+
