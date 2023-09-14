@@ -148,10 +148,12 @@ docker run
 
 
 if __name__ == "__main__":
-    dpkg_directory_check()
+
     if args.delete_images is True:
         delete_images()
         sys.exit()
+
+    dpkg_directory_check()
     repository_name = get_repository_name()
     copy_sources_list()
     build_image(repository_name)
