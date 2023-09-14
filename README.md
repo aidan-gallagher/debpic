@@ -50,18 +50,6 @@ $ dpkg-buildenv --delete-images
 ### Using With Other Tools
 See documentantion how to use with [Jenkins](./dpkg-buildenv/Documentation/using-with-jenkins.md) and [VSCode](./dpkg-buildenv/Documentation/using-with-vscode.md).
 
-### Additional Repositories
-
-Additional apt source lists can be configured in `/etc/dpkg-buildenv/sources.list.d`. 
-These files will be copied to `/etc/apt/sources.list.d/` in the container.
-
-dpkg-buildenv copies `/etc/dpkg-buildenv/sources.list.d/default.list` by default.
-
-Other source files can be specified by using the `--sources` flag. For example, the following commands will copy the file `/etc/dpkg-buildenv/sources.list.d/unstable.list`
-```
-$ dpkg-buildenv --source unstable
-```
-
 
 ## Design
 
