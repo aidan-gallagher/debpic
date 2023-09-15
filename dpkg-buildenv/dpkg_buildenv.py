@@ -73,16 +73,16 @@ def get_repository_name() -> str:
 
 def build_image(repository_name):
     build_cmd = f"""\
-DOCKER_BUILDKIT=1 
-docker image build 
---tag {repository_name} 
---file /usr/share/dpkg-buildenv/Dockerfile 
---network host 
---build-arg UID=$(id -u) 
-{args.no_cache} 
-.
+DOCKER_BUILDKIT=1
+docker image build
+--tag {repository_name}
+--file /usr/share/dpkg-buildenv/Dockerfile
+--network host
+--build-arg UID=$(id -u)
+{args.no_cache}
+.\
 """.replace(
-        "\n", ""
+        "\n", " "
     )
 
     logging.info(f"Docker build command: {build_cmd}")
@@ -94,12 +94,12 @@ def run_container(repository_name):
     # If the user hasn't supplied a command then assume build command
     if args.command == "":
         args.command = f"""\
-dpkg-buildpackage; 
-mkdir -p built_packages; 
-mv ../*.deb ./built_packages/; 
-dh_clean
+dpkg-buildpackage;
+mkdir -p built_packages;
+mv ../*.deb ./built_packages/;
+dh_clean\
 """.replace(
-            "\n", ""
+            "\n", " "
         )
 
     # Regardless of command origin (user provided or assumed), prepend the
@@ -112,16 +112,16 @@ dh_clean
 
     # ----------------------------- Run the container ---------------------------- #
     run_cmd = f"""\
-docker run 
---mount type=bind,src=${{PWD}},dst=/workspaces/code 
---user $(id -u):$(id -g) 
---network host 
---rm 
-{args.interactive_tty} 
-{repository_name} 
-{args.command}
+docker run
+--mount type=bind,src=${{PWD}},dst=/workspaces/code
+--user $(id -u):$(id -g)
+--network host
+--rm
+{args.interactive_tty}
+{repository_name}
+{args.command}\
 """.replace(
-        "\n", ""
+        "\n", " "
     )
 
     logging.info(f"Docker run command: {run_cmd}")
