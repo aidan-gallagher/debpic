@@ -5,3 +5,4 @@
 debian/dpkg-buildenv.1 => usr/share/man/man1/dpkg-buildenv.1
 dpkg-buildenv/Dockerfile => usr/share/dpkg-buildenv/Dockerfile
 dpkg-buildenv/dpkg_buildenv.py => usr/bin/dpkg-buildenv
+dpkg-buildenv/sources.list.d/vyatta.sources => etc/dpkg-buildenv/sources.list.d/default.sources
