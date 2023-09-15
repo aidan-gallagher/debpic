@@ -6,7 +6,7 @@ dpkg-buildenv lets you build Debian packages in an isolated Docker environment. 
 * Any additional developer tools described in <repository_name>/developer-packages.txt.
 
 The isolated Docker enviornment is good because:
-* There isn't a risk that the dependencies will break you host OS.
+* There isn't a risk that the dependencies will break your host OS.
 * It is easy to set up  - so new developers can get up to speed quickly.
 * It is provides a consistent environment for the developers and the continuous integration system.
 
