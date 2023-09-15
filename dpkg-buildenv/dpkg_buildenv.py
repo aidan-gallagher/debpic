@@ -71,7 +71,16 @@ def get_repository_name() -> str:
     return repository_name
 
 
-def build_image(repository_name):
+def get_extra_sources() -> str:
+    try:
+        with open("/etc/dpkg-buildenv/sources.list.d/default.sources") as file:
+            additional_sources = file.read()
+            return additional_sources.replace("\n", "\\n")
+    except FileNotFoundError:
+        return ""
+
+
+def build_image(repository_name, additional_sources=None):
     build_cmd = f"""\
 DOCKER_BUILDKIT=1
 docker image build
@@ -79,6 +88,7 @@ docker image build
 --file /usr/share/dpkg-buildenv/Dockerfile
 --network host
 --build-arg UID=$(id -u)
+--build-arg ADDITIONAL_SOURCES="{additional_sources}"
 {args.no_cache}
 .\
 """.replace(
@@ -129,12 +139,12 @@ docker run
 
 
 if __name__ == "__main__":
-
     if args.delete_images is True:
         delete_images()
         sys.exit()
 
     dpkg_directory_check()
     repository_name = get_repository_name()
-    build_image(repository_name)
+    additional_sources = get_extra_sources()
+    build_image(repository_name, additional_sources)
     run_container(repository_name)
