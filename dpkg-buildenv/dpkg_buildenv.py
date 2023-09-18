@@ -81,15 +81,16 @@ def get_build_arguments() -> str:
 
     build_args = ""
 
+    # User ID
+    build_args += f'--build-arg UID="{os.getuid()}"'
+
     # Additional sources
     try:
         with open("/etc/dpkg-buildenv/sources.list.d/default.sources") as file:
             additional_sources = file.read().replace("\n", "\\n")
+            build_args += f' --build-arg ADDITIONAL_SOURCES="{additional_sources}"'
     except FileNotFoundError:
-        return ""
-    build_args += f'--build-arg ADDITIONAL_SOURCES="{additional_sources}"'
-
-    # TODO should do UID here?
+        pass
 
     return build_args
 
