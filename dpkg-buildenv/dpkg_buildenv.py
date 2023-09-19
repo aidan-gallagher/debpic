@@ -55,14 +55,14 @@ def dpkg_directory_check():
 
 
 def delete_images():
-    find_cmd = "docker images *buildenv --format {{.Repository}}"
+    find_cmd = "docker images '*buildenv' --format {{.Repository}}"
     find_result = (
         subprocess.check_output(find_cmd, shell=True).decode("utf-8").replace("\n", " ")
     )
 
     if find_result != "":
         logging.info(f"Deleting images: {find_result}")
-        delete_cmd = f"docker rmi {find_result}"
+        delete_cmd = f"docker rmi {find_result}; docker image prune --force"
         logging.info(f"Docker delete command: {delete_cmd}")
         subprocess.run(delete_cmd, shell=True, check=True)
     else:
