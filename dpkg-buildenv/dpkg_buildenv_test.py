@@ -11,48 +11,49 @@ class Test:
 
         def run_mock(command, **kwargs):
             self.cli_commands.append(command)
-            return "".encode("utf-8")
+            return "test".encode("utf-8")
 
         subprocess.check_output = subprocess.run = run_mock
 
     def test_delete_images(self):
         uut.delete_images()
         assert (
-            self.cli_commands.pop()
-            == "docker images *buildenv --format {{.Repository}}"
+            self.cli_commands.pop(0)
+            == "docker images '*buildenv' --format {{.Repository}}"
         )
+        assert self.cli_commands.pop(0) == "docker rmi test; docker image prune --force"
 
     def test_build_image(self):
         uut.build_image("test_name")
         assert (
-            self.cli_commands.pop()
+            self.cli_commands.pop(0)
             == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host --build-arg UID=$(id -u)   ."
         )
 
         uut.args.no_cache = "--no-cache"
         uut.build_image("test_name")
         assert (
-            self.cli_commands.pop()
+            self.cli_commands.pop(0)
             == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host --build-arg UID=$(id -u) --no-cache  ."
         )
 
     def test_run_container(self):
         uut.run_container("test_name")
         assert (
-            self.cli_commands.pop()
+            self.cli_commands.pop(0)
             == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --rm  test_name /bin/bash -c 'dpkg-buildpackage; mkdir -p built_packages; mv ../*.deb ./built_packages/; dh_clean'"
         )
 
         uut.args.command = "echo I'm a test command"
         uut.run_container("test_name")
         assert (
-            self.cli_commands.pop()
+            self.cli_commands.pop(0)
             == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --rm  test_name /bin/bash -c 'echo I'm a test command'"
         )
 
         uut.args.interactive_tty = "--interactive --tty"
         uut.run_container("test_name")
         assert (
-            self.cli_commands.pop()
+            self.cli_commands.pop(0)
             == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --rm --interactive --tty test_name "
         )
