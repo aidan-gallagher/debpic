@@ -72,13 +72,9 @@ RUN apt-get update && \
 
 
 # ------------------ Install optional developer dependencies ----------------- #
-# Test if the file exists. If it does install the packages. Exit 0 afterwards
-# otherwise the `test -f` command will exit with an error code if there's no file.
-RUN test -f /tmp/developer-packages.txt && \
-    apt-get update && \
-    apt-get install --yes --no-install-recommends $(cat /tmp/developer-packages.txt) && \ 
-    rm /tmp/developer-packages.txt; \
-    exit 0
+# "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
+RUN apt-get update && \
+    apt-get install --yes --no-install-recommends $(cat /tmp/developer-packages.txt 2>/dev/null)
 # ---------------------------------------------------------------------------- #
 
 
