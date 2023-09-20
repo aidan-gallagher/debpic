@@ -46,8 +46,8 @@ parser.add_argument(
 )
 parser.add_argument(
     "--get-build-arguments",
-    help=argparse.SUPPRESS,
     # Help suppressed as this option is generally only used by tools such as Jenkins
+    help=argparse.SUPPRESS,
     action="store_true",
 )
 args = parser.parse_args()
