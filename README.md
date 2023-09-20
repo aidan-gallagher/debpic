@@ -50,6 +50,11 @@ $ dpkg-buildenv --delete-images
 ### Using With Other Tools
 See documentantion how to use with [Jenkins](./dpkg-buildenv/Documentation/using-with-jenkins.md) and [VSCode](./dpkg-buildenv/Documentation/using-with-vscode.md).
 
+### Git Ignore
+You likely want to add the generated `built_packages` to your global git ignore file.
+```
+echo built_packages >> ~/.config/git/ignore
+```
 
 ## Design
 
