@@ -39,6 +39,12 @@ parser.add_argument(
     action="store_true",
 )
 parser.add_argument(
+    "-s",
+    "--sources",
+    help="Select a sources file stored at /etc/dpkg-buildenv/sources.list.d/<SOURCE>.list.",
+    default="default",
+)
+parser.add_argument(
     "--get-build-arguments",
     help=argparse.SUPPRESS,
     # Help suppressed as this option is generally only used by tools such as Jenkins
@@ -86,7 +92,7 @@ def get_build_arguments() -> str:
 
     # Additional sources
     try:
-        with open("/etc/dpkg-buildenv/sources.list.d/default.sources") as file:
+        with open(f"/etc/dpkg-buildenv/sources.list.d/{args.sources}.sources") as file:
             additional_sources = file.read().replace("\n", "\\n")
             build_args += f' --build-arg ADDITIONAL_SOURCES="{additional_sources}"'
     except FileNotFoundError:
