@@ -63,6 +63,12 @@ RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/dpkg-buildenv.sources
 # ---------------------------------------------------------------------------- #
 
 
+# ----------------------- Install local debian packages ---------------------- #
+# The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
+RUN find /tmp -name '*.deb' -exec gdebi --non-interactive {} +
+# ---------------------------------------------------------------------------- #
+
+
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
 RUN apt-get update && \
@@ -75,10 +81,4 @@ RUN apt-get update && \
 # "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends $(cat /tmp/developer-packages.txt 2>/dev/null)
-# ---------------------------------------------------------------------------- #
-
-
-# ----------------------- Install local debian packages ---------------------- #
-# The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
-RUN find /tmp -name '*.deb' -exec gdebi --non-interactive {} +
 # ---------------------------------------------------------------------------- #
