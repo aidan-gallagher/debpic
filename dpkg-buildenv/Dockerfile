@@ -42,9 +42,9 @@ RUN echo 'alias mv-debs="mkdir --parents ./built_packages;  mv ../*.deb ./built_
 # ---------------------------------------------------------------------------- #
 
 
-# ---------------------- Install mk-build-deps program. ---------------------- #
+# ---------------------- Install mk-build-deps and gdebi --------------------- #
 RUN apt-get update && \
-    apt-get install --yes --fix-missing --no-install-recommends devscripts equivs
+    apt-get install --yes --fix-missing --no-install-recommends devscripts equivs gdebi-core
 # ---------------------------------------------------------------------------- #
 
 
@@ -79,8 +79,6 @@ RUN apt-get update && \
 
 
 # ----------------------- Install local debian packages ---------------------- #
-# "|| true" is used to ignore erros dependency errors from dpkg which are later 
-# fixed using apt-get with --fix-broken.
-# Do this after other installations so they are not overwritten.
-RUN dpkg -i /tmp/*.deb || true && apt-get install --fix-broken --assume-yes 
+# The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
+RUN find /tmp -name '*.deb' -exec gdebi --non-interactive {} +
 # ---------------------------------------------------------------------------- #
