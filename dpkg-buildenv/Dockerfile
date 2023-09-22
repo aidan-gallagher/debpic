@@ -9,12 +9,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # --------------------- Add docker user & set working dir -------------------- #
 # Create docker user and enable sudo permissions.
+# If UID already exists then skip. `sudo dpkg-buildenv` will skip as UID will = 0.
 ARG UID=1000
-RUN useradd --shell /bin/bash --uid $UID --create-home docker && \
+RUN id -u $UID || \
+    (useradd --shell /bin/bash --uid $UID --create-home docker && \
     echo "docker:docker" | chpasswd && \
     apt-get update --yes && \
     apt-get install --yes sudo && \
-    echo "docker ALL = (root) NOPASSWD: ALL\n" > /etc/sudoers.d/docker
+    echo "docker ALL = (root) NOPASSWD: ALL\n" > /etc/sudoers.d/docker)
 WORKDIR /workspaces/code
 # ---------------------------------------------------------------------------- #
 
