@@ -68,7 +68,7 @@ The [dockerfile](./Dockerfile) contains the instructions to create the containis
 * It optionally copies over the developer-packages.txt file from the repository if it exists.
 * It copies over additional apt source lists
 * It uses mk-build-deps to install all the dependencies in the Build-Depends section of the debian/control file.
-* It installs all the dependencies in the devleper-packages.txt file.
+* It installs all the dependencies in the developer-packages.txt file.
 
 The [dpkg-buildenv.py](./dpkg-buildenv.py) script handles the user command line options and invokes Docker.
 * It finds the current folder's name and uses that as the image name.
