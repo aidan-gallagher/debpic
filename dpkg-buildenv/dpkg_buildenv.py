@@ -160,16 +160,20 @@ docker run
 
 
 if __name__ == "__main__":
-    if args.delete_images:
-        delete_images()
-        sys.exit()
+    try:
+        if args.delete_images:
+            delete_images()
+            sys.exit()
 
-    if args.get_build_arguments:
-        print(get_build_arguments())
-        sys.exit()
+        if args.get_build_arguments:
+            print(get_build_arguments())
+            sys.exit()
 
-    dpkg_directory_check()
-    repository_name = get_repository_name()
-    build_arguments = get_build_arguments()
-    build_image(repository_name, build_arguments)
-    run_container(repository_name)
+        dpkg_directory_check()
+        repository_name = get_repository_name()
+        build_arguments = get_build_arguments()
+        build_image(repository_name, build_arguments)
+        run_container(repository_name)
+
+    except KeyboardInterrupt:
+        sys.exit(130)
