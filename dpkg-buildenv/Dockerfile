@@ -40,7 +40,7 @@ RUN mkdir -p /var/lib/jenkins/workspace/ && \
 # If the user is in interactive mode and runs `dpkg-buildpackage` the generated
 # .debs are placed in the parent directory which isn't mounted and therefore not
 # avilable to the host.
-RUN echo 'alias mv-debs="mkdir --parents ./built_packages;  mv ../*.deb ./built_packages/"' >> ~/.bashrc
+RUN echo 'alias mv-debs="mkdir --parents ./built_packages;  mv /workspaces/*.deb /workspaces/code/built_packages/"' >> /home/docker/.bashrc
 # ---------------------------------------------------------------------------- #
 
 
