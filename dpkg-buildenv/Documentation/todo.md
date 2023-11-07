@@ -8,8 +8,8 @@
     * Maybe have dpkg-buidenv.config file. Can set everything same as command line args.
     * Options can be in /etc/dpkg-buildenv, ~/.config/dpkg-buildenv and commandline.
     * https://pypi.org/project/jsonmerge/
-* Potential increase apt time out time (Acquire::http:timeout)?
 * Test it out on Microsoft Windows - if it works then add Windows packaging to create .msi
+
 ### Clean up
 * Use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
 * Allow easy install on Ubuntu
@@ -22,7 +22,7 @@
 * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv.
 * Change local installation away from gdebi.
     * gdebi fails when users wants to install 2 debs that depend on each other.
-    * Option 1: Use dpkg -i *.deb | true , apt install --fix, dpkg -i *.deb. The 2nd install won't have exit true on it.
+    * Option 1: Use dpkg -i *.deb | true; apt install --fix; dpkg -i *.deb. The 2nd install won't have exit true on it.
     * Option 2: Use dpkg-scanpackages.
 
 
