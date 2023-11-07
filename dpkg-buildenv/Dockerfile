@@ -44,6 +44,13 @@ RUN echo 'alias mv-debs="mkdir --parents ./built_packages;  mv /workspaces/*.deb
 # ---------------------------------------------------------------------------- #
 
 
+# --------------------------- Increase apt timeout --------------------------- #
+RUN echo '\
+Acquire::http::Timeout "40"; \n\
+Acquire::ftp::Timeout "40";' > /etc/apt/apt.conf.d/99timeout
+# ---------------------------------------------------------------------------- #
+
+
 # ---------------------- Install mk-build-deps and gdebi --------------------- #
 RUN apt-get update && \
     apt-get install --yes --fix-missing --no-install-recommends devscripts equivs gdebi-core
