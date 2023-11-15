@@ -9,6 +9,7 @@
     * Options can be in /etc/dpkg-buildenv, ~/.config/dpkg-buildenv and commandline.
     * https://pypi.org/project/jsonmerge/
 * Test it out on Microsoft Windows - if it works then add Windows packaging to create .msi
+* Copy over .git config and bash config so dev use all development tools from within the chroot terminal
 
 ### Clean up
 * Delete ./built_packages before building again. This reduces the risk of SCP-ing over an old .deb when testing out changes.
