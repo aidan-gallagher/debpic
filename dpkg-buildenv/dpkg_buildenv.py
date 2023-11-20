@@ -122,20 +122,20 @@ docker image build
 
 def run_container(repository_name):
     # ------------------------ Handle docker run arguments ----------------------- #
-    # If the user hasn't supplied a command then assume build command
+    # If the user hasn't supplied a command then assume build command.
+    # Delete built_packages to clear out any old packages then move new ones over.
     if args.command == "":
         args.command = f"""\
 dpkg-buildpackage;
-mkdir -p built_packages;
-mv ../*.deb ./built_packages/;
+mv-debs;
 dh_clean\
 """.replace(
             "\n", " "
         )
 
     # Regardless of command origin (user provided or assumed), prepend the
-    # command with /bin/bash -c
-    args.command = f"/bin/bash -c '{args.command}'"
+    # command with "/bin/bash -ic".
+    args.command = f"/bin/bash -ic '{args.command}'"
 
     # If interactive mode is specified then remove any commands
     if args.interactive_tty != "":
