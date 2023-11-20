@@ -12,7 +12,6 @@
 * Copy over .git config and bash config so dev use all development tools from within the chroot terminal
 
 ### Clean up
-* Delete ./built_packages before building again. This reduces the risk of SCP-ing over an old .deb when testing out changes.
 * Use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
 * Allow easy install on Ubuntu
     * Follow the steps from https://docs.docker.com/engine/install/ubuntu/
