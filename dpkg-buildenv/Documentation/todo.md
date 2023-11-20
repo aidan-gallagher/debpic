@@ -7,22 +7,26 @@
     * Maybe have dpkg-buidenv.config file. Can set everything same as command line args.
     * Options can be in /etc/dpkg-buildenv, ~/.config/dpkg-buildenv and commandline.
     * https://pypi.org/project/jsonmerge/
-* Test it out on Microsoft Windows - if it works then add Windows packaging to create .msi
 * Copy over .git config and bash config so dev use all development tools from within the chroot terminal
+* Allow installation of 2 local debs that depend on each other.
+    * Change local installation away from gdebi.
+        * Option 1: Use dpkg -i *.deb | true; apt install --fix; dpkg -i *.deb. The 2nd install won't have exit true on it.
+        * Option 2: Use dpkg-scanpackages.
+* Test it out on Microsoft Windows - if it works then add Windows packaging to create .msi
+
 
 ### Clean up
-* Use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
-* Allow easy install on Ubuntu
-    * Follow the steps from https://docs.docker.com/engine/install/ubuntu/
+* Docker requires password 
+    * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv. 
+    * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
+* Ensure package installs easily on other machines
+    * Allow easy install on Ubuntu
+        * Follow the steps from https://docs.docker.com/engine/install/ubuntu/
 * Fix lintian warnings
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
 * Ctrl-C doesn't really work after `docker run` has started - it sometimes continues on.
-* Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv.
-* Change local installation away from gdebi.
-    * gdebi fails when users wants to install 2 debs that depend on each other.
-    * Option 1: Use dpkg -i *.deb | true; apt install --fix; dpkg -i *.deb. The 2nd install won't have exit true on it.
-    * Option 2: Use dpkg-scanpackages.
+
 
 
 ### Awaiting upstream fix
