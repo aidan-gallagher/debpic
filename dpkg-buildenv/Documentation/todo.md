@@ -2,7 +2,6 @@
 
 
 ### Features
-* dpkg-buildenv-vyatta-config: Create script to generate sources.file based off of obs project name.
 * Add support for DEB_BUILD_OPTIONS.
 * Read .sources from repo if it exists. This allows dpkg-buildenv to just work on any branch. Command line arg should override it.
     * Maybe have dpkg-buidenv.config file. Can set everything same as command line args.
