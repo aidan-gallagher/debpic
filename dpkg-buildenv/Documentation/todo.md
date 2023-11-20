@@ -15,7 +15,6 @@
 * Use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
 * Allow easy install on Ubuntu
     * Follow the steps from https://docs.docker.com/engine/install/ubuntu/
-* Commit example additional.sources to users can see example of how to add additional sources using deb822 format and including public key.
 * Fix lintian warnings
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
