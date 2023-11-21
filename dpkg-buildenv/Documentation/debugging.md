@@ -25,7 +25,7 @@
 
    4.1. Edit the service file
    ```
-   systemctl edit docker.service
+   sudo systemctl edit docker.service
    ```
    4.2. Add --dns <dns server> to Exec Start
    ```

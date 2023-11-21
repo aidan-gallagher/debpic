@@ -15,13 +15,12 @@
 * Test it out on Microsoft Windows - if it works then add Windows packaging to create .msi
 
 
-### Clean up
-* Allow docker to run as `sudo` (?). Or maybe just check if it's happening and prevent it from running any further.
+### Clean up 
 * Docker requires password 
-    * Check user can run docker without password before doing anything else.
     * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv. 
     * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
 * Ensure package installs easily on other machines
+* Allow docker to run as `sudo` (?)
 * Fix lintian warnings
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.

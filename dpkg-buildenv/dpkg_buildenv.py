@@ -53,7 +53,28 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-def dpkg_directory_check():
+def prerequisite_check():
+
+    # Check script hasn't been invoked with sudo
+    # Possibly remove this once I can support it again.
+    if os.geteuid() == 0:
+        exit("Please don't run as sudo")
+
+    # Check the user can run docker without sudo
+    result = subprocess.run(
+        "docker info", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+    if result.returncode != 0:
+        exit(
+            """\
+You must allow docker to run as non-root user
+To do this follow the steps in the official docker documentation: https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+Run the following:
+sudo usermod -aG docker $USER
+newgrp docker"""
+        )
+
+    # Check correct directory
     if not os.path.isfile("./debian/control"):
         sys.exit(
             f"Could not find /debian/control file. Are you in the correct directory?"
@@ -169,7 +190,7 @@ if __name__ == "__main__":
             print(get_build_arguments())
             sys.exit()
 
-        dpkg_directory_check()
+        prerequisite_check()
         repository_name = get_repository_name()
         build_arguments = get_build_arguments()
         build_image(repository_name, build_arguments)
