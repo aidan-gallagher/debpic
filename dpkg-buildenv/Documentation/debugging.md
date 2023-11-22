@@ -1,6 +1,10 @@
 # Debugging Issues with dpkg-buildenv
 
-## Docker build issues
+## Known Issues
+When using a VPN to connect to a private apt repository some version of docker can have a DNS issue.
+It seems like you have to restart docker.service after connecting to the VPN.
+
+## Steps
 1. If it was a timeout error then build it again.
     ```
     dpkg-buildenv
