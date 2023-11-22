@@ -16,15 +16,19 @@
 
 
 ### Clean up 
+* Ensure package installs easily on other machines
+    * Ubuntu 20.04 - Yes
+    * Debian 11 - Yes
+    * Ubuntu 22.04 - TODO
 * Docker requires password 
     * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv. 
     * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
-* Ensure package installs easily on other machines
 * Allow docker to run as `sudo` (?)
 * Fix lintian warnings
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
 * Ctrl-C doesn't really work after `docker run` has started - it sometimes continues on.
+    Probably use "docker kill <container_name>" under except KeyboardInterrupt:
 
 
 
