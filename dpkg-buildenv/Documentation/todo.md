@@ -27,9 +27,6 @@
 * Fix lintian warnings
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
-* Ctrl-C doesn't really work after `docker run` has started - it sometimes continues on.
-    Probably use "docker kill <container_name>" under except KeyboardInterrupt:
-
 
 
 ### Awaiting upstream fix

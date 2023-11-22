@@ -180,6 +180,18 @@ docker run
     subprocess.run(run_cmd, shell=True, check=True)
 
 
+def kill_container(repository_name):
+    get_container_id_cmd = f"docker ps --all --quiet --filter ancestor={repository_name}"
+    get_container_id_result = (
+        subprocess.check_output(get_container_id_cmd, shell=True)
+        .decode("utf-8")
+        .replace("\n", " ")
+    )
+    if get_container_id_result != "":
+        kill_container_cmd = f"docker kill {get_container_id_result}"
+        subprocess.run(kill_container_cmd, shell=True, check=True)
+
+
 if __name__ == "__main__":
     try:
         if args.delete_images:
@@ -197,4 +209,5 @@ if __name__ == "__main__":
         run_container(repository_name)
 
     except KeyboardInterrupt:
+        kill_container(repository_name)
         sys.exit(130)
