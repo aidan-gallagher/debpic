@@ -2,7 +2,10 @@
 
 
 ### Features
+* Consider using argcomplete. Add custom completer for --sources which should autocomplete from list of files in /etc/dpkg-buildenv/sources.list.d
 * Add support for DEB_BUILD_OPTIONS.
+* Add easy support for passing flags to dpkg-buildpackage.
+* Add support for choosing which host os / debian version to use. Maybe make it build argument.
 * Read .sources from repo if it exists. This allows dpkg-buildenv to just work on any branch. Command line arg should override it.
     * Maybe have dpkg-buidenv.config file. Can set everything same as command line args.
     * Options can be in /etc/dpkg-buildenv, ~/.config/dpkg-buildenv and commandline.
