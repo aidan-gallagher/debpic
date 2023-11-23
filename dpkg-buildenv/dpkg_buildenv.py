@@ -157,7 +157,7 @@ dh_clean\
 
     # Regardless of command origin (user provided or assumed), prepend the
     # command with "/bin/bash -ic".
-    args.command = f"/bin/bash -ic '{args.command}'"
+    args.command = f"/bin/bash -c '{args.command}'"
 
     # If interactive mode is specified then remove any commands
     if args.interactive_tty != "":
@@ -182,7 +182,9 @@ docker run
 
 
 def kill_container(repository_name):
-    get_container_id_cmd = f"docker ps --all --quiet --filter ancestor={repository_name}"
+    get_container_id_cmd = (
+        f"docker ps --all --quiet --filter ancestor={repository_name}"
+    )
     get_container_id_result = (
         subprocess.check_output(get_container_id_cmd, shell=True)
         .decode("utf-8")
