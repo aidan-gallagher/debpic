@@ -2,7 +2,9 @@
 
 
 ### Features
-* Consider using argcomplete. Add custom completer for --sources which should autocomplete from list of files in /etc/dpkg-buildenv/sources.list.d
+* Implement tab completion. After --sources search /etc/dpkg-buildenv/sources.list.d 
+    * Consider using argcomplete.
+    * https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial 
 * Add support for DEB_BUILD_OPTIONS.
 * Add easy support for passing flags to dpkg-buildpackage.
 * Add support for choosing which host os / debian version to use. Maybe make it build argument.
