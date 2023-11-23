@@ -130,7 +130,6 @@ docker image build
 --tag {repository_name}
 --file /usr/share/dpkg-buildenv/Dockerfile
 --network host
---build-arg UID=$(id -u)
 {args.no_cache}
 {build_arguments}
 .\
