@@ -9,11 +9,11 @@ _dpkg-buildenv_complete() {
 
   # Change opts depending on existing words
   for word in "${COMP_WORDS[@]}"; do
-    if [[ "$word" == "--sources" ]]; then
+    if [[ "$word" == "--sources" || "$word" == "-s" ]]; then
       opts="--no-cache --interactive-tty"
       break
     fi
-    if [[ "$word" == "--delete-images" ]]; then
+    if [[ "$word" == "--delete-images" || "$word" == "-d" || "$word" == "--help" || "$word" == "-h" ]]; then
       return 0
     fi
   done
