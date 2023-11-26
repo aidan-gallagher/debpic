@@ -7,6 +7,17 @@ _dpkg-buildenv_complete() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   opts="--help --no-cache --sources --interactive-tty --delete-images"
 
+  # Change opts depending on existing words
+  for word in "${COMP_WORDS[@]}"; do
+    if [[ "$word" == "--sources" ]]; then
+      opts="--no-cache --interactive-tty"
+      break
+    fi
+    if [[ "$word" == "--delete-images" ]]; then
+      return 0
+    fi
+  done
+
   case "${prev}" in
     -s|--sources)
       # Completing source file names without extensions in /etc/dpkg-buildenv/sources.list.d/
