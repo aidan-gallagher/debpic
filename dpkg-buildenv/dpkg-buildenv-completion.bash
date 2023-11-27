@@ -1,6 +1,11 @@
 # dpkg-buildenv bash completion
 
 _dpkg-buildenv_complete() {
+
+  # Don't use colon as a special character
+  # https://tiswww.case.edu/php/chet/bash/FAQ E13
+  COMP_WORDBREAKS=${COMP_WORDBREAKS//:}
+
   local cur prev opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
