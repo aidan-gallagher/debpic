@@ -155,7 +155,7 @@ dh_clean\
         )
 
     # Regardless of command origin (user provided or assumed), prepend the
-    # command with "/bin/bash -ic".
+    # command with "/bin/bash -c".
     args.command = f"/bin/bash -c '{args.command}'"
 
     # If interactive mode is specified then remove any commands
