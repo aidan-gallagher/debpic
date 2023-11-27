@@ -2,9 +2,8 @@
 
 
 ### Features
-* Implement tab completion. After --sources search /etc/dpkg-buildenv/sources.list.d 
-    * Consider using argcomplete.
-    * https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial 
+* Implement tab completion for vyatta config (in other repository) under --project. Possibly use `osc ls`
+* Add Github Actions. Test on different operating systems
 * Add support for DEB_BUILD_OPTIONS.
 * Add easy support for passing flags to dpkg-buildpackage.
 * Add support for choosing which host os / debian version to use. Maybe make it build argument.
@@ -18,16 +17,24 @@
         * Option 1: Use dpkg -i *.deb | true; apt install --fix; dpkg -i *.deb. The 2nd install won't have exit true on it.
         * Option 2: Use dpkg-scanpackages.
 * Test it out on Microsoft Windows - if it works then add Windows packaging to create .msi
+* Use debconf to ask the user if they want to add ./built_packages to their global git ignore (?)
 
 
 ### Clean up 
+* Bash completion using Colons in the filename. The colon is special character and stops tab completion. Need a work around or it get stuck at first colon
+    ```
+    aidan@ag474u:~/Code/Per/dpkg-buildenv-vyatta-config$ dpkg-buildenv --sources 
+    default                 Nottingham              Vyatta:Shipping:2308:a  Vyatta:test:2empty      
+    ip_addr_config          unstable                Vyatta:Shipping:2308:h  Vyatta:test:empty       
+    aidan@ag474u:~/Code/Per/dpkg-buildenv-vyatta-config$ dpkg-buildenv --sources Vyatta:
+    ```
 * Ensure package installs easily on other machines
     * Ubuntu 20.04 - Yes
     * Debian 11 - Yes
     * Ubuntu 22.04 - TODO
 * Docker requires password 
     * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv. 
-    * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script
+    * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script? 
 * Allow docker to run as `sudo` (?)
 * Fix lintian warnings
 * Add proper man page
@@ -37,3 +44,4 @@
 ### Awaiting upstream fix
 * Add example for VSCode build arg when available: https://github.com/microsoft/vscode-remote-release/issues/3545.
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
+* Add inline gpg key to vyatta sources (other repo) when we move to debian 12.
