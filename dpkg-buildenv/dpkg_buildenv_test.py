@@ -27,14 +27,14 @@ class Test:
         uut.build_image("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host --build-arg UID=$(id -u)   ."
+            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host   ."
         )
 
         uut.args.no_cache = "--no-cache"
         uut.build_image("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host --build-arg UID=$(id -u) --no-cache  ."
+            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host --no-cache  ."
         )
 
     def test_run_container(self):
