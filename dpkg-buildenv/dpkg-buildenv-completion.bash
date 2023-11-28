@@ -18,16 +18,13 @@ _dpkg-buildenv_complete() {
       return 0
     fi
     if [[ "$word" == "--sources" || "$word" == "-s" ]]; then
-      opts="--no-cache --interactive-tty"
-      break
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--sources//')
     fi
     if [[ "$word" == "--no-cache" || "$word" == "-nc" ]]; then
-      opts="--interactive-tty --sources"
-      break
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--no-cache//')
     fi
     if [[ "$word" == "--interactive-tty" || "$word" == "-it" ]]; then
-      opts="--no-cache --sources"
-      break
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive-tty//')
     fi
   done
 
