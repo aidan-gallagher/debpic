@@ -24,10 +24,7 @@
 * Add dockerfile linter (hadolint)
     * clean up errors
     * add hadolint to CI : https://stackoverflow.com/a/62370018/13365272
-* Ensure package installs easily on other machines
-    * Ubuntu 20.04 - Yes
-    * Debian 11 - Yes
-    * Ubuntu 22.04 - TODO
+* Shellcheck for bash completion (Fix and add to CI)
 * Docker requires password 
     * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv. 
     * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script? 
