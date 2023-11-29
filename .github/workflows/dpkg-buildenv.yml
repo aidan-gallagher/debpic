@@ -1,0 +1,41 @@
+name: dpkg-buildenv
+
+on:
+  push:
+    branches: [ "main"]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build package using dpkg-buildpackage # Currently can't use dpkg-buildenv as it's not hosted in any apt repo.
+      run: |
+        sudo apt-get update && sudo apt-get install --yes --fix-missing --no-install-recommends devscripts equivs
+        mk-build-deps && sudo apt-get install --yes --fix-missing --no-install-recommends ./*build-deps*.deb
+        rm ./*build-deps*.deb
+        dpkg-buildpackage
+    - name: Install dpkg-buildenv
+      run: |
+        sudo dpkg -i ../dpkg-buildenv_*.deb
+        sudo usermod -aG docker $USER
+        newgrp docker
+    - name: Building package using dpkg-buildenv
+      run: |
+        dpkg-buildenv
+    - name: Pytest
+      run: |
+        dpkg-buildenv "pytest-3"
+    - name: Black
+      run: |
+        dpkg-buildenv "black --check ."
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Debian Package
+        path: ./built_packages/dpkg-buildenv*.deb
+        if-no-files-found: error

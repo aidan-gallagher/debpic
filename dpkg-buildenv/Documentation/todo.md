@@ -6,6 +6,7 @@
 * Add support for DEB_BUILD_OPTIONS.
 * Add easy support for passing flags to dpkg-buildpackage.
 * Add support for choosing which host os / debian version to use. Maybe make it build argument.
+* Have user & repo settings for sources & developer-packages.
 * Read .sources from repo if it exists. This allows dpkg-buildenv to just work on any branch. Command line arg should override it.
     * Maybe have dpkg-buidenv.config file. Can set everything same as command line args.
     * Options can be in /etc/dpkg-buildenv, ~/.config/dpkg-buildenv and commandline.
@@ -20,13 +21,9 @@
 
 
 ### Clean up 
-* Bash completion using Colons in the filename. The colon is special character and stops tab completion. Need a work around or it get stuck at first colon
-    ```
-    aidan@ag474u:~/Code/Per/dpkg-buildenv-vyatta-config$ dpkg-buildenv --sources 
-    default                 Nottingham              Vyatta:Shipping:2308:a  Vyatta:test:2empty      
-    ip_addr_config          unstable                Vyatta:Shipping:2308:h  Vyatta:test:empty       
-    aidan@ag474u:~/Code/Per/dpkg-buildenv-vyatta-config$ dpkg-buildenv --sources Vyatta:
-    ```
+* Add dockerfile linter (hadolint)
+    * clean up errors
+    * add hadolint to CI : https://stackoverflow.com/a/62370018/13365272
 * Ensure package installs easily on other machines
     * Ubuntu 20.04 - Yes
     * Debian 11 - Yes
@@ -38,6 +35,7 @@
 * Fix lintian warnings
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
+* gdebi shouldn't just install .debs in repo. The user should have to specify it on the command line.
 
 # dpkg-buildenv-vyatta-config 
 * If there is no output from "osc ls" then don't write to file.

@@ -1,5 +1,6 @@
 # Debian Package Build Environment (dpkg-buildenv)
 ![alt text](./dpkg-buildenv/Documentation/dpkg-buildenv-logo.png "Logo")
+[![dpkg-buildenv](https://github.com/aidan-gallagher/dpkg-buildenv/actions/workflows/dpkg-buildenv.yml/badge.svg)](https://github.com/aidan-gallagher/dpkg-buildenv/actions/workflows/dpkg-buildenv.yml)
 ## Introduction
 dpkg-buildenv lets you build Debian packages in an isolated Docker environment. The environment is composed from:
 * The [Debian stable docker image](https://hub.docker.com/_/debian/)
