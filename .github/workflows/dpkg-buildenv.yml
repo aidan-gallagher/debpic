@@ -16,10 +16,13 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build package using dpkg-buildpackage # Currently can't use dpkg-buildenv as it's not hosted in any apt repo.
       run: |
-        sudo apt-get update && sudo apt-get install --yes --fix-missing --no-install-recommends devscripts equivs
+        sudo apt-get update && sudo apt-get install --yes --fix-missing --no-install-recommends devscripts equivs lintian
         mk-build-deps && sudo apt-get install --yes --fix-missing --no-install-recommends ./*build-deps*.deb
         rm ./*build-deps*.deb
         dpkg-buildpackage
+    - name: Lintian # Currently can't use dpkg-buildenv as it's not hosted in any apt repo.
+      run: |
+        lintian
     - name: Install dpkg-buildenv
       run: |
         sudo dpkg -i ../dpkg-buildenv_*.deb
