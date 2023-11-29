@@ -2,7 +2,6 @@
 
 
 ### Features
-* Add Github Actions. Test on different operating systems
 * Add support for DEB_BUILD_OPTIONS.
 * Add easy support for passing flags to dpkg-buildpackage.
 * Add support for choosing which host os / debian version to use. Maybe make it build argument.
@@ -33,10 +32,6 @@
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
 * gdebi shouldn't just install .debs in repo. The user should have to specify it on the command line.
-
-# dpkg-buildenv-vyatta-config 
-* If there is no output from "osc ls" then don't write to file.
-* Fix cache file so a cron job / systemd updates it rather than on tab completion.
 
 ### Awaiting upstream fix
 * Add example for VSCode build arg when available: https://github.com/microsoft/vscode-remote-release/issues/3545.
