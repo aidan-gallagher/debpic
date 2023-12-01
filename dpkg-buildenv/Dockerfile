@@ -1,4 +1,5 @@
-FROM debian:11
+ARG DISTRIBUTION=debian:11
+FROM $DISTRIBUTION
 USER root
 
 # ---------------------------------------------------------------------------- #

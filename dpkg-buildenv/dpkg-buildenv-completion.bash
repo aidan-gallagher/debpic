@@ -10,7 +10,7 @@ _dpkg-buildenv_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="--help --no-cache --sources --interactive-tty --delete-images"
+  opts="--help --no-cache --sources --distribution --interactive-tty --delete-images"
 
   # Change opts depending on existing words
   for word in "${COMP_WORDS[@]}"; do
@@ -19,6 +19,9 @@ _dpkg-buildenv_complete() {
     fi
     if [[ "$word" == "--sources" || "$word" == "-s" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--sources//')
+    fi
+    if [[ "$word" == "--distribution" || "$word" == "-d" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--distribution//')
     fi
     if [[ "$word" == "--no-cache" || "$word" == "-nc" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--no-cache//')
@@ -34,6 +37,9 @@ _dpkg-buildenv_complete() {
       local source_dir="/etc/dpkg-buildenv/sources.list.d/"
       local files=$(compgen -f -- "${source_dir}${cur}")
       COMPREPLY=( $(basename -a ${files} | sed 's/\..*//') )
+      return 0
+      ;;
+    -d|--distribution)
       return 0
       ;;
     *)
