@@ -69,8 +69,8 @@ RUN apt-get update && \
 
 # ------------------------ Copy over dependency files ------------------------ #
 # Copy over the /debian/control file which contains the Build-Depends section.
-# If it exists, copy over the developer-packages.txt file which contains optional
-# recommended packages for the developer (gitlint, flake8, autopep8, etc).
+# If it exists, copy over the developer-packages.txt.
+# If it exists, copy over local_packages/.
 # [t] is a necessary work around to allow conditional copying https://stackoverflow.com/a/46801962/13365272.
 COPY ./debian/control ./developer-packages.tx[t] ./local_package[s]/ /tmp/
 # ---------------------------------------------------------------------------- #
