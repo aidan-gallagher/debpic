@@ -46,6 +46,8 @@ $ dpkg-buildenv --interactive-tty
 ### Install local packages
 Place local debian packages (.debs) in `./local_packages/` then build as normal and they will be installed in the container.
 
+### Install optional developer packages
+Create file `./developer-packages.txt` with list of packages to be installed within the container.
 
 ### Deleting images
 This tool creates a docker image for every repository. To remove them run:
