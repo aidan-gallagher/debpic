@@ -10,11 +10,8 @@
     * Options can be in /etc/dpkg-buildenv, ~/.config/dpkg-buildenv and commandline.
     * https://pypi.org/project/jsonmerge/
 * Copy over .git config and bash config so dev use all development tools from within the chroot terminal
-* Allow installation of 2 local debs that depend on each other.
-    * Change local installation away from gdebi.
-        * Option 1: Use dpkg -i *.deb | true; apt install --fix; dpkg -i *.deb. The 2nd install won't have exit true on it.
-        * Option 2: Use dpkg-scanpackages.
-* Test it out on Microsoft Windows - if it works then add Windows packaging to create .msi
+* Test installation of 2 local debs that depend on each other.
+* Test dpkg-buildenv out on Microsoft Windows - if it works then add Windows packaging to create .msi
 * Use debconf to ask the user if they want to add ./built_packages to their global git ignore (?)
 
 

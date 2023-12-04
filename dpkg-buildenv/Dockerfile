@@ -61,9 +61,9 @@ APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99dpkg-buildenv
 # ---------------------------------------------------------------------------- #
 
 
-# ---------------------- Install mk-build-deps and gdebi --------------------- #
+# --------------------------- Install mk-build-deps -------------------------- #
 RUN apt-get update && \
-    apt-get install devscripts equivs gdebi-core
+    apt-get install devscripts equivs
 # ---------------------------------------------------------------------------- #
 
 
@@ -84,7 +84,7 @@ RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/dpkg-buildenv.sources
 
 # ----------------------- Install local debian packages ---------------------- #
 # The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
-RUN find /tmp/ -name '*.deb' -exec gdebi --non-interactive {} +
+RUN find /tmp/ -name '*.deb' -exec apt install --allow-downgrades --reinstall {} +
 # ---------------------------------------------------------------------------- #
 
 
