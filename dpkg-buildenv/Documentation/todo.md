@@ -30,7 +30,6 @@
 * Fix lintian warnings
 * Add proper man page
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
-* gdebi shouldn't just install .debs in repo. The user should have to specify it on the command line.
 
 ### Awaiting upstream fix
 * Add example for VSCode build arg when available: https://github.com/microsoft/vscode-remote-release/issues/3545.

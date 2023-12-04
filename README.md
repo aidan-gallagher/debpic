@@ -43,6 +43,10 @@ $ dpkg-buildenv 'echo Hi I'm inside the container. See the output of whoami comm
 $ dpkg-buildenv --interactive-tty
 ```
 
+### Install local packages
+Place local debian packages (.debs) in `./local_packages/` then build as normal and they will be installed in the container.
+
+
 ### Deleting images
 This tool creates a docker image for every repository. To remove them run:
 ```

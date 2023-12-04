@@ -72,7 +72,7 @@ RUN apt-get update && \
 # If it exists, copy over the developer-packages.txt file which contains optional
 # recommended packages for the developer (gitlint, flake8, autopep8, etc).
 # [t] is a necessary work around to allow conditional copying https://stackoverflow.com/a/46801962/13365272.
-COPY ./debian/control ./developer-packages.tx[t] ./*.deb /tmp/
+COPY ./debian/control ./developer-packages.tx[t] ./local_package[s]/ /tmp/
 # ---------------------------------------------------------------------------- #
 
 
@@ -84,7 +84,7 @@ RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/dpkg-buildenv.sources
 
 # ----------------------- Install local debian packages ---------------------- #
 # The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
-RUN find /tmp -name '*.deb' -exec gdebi --non-interactive {} +
+RUN find /tmp/ -name '*.deb' -exec gdebi --non-interactive {} +
 # ---------------------------------------------------------------------------- #
 
 
