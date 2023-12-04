@@ -49,17 +49,21 @@ mv /workspaces/*.deb /workspaces/code/built_packages \
 # ---------------------------------------------------------------------------- #
 
 
-# --------------------------- Increase apt timeout --------------------------- #
+# ----------------------------- Set apt settings ----------------------------- #
 RUN echo '\
 Acquire::Retries "10";\n\
 Acquire::http::Timeout "240"; \n\
-Acquire::ftp::Timeout "240";' > /etc/apt/apt.conf.d/99timeout
+Acquire::ftp::Timeout "240";\n\
+APT::Get::Assume-Yes "true";\n\
+APT::Install-Recommends "false";\n\
+APT::Install-Suggests "false";\n\
+APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99dpkg-buildenv
 # ---------------------------------------------------------------------------- #
 
 
 # ---------------------- Install mk-build-deps and gdebi --------------------- #
 RUN apt-get update && \
-    apt-get install --yes --fix-missing --no-install-recommends devscripts equivs gdebi-core
+    apt-get install devscripts equivs gdebi-core
 # ---------------------------------------------------------------------------- #
 
 
@@ -88,12 +92,12 @@ RUN find /tmp -name '*.deb' -exec gdebi --non-interactive {} +
 # Install application's build/packaging dependencies.
 RUN apt-get update && \
     mk-build-deps /tmp/control && \
-    apt-get install --yes --fix-missing --no-install-recommends ./*build-deps*.deb
+    apt-get install ./*build-deps*.deb
 # ---------------------------------------------------------------------------- #
 
 
 # ------------------ Install optional developer dependencies ----------------- #
 # "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
 RUN apt-get update && \
-    apt-get install --yes --no-install-recommends $(cat /tmp/developer-packages.txt 2>/dev/null)
+    apt-get install $(cat /tmp/developer-packages.txt 2>/dev/null)
 # ---------------------------------------------------------------------------- #
