@@ -51,6 +51,7 @@ mv /workspaces/*.deb /workspaces/code/built_packages \
 
 # --------------------------- Increase apt timeout --------------------------- #
 RUN echo '\
+Acquire::Retries "10";\n\
 Acquire::http::Timeout "240"; \n\
 Acquire::ftp::Timeout "240";' > /etc/apt/apt.conf.d/99timeout
 # ---------------------------------------------------------------------------- #
