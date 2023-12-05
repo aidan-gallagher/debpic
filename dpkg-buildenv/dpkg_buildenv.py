@@ -156,8 +156,8 @@ def run_container(repository_name):
     # Delete built_packages to clear out any old packages then move new ones over.
     if args.command == "":
         args.command = f"""\
-dpkg-buildpackage;
-mv-debs;
+dpkg-buildpackage && \
+mv-debs; \
 dh_clean\
 """.replace(
             "\n", " "
