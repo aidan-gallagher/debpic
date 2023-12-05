@@ -38,12 +38,12 @@ parser.add_argument(
 )
 exclusive_group_parser = parser.add_mutually_exclusive_group()
 exclusive_group_parser.add_argument(
-    "-it",
-    "--interactive-tty",
+    "-i",
+    "--interactive",
     help="Open an interactive terminal to the container. [Docker run argument]",
     action="store_const",
     default="",
-    const="--interactive --tty",
+    const="--interactive",
 )
 exclusive_group_parser.add_argument(
     "command",
@@ -168,7 +168,7 @@ dh_clean\
     args.command = f"/bin/bash -c '{args.command}'"
 
     # If interactive mode is specified then remove any commands
-    if args.interactive_tty != "":
+    if args.interactive != "":
         args.command = ""
 
     # ----------------------------- Run the container ---------------------------- #
@@ -177,8 +177,9 @@ docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
 --user $(id -u):$(id -g)
 --network host
+--tty
 --rm
-{args.interactive_tty}
+{args.interactive}
 {repository_name}
 {args.command}\
 """.replace(
