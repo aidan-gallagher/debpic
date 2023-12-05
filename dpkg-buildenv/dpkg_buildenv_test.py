@@ -41,19 +41,19 @@ class Test:
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --rm  test_name /bin/bash -c 'dpkg-buildpackage && mv-debs; dh_clean'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --tty --rm  test_name /bin/bash -c 'dpkg-buildpackage && mv-debs; dh_clean'"
         )
 
         uut.args.command = "echo I'm a test command"
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --rm  test_name /bin/bash -c 'echo I'm a test command'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --tty --rm  test_name /bin/bash -c 'echo I'm a test command'"
         )
 
-        uut.args.interactive_tty = "--interactive --tty"
+        uut.args.interactive = "--interactive"
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --rm --interactive --tty test_name "
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --tty --rm --interactive test_name "
         )
