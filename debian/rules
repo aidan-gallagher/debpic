@@ -10,3 +10,7 @@
 override_dh_auto_build:
 	dh_auto_build
 	pandoc --standalone --to man dpkg-buildenv/Documentation/dpkg-buildenv.manpage.md -o debian/dpkg-buildenv.1
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm --force debian/dpkg-buildenv.1

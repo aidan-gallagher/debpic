@@ -158,7 +158,7 @@ def run_container(repository_name):
         args.command = f"""\
 dpkg-buildpackage && \
 mv-debs; \
-dh_clean\
+dpkg-buildpackage --target=clean\
 """.replace(
             "\n", " "
         )
