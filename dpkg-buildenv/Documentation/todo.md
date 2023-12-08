@@ -2,7 +2,8 @@
 
 
 ### Features
-* Add support for DEB_BUILD_OPTIONS.
+* Consider other environment variables (than DEB_BUILD_OPTIONS) that should be passed through.
+    * Are there any other DEB_ or DH_ env variables?
 * Add easy support for passing flags to dpkg-buildpackage.
 * Have user & repo settings for sources & developer-packages.
 * Read .sources from repo if it exists. This allows dpkg-buildenv to just work on any branch. Command line arg should override it.

@@ -44,6 +44,12 @@ The environment is composed from:
 
 : Destination directory to place built packages in. If not supplied ./built_packages is used.
 
+# ENVIRONMENT
+
+**DEB_BUILD_OPTIONS**
+
+: This environment variable on the host is passed through to the container at run time.
+
 # FILES
 
 _/etc/dpkg-buildenv/sources.list.d/*.sources_
