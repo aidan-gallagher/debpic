@@ -10,7 +10,7 @@ _dpkg-buildenv_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="--help --no-cache --sources --distribution --interactive --delete-images"
+  opts="--help --no-cache --sources --distribution --interactive --destination --delete-images"
 
   # Change opts depending on existing words
   for word in "${COMP_WORDS[@]}"; do
@@ -29,6 +29,9 @@ _dpkg-buildenv_complete() {
     if [[ "$word" == "--interactive" || "$word" == "-i" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//')
     fi
+    if [[ "$word" == "--destination" || "$word" == "-dst" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--destination//')
+    fi
   done
 
   case "${prev}" in
@@ -40,6 +43,9 @@ _dpkg-buildenv_complete() {
       return 0
       ;;
     -d|--distribution)
+      return 0
+      ;;
+    -dst|--destination)
       return 0
       ;;
     *)
