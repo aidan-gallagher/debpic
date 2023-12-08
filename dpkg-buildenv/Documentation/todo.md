@@ -2,6 +2,8 @@
 
 
 ### Features
+* Add `--destination` option for where the .debs should be moved to.
+    * If it is specified the python script will move the packages from ./built_packages to the specified location.
 * Add support for DEB_BUILD_OPTIONS.
 * Add easy support for passing flags to dpkg-buildpackage.
 * Have user & repo settings for sources & developer-packages.
