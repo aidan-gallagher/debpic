@@ -5,6 +5,7 @@ import logging
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 logging.basicConfig(level=logging.INFO)
 
@@ -28,6 +29,12 @@ parser.add_argument(
     "-d",
     "--distribution",
     help="Select a linux distribution for the docker parent image (e.g.debian:11).",
+    default=None,
+)
+parser.add_argument(
+    "-dst",
+    "--destination",
+    help="Chose a destination directory to store built debian packages.",
     default=None,
 )
 parser.add_argument(
@@ -204,6 +211,17 @@ def kill_container(repository_name):
         subprocess.run(kill_container_cmd, shell=True, check=True)
 
 
+def move_built_packages():
+    make_dir_cmd = f"mkdir --parents {args.destination}"
+    subprocess.run(make_dir_cmd, shell=True, check=True)
+
+    mv_debs_cmd = f"mv built_packages/*.deb {args.destination}"
+    subprocess.run(mv_debs_cmd, shell=True, check=True)
+
+    del_src_dir_cmd = f"rm -r built_packages/"
+    subprocess.run(del_src_dir_cmd, shell=True, check=True)
+
+
 if __name__ == "__main__":
     try:
         if args.delete_images:
@@ -219,6 +237,9 @@ if __name__ == "__main__":
         build_arguments = get_build_arguments()
         build_image(repository_name, build_arguments)
         run_container(repository_name)
+
+        if args.destination:
+            move_built_packages()
 
     except KeyboardInterrupt:
         kill_container(repository_name)
