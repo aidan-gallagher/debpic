@@ -178,6 +178,8 @@ dpkg-buildpackage --target=clean\
     if args.interactive != "":
         args.command = ""
 
+    deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
+
     # ----------------------------- Run the container ---------------------------- #
     run_cmd = f"""\
 docker run
@@ -186,6 +188,7 @@ docker run
 --network host
 --tty
 --rm
+--env DEB_BUILD_OPTIONS={deb_build_options}
 {args.interactive}
 {repository_name}
 {args.command}\
