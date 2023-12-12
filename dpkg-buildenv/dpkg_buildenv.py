@@ -164,7 +164,7 @@ def run_container(repository_name):
     if args.command == "":
         args.command = f"""\
 dpkg-buildpackage && \
-mv-debs; \
+mv-debs && \
 dpkg-buildpackage --target=clean\
 """.replace(
             "\n", " "
@@ -197,7 +197,11 @@ docker run
     )
 
     logging.info(f"Docker run command: {run_cmd}")
-    subprocess.run(run_cmd, shell=True, check=True)
+    try:
+        result = subprocess.run(run_cmd, shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Build failed!")
+        sys.exit(e.returncode)
 
 
 def kill_container(repository_name):
