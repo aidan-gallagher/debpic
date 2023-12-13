@@ -15,6 +15,11 @@ class Test:
 
         subprocess.check_output = subprocess.run = run_mock
 
+        def get_uid_mock():
+            return 1000
+
+        uut.get_uid = get_uid_mock
+
     def test_delete_images(self):
         uut.delete_images()
         assert (
@@ -41,19 +46,19 @@ class Test:
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --tty --rm --env DEB_BUILD_OPTIONS=  test_name /bin/bash -c 'dpkg-buildpackage && mv-debs; dpkg-buildpackage --target=clean'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=  test_name /bin/bash -c 'dpkg-buildpackage && mv-debs && dpkg-buildpackage --target=clean'"
         )
 
         uut.args.command = "echo I'm a test command"
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --tty --rm --env DEB_BUILD_OPTIONS=  test_name /bin/bash -c 'echo I'm a test command'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=  test_name /bin/bash -c 'echo I'm a test command'"
         )
 
         uut.args.interactive = "--interactive"
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user $(id -u):$(id -g) --network host --tty --rm --env DEB_BUILD_OPTIONS= --interactive test_name "
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS= --interactive test_name "
         )

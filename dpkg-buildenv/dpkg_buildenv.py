@@ -69,11 +69,6 @@ args = parser.parse_args()
 
 def prerequisite_check():
 
-    # Check script hasn't been invoked with sudo
-    # Possibly remove this once I can support it again.
-    if os.geteuid() == 0:
-        exit("Please don't run as sudo")
-
     # Check the user can run docker without sudo
     result = subprocess.run(
         "docker info", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
@@ -118,12 +113,19 @@ def get_repository_name() -> str:
     return repository_name
 
 
+def get_uid() -> int:
+    uid = os.getuid()
+    if uid == 0:
+        uid = os.environ.get("SUDO_UID")
+    return uid
+
+
 def get_build_arguments() -> str:
 
     build_args = ""
 
     # User ID
-    build_args += f'--build-arg UID="{os.getuid()}"'
+    build_args += f'--build-arg UID="{get_uid()}"'
 
     # Additional sources
     try:
@@ -184,7 +186,7 @@ dpkg-buildpackage --target=clean\
     run_cmd = f"""\
 docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
---user $(id -u):$(id -g)
+--user {get_uid()}:$(id -g {get_uid()})
 --network host
 --tty
 --rm
