@@ -24,7 +24,6 @@
 * Docker requires password 
     * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv. 
     * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script? 
-* Allow docker to run as `sudo` (?)
 * Fix lintian warnings
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
 
