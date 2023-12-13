@@ -21,9 +21,6 @@
     * clean up errors
     * add hadolint to CI : https://stackoverflow.com/a/62370018/13365272
 * Shellcheck for bash completion (Fix and add to CI)
-* Docker requires password 
-    * Can docker be run rootless, so user doesn't have to configure no password after initially installing dpkg-buildenv. 
-    * Can this use debconf to ask user if they are happy allowing docker to run without a password instead of having postinst script? 
 * Fix lintian warnings
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
 
