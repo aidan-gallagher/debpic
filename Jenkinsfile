@@ -53,6 +53,12 @@ pipeline {
             }
         }
 
+        stage('Mypy') {
+            steps {
+                sh "mypy ."
+            }
+        }
+
         stage('PyTest') {
             steps {
                 sh "pytest-3 "

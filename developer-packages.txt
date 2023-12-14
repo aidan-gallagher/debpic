@@ -1,3 +1,4 @@
 black
 python3-pytest
 lintian
+mypy
