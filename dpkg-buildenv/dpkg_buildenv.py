@@ -6,6 +6,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from typing import List
 
 logging.basicConfig(level=logging.INFO)
 
@@ -71,7 +72,7 @@ def get_uid() -> int:
 # ---------------------------------------------------------------------------- #
 #                                     Build                                    #
 # ---------------------------------------------------------------------------- #
-def get_build_arguments() -> str:
+def get_build_arguments(distribution: str, sources: str) -> str:
 
     build_args = ""
 
@@ -80,26 +81,26 @@ def get_build_arguments() -> str:
 
     # Additional sources
     try:
-        with open(f"/etc/dpkg-buildenv/sources.list.d/{args.sources}.sources") as file:
+        with open(f"/etc/dpkg-buildenv/sources.list.d/{sources}.sources") as file:
             additional_sources = file.read().replace("\n", "\\n")
             build_args += f' --build-arg ADDITIONAL_SOURCES="{additional_sources}"'
     except FileNotFoundError:
         pass
 
-    if args.distribution:
-        build_args += f" --build-arg DISTRIBUTION={args.distribution}"
+    if distribution:
+        build_args += f" --build-arg DISTRIBUTION={distribution}"
 
     return build_args
 
 
-def build_image(repository_name, build_arguments=""):
+def build_image(repository_name: str, no_cache: str = "", build_arguments: str = ""):
     build_cmd = f"""\
 DOCKER_BUILDKIT=1
 docker image build
 --tag {repository_name}
 --file /usr/share/dpkg-buildenv/Dockerfile
 --network host
-{args.no_cache}
+{no_cache}
 {build_arguments}
 .\
 """.replace(
@@ -116,12 +117,12 @@ docker image build
 # ---------------------------------------------------------------------------- #
 #                                      Run                                     #
 # ---------------------------------------------------------------------------- #
-def run_container(repository_name):
+def run_container(repository_name: str, command: str = "", interactive: str = ""):
     # ------------------------ Handle docker run arguments ----------------------- #
     # If the user hasn't supplied a command then assume build command.
     # Delete built_packages to clear out any old packages then move new ones over.
-    if args.command == "":
-        args.command = f"""\
+    if command == "":
+        command = f"""\
 dpkg-buildpackage && \
 mv-debs && \
 dpkg-buildpackage --target=clean\
@@ -131,11 +132,11 @@ dpkg-buildpackage --target=clean\
 
     # Regardless of command origin (user provided or assumed), prepend the
     # command with "/bin/bash -c".
-    args.command = f"/bin/bash -c '{args.command}'"
+    command = f"/bin/bash -c '{command}'"
 
     # If interactive mode is specified then remove any commands
-    if args.interactive != "":
-        args.command = ""
+    if interactive != "":
+        command = ""
 
     deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
 
@@ -147,9 +148,9 @@ docker run
 --tty
 --rm
 --env DEB_BUILD_OPTIONS={deb_build_options}
-{args.interactive}
+{interactive}
 {repository_name}
-{args.command}\
+{command}\
 """.replace(
         "\n", " "
     )
@@ -162,11 +163,11 @@ docker run
         sys.exit(e.returncode)
 
 
-def move_built_packages():
-    make_dir_cmd = f"mkdir --parents {args.destination}"
+def move_built_packages(destination):
+    make_dir_cmd = f"mkdir --parents {destination}"
     subprocess.run(make_dir_cmd, shell=True, check=True)
 
-    mv_debs_cmd = f"mv built_packages/*.deb {args.destination}"
+    mv_debs_cmd = f"mv built_packages/*.deb {destination}"
     subprocess.run(mv_debs_cmd, shell=True, check=True)
 
     del_src_dir_cmd = f"rm -r built_packages/"
@@ -193,84 +194,93 @@ def kill_container(repository_name):
 # ---------------------------------------------------------------------------- #
 #                                     Main                                     #
 # ---------------------------------------------------------------------------- #
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "-nc",
-    "--no-cache",
-    help="Do not use cache when building the image.",
-    action="store_const",
-    default="",
-    const="--no-cache",
-)
-parser.add_argument(
-    "-s",
-    "--sources",
-    help="Select a sources file stored at /etc/dpkg-buildenv/sources.list.d/<SOURCE>.list.",
-    default="default",
-)
-parser.add_argument(
-    "-d",
-    "--distribution",
-    help="Select a linux distribution for the docker parent image (e.g.debian:11).",
-    default=None,
-)
-parser.add_argument(
-    "-dst",
-    "--destination",
-    help="Chose a destination directory to store built debian packages.",
-    default=None,
-)
-parser.add_argument(
-    "--get-build-arguments",
-    # Help suppressed as this option is generally only used by tools such as Jenkins
-    help=argparse.SUPPRESS,
-    action="store_true",
-)
-exclusive_group_parser = parser.add_mutually_exclusive_group()
-exclusive_group_parser.add_argument(
-    "-i",
-    "--interactive",
-    help="Open an interactive terminal to the container.",
-    action="store_const",
-    default="",
-    const="--interactive",
-)
-exclusive_group_parser.add_argument(
-    "command",
-    help="Command to execute in the container.",
-    nargs="?",
-    default="",
-)
-exclusive_group_parser.add_argument(
-    "-di",
-    "--delete-images",
-    help="Delete all build environment images generated by this tool",
-    action="store_true",
-)
-args = parser.parse_args()
+def dpkg_buildenv_parse_args(argv: List[str]):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-nc",
+        "--no-cache",
+        help="Do not use cache when building the image.",
+        action="store_const",
+        default="",
+        const="--no-cache",
+    )
+    parser.add_argument(
+        "-s",
+        "--sources",
+        help="Select a sources file stored at /etc/dpkg-buildenv/sources.list.d/<SOURCE>.list.",
+        default="default",
+    )
+    parser.add_argument(
+        "-d",
+        "--distribution",
+        help="Select a linux distribution for the docker parent image (e.g.debian:11).",
+        default=None,
+    )
+    parser.add_argument(
+        "-dst",
+        "--destination",
+        help="Chose a destination directory to store built debian packages.",
+        default=None,
+    )
+    parser.add_argument(
+        "--get-build-arguments",
+        # Help suppressed as this option is generally only used by tools such as Jenkins
+        help=argparse.SUPPRESS,
+        action="store_true",
+    )
+    exclusive_group_parser = parser.add_mutually_exclusive_group()
+    exclusive_group_parser.add_argument(
+        "-i",
+        "--interactive",
+        help="Open an interactive terminal to the container.",
+        action="store_const",
+        default="",
+        const="--interactive",
+    )
+    exclusive_group_parser.add_argument(
+        "command",
+        help="Command to execute in the container.",
+        nargs="?",
+        default="",
+    )
+    exclusive_group_parser.add_argument(
+        "-di",
+        "--delete-images",
+        help="Delete all build environment images generated by this tool",
+        action="store_true",
+    )
+    args = parser.parse_args(argv)
+
+    return args
 
 
-if __name__ == "__main__":
+def main(argv: List[str]):
     try:
+        args = dpkg_buildenv_parse_args(argv)
+
         if args.delete_images:
             delete_images()
             sys.exit()
 
+        build_arguments = get_build_arguments(args.distribution, args.sources)
         if args.get_build_arguments:
-            print(get_build_arguments())
+            print(build_arguments)
             sys.exit()
 
         prerequisite_check()
         repository_name = get_repository_name()
-        build_arguments = get_build_arguments()
-        build_image(repository_name, build_arguments)
-        run_container(repository_name)
+        build_image(repository_name, args.no_cache, build_arguments)
+        run_container(repository_name, args.command, args.interactive)
 
         if args.destination:
-            move_built_packages()
+            move_built_packages(args.destination)
 
     except KeyboardInterrupt:
         kill_container(repository_name)
         sys.exit(130)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
 
 # ---------------------------------------------------------------------------- #
