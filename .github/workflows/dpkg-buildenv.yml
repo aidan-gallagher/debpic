@@ -37,6 +37,9 @@ jobs:
     - name: Black
       run: |
         dpkg-buildenv "black --check ."
+    - name: Mypy
+      run: |
+        dpkg-buildenv "mypy ."
     - uses: actions/upload-artifact@v3
       with:
         name: Debian Package
