@@ -27,7 +27,7 @@ def prerequisite_check():
         "docker info", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
     if result.returncode != 0:
-        exit(
+        sys.exit(
             """\
 You must allow docker to run as non-root user
 To do this follow the steps in the official docker documentation: https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
@@ -88,10 +88,9 @@ def get_build_arguments(distribution: str, sources: str) -> str:
             build_args += f' --build-arg ADDITIONAL_SOURCES="{additional_sources}"'
     except FileNotFoundError:
         if sources != "default":
-            print(
+            sys.exit(
                 f"Error file not found: /etc/dpkg-buildenv/sources.list.d/{sources}.sources"
             )
-            exit(-1)
 
     # ------------------------------- Distribution ------------------------------- #
     if distribution:
