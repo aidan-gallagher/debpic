@@ -5,7 +5,6 @@ import logging
 import os
 import subprocess
 import sys
-from pathlib import Path
 from typing import List
 
 logging.basicConfig(level=logging.INFO)
@@ -13,9 +12,17 @@ logging.basicConfig(level=logging.INFO)
 # ---------------------------------------------------------------------------- #
 #                                    Common                                    #
 # ---------------------------------------------------------------------------- #
+def run(cmd: str, capture_output=True) -> str:
+    logging.info(f"Running command:{cmd}")
+    return subprocess.run(
+        cmd, shell=True, text=True, capture_output=capture_output, check=True
+    ).stdout
+
+
 def prerequisite_check():
 
     # Check the user can run docker without sudo
+    # TODO: is stdout and stderr redirect necessary?
     result = subprocess.run(
         "docker info", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
@@ -38,15 +45,11 @@ newgrp docker"""
 
 def delete_images():
     find_cmd = "docker images '*buildenv' --format {{.Repository}}"
-    find_result = (
-        subprocess.check_output(find_cmd, shell=True).decode("utf-8").replace("\n", " ")
-    )
+    find_result = run(find_cmd).replace("\n", " ")
 
     if find_result != "":
-        logging.info(f"Deleting images: {find_result}")
         delete_cmd = f"docker rmi {find_result}; docker image prune --force"
-        logging.info(f"Docker delete command: {delete_cmd}")
-        subprocess.run(delete_cmd, shell=True, check=True)
+        run(delete_cmd)
     else:
         logging.info("No images to delete")
 
@@ -111,8 +114,7 @@ docker image build
         "\n", " "
     )
 
-    logging.info(f"Docker build command: {build_cmd}")
-    subprocess.run(build_cmd, shell=True, check=True)
+    run(build_cmd, capture_output=False)
 
 
 # ---------------------------------------------------------------------------- #
@@ -159,37 +161,25 @@ docker run
         "\n", " "
     )
 
-    logging.info(f"Docker run command: {run_cmd}")
     try:
-        result = subprocess.run(run_cmd, shell=True, check=True)
+        result = run(run_cmd, capture_output=False)
     except subprocess.CalledProcessError as e:
         print(f"Build failed!")
         sys.exit(e.returncode)
 
 
 def move_built_packages(destination):
-    make_dir_cmd = f"mkdir --parents {destination}"
-    subprocess.run(make_dir_cmd, shell=True, check=True)
-
-    mv_debs_cmd = f"mv built_packages/*.deb {destination}"
-    subprocess.run(mv_debs_cmd, shell=True, check=True)
-
-    del_src_dir_cmd = f"rm -r built_packages/"
-    subprocess.run(del_src_dir_cmd, shell=True, check=True)
+    run(f"mkdir --parents {destination}")
+    run(f"mv built_packages/*.deb {destination}")
+    run("rm -r built_packages/")
 
 
 def kill_container(repository_name):
-    get_container_id_cmd = (
+    result = run(
         f"docker ps --all --quiet --filter ancestor={repository_name}"
-    )
-    get_container_id_result = (
-        subprocess.check_output(get_container_id_cmd, shell=True)
-        .decode("utf-8")
-        .replace("\n", " ")
-    )
-    if get_container_id_result != "":
-        kill_container_cmd = f"docker kill {get_container_id_result}"
-        subprocess.run(kill_container_cmd, shell=True, check=True)
+    ).replace("\n", " ")
+    if result != "":
+        run(f"docker kill {result}")
 
 
 # ---------------------------------------------------------------------------- #

@@ -14,9 +14,9 @@ class Test:
 
         def run_mock(command, **kwargs):
             self.cli_commands.append(command)
-            return "test".encode("utf-8")
+            return "test"
 
-        subprocess.check_output = subprocess.run = run_mock
+        uut.run = run_mock
 
         def get_uid_mock():
             return 1000
