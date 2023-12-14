@@ -61,7 +61,7 @@ def generate_image_name() -> str:
 def get_uid() -> int:
     uid = os.getuid()
     if uid == 0:
-        uid = os.environ.get("SUDO_UID")
+        uid = int(os.environ.get("SUDO_UID", "1000"))
     return uid
 
 
