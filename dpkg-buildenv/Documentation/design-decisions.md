@@ -1,14 +1,31 @@
-# Build time vs run time
-dpkg-buildenv has most of the logic in the Dockfile. An alternative approach be to do little in the Dockerfile and then run various commands after the container has been built to set up in the environment. 
-The benefit are that the Dockerfile is easily integrated with tools like Jenkins and VSCode.
-The drawback is the complexity of conditionally copying files, copying files from outwith repository (e.g /etc/dpkg-buildenv/sources/list.d) and conditionally running certain parts of the Dockerfile.
+# Build Time vs Run Time
+
+`dpkg-buildenv` has most of the logic in the Dockerfile.   
+An alternative approach is to have little in the dockerfile and then set up the environment with run commands.  
+The benefit of doing all the setup in the Dockerfile is that:
+* It's easily integrated with tools like Jenkins and VSCode.
+* The caching of images is all handled by docker.  
+
+The drawback is the extra complexity of:  
+* Conditionally copying files
+* Copying files from outwith repository (e.g /etc/dpkg-buildenv/sources/list.d
+* Conditionally running certain parts of the Dockerfile.
 
 
 # mk-build-deps
 
-Prefer to build the *build-deps*.deb and install it as two seperate commands rather than combining it into once (`mk-build-deps --install --remove  /tmp/control`).
+`mk-build-deps` can generate the package to install the dependencies, install that package and then delete the generate package all with the following single command.
+``````
+mk-build-deps --install --remove  /tmp/control
+``````
 
-As two seperate commands, if it fails, you are informed of which packages it failed to install. When it is combined you do not see this information.
+I have opted to build the *build-deps*.deb and install it as two separate commands. 
+```
+mk-build-deps /tmp/control && \
+apt-get install ./*build-deps*.deb
+```
+
+Two commands is preferred because if it fails then the the user is told which packages failed. For example:
 ```
 ...
 #12 2.053 
