@@ -89,7 +89,7 @@ $ dpkg-buildenv '<your_command_to_run>'
 $ dpkg-buildenv 'echo Hi I'm inside the container. See the output of whoami command; whoami'
 ```
 ### Selecting sources
-1 - Write apt source in deb822 format to a file in /etc/dpkg-buildenv/sources.list.d/. For example /etc/dpkg-buildenv/sources.list.d/unstable.sources/unstable.sources
+1 - Write apt source in deb822 format to a file in /etc/dpkg-buildenv/sources.list.d/. For example /etc/dpkg-buildenv/sources.list.d/unstable.sources
 ```
 Enabled: Yes
 Types: deb
