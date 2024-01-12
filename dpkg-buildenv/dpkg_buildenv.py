@@ -101,10 +101,9 @@ def get_build_arguments(distribution: str, sources: str) -> str:
 
 def build_image(repository_name: str, no_cache: str = "", build_arguments: str = ""):
     build_cmd = f"""\
-DOCKER_BUILDKIT=1
-docker image build
+podman image build
 --tag {repository_name}
---file /usr/share/dpkg-buildenv/Dockerfile
+--file /home/aidan/Code/Per/dpkg-buildenv/dpkg-buildenv/Dockerfile
 --network host
 {no_cache}
 {build_arguments}
@@ -126,11 +125,15 @@ def run_container(repository_name: str, command: str = "", interactive: str = ""
     # ------------------------ Handle docker run arguments ----------------------- #
     # If the user hasn't supplied a command then assume build command.
     # Delete built_packages to clear out any old packages then move new ones over.
+
+#podman unshare chown 1000:1000 -R .
+
+# TODO: How can I do this without sudo?
     if command == "":
         command = f"""\
-dpkg-buildpackage && \
-mv-debs && \
-dpkg-buildpackage --target=clean\
+sudo dpkg-buildpackage && \
+sudo mv-debs && \
+sudo dpkg-buildpackage --target=clean\
 """.replace(
             "\n", " "
         )
@@ -146,7 +149,7 @@ dpkg-buildpackage --target=clean\
     deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
 
     run_cmd = f"""\
-docker run
+podman run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
 --user {get_uid()}:$(id -g {get_uid()})
 --network host

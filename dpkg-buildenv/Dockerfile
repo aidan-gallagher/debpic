@@ -70,7 +70,7 @@ RUN apt-get update && \
 # If it exists, copy over the developer-packages.txt.
 # If it exists, copy over local_packages/.
 # [t] is a necessary work around to allow conditional copying https://stackoverflow.com/a/46801962/13365272.
-COPY ./debian/control ./developer-packages.tx[t] ./local_package[s]/ /tmp/
+COPY ./debian/control /tmp/
 # ---------------------------------------------------------------------------- #
 
 
@@ -80,22 +80,9 @@ RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/dpkg-buildenv.sources
 # ---------------------------------------------------------------------------- #
 
 
-# ----------------------- Install local debian packages ---------------------- #
-# The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
-RUN find /tmp/ -name '*.deb' -exec apt install --allow-downgrades --reinstall {} +
-# ---------------------------------------------------------------------------- #
-
-
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
 RUN apt-get update && \
     mk-build-deps /tmp/control && \
     apt-get install ./*build-deps*.deb
-# ---------------------------------------------------------------------------- #
-
-
-# ------------------ Install optional developer dependencies ----------------- #
-# "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
-RUN apt-get update && \
-    apt-get install $(cat /tmp/developer-packages.txt 2>/dev/null)
 # ---------------------------------------------------------------------------- #
