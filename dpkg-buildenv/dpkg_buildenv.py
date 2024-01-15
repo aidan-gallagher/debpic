@@ -7,14 +7,19 @@ import subprocess
 import sys
 from typing import List
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 # ---------------------------------------------------------------------------- #
 #                                    Common                                    #
 # ---------------------------------------------------------------------------- #
 def run(cmd: str, capture_output=True) -> str:
     if capture_output == False:
-        logging.info(f"Running command:{cmd}")
+        green_txt_start = "\033[92m"
+        bold_txt_start = "\033[1m"
+        fmt_txt_end = "\033[0m"
+        logging.info(
+            f"{bold_txt_start}{green_txt_start}Running command:{fmt_txt_end} {green_txt_start}{cmd}{fmt_txt_end}"
+        )
     return subprocess.run(
         cmd, shell=True, text=True, capture_output=capture_output, check=True
     ).stdout
