@@ -1,5 +1,8 @@
 ## TODO
 
+### Bugs
+* ./local_packages are ignored when the container is setup using devcontainers with VSCode.
+
 
 ### Features
 * Consider other environment variables (than DEB_BUILD_OPTIONS) that should be passed through.
@@ -25,6 +28,5 @@
 * Uninstall fails if trying to uninstall whilst using a docker image that dpkg-buildenv wants to delete.
 
 ### Awaiting upstream fix
-* Add example for VSCode build arg when available: https://github.com/microsoft/vscode-remote-release/issues/3545.
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
 * Add inline gpg key to vyatta sources (other repo) when we move to debian 12.
