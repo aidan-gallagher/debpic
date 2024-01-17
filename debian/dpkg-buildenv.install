@@ -3,6 +3,7 @@
 
 # Path to file in repository => path to install file on target
 debian/dpkg-buildenv.1 => usr/share/man/man1/dpkg-buildenv.1
+dpkg-buildenv/Documentation/ /usr/share/doc/dpkg-buildenv/
 dpkg-buildenv/dpkg-buildenv-completion.bash => /usr/share/bash-completion/completions/dpkg-buildenv
 dpkg-buildenv/Dockerfile => usr/share/dpkg-buildenv/Dockerfile
 dpkg-buildenv/dpkg_buildenv.py => usr/bin/dpkg-buildenv
