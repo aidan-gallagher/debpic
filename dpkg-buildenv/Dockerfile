@@ -5,6 +5,8 @@ USER root
 # ---------------------------------------------------------------------------- #
 # Prevent apt from asking the user questions like which time zone.
 ARG DEBIAN_FRONTEND=noninteractive
+# Set the locale
+ENV LANG=C.UTF-8
 # ---------------------------------------------------------------------------- #
 
 
