@@ -8,11 +8,7 @@
 * Consider other environment variables (than DEB_BUILD_OPTIONS) that should be passed through.
     * Are there any other DEB_ or DH_ env variables?
 * Add easy support for passing flags to dpkg-buildpackage.
-* Have user & repo settings for sources & developer-packages.
-* Read .sources from repo if it exists. This allows dpkg-buildenv to just work on any branch. Command line arg should override it.
-    * Maybe have dpkg-buidenv.config file. Can set everything same as command line args.
-    * Options can be in /etc/dpkg-buildenv, ~/.config/dpkg-buildenv and commandline.
-    * https://pypi.org/project/jsonmerge/
+* Allow multiple config files? Setting from commandline, <REPO>/dpkg-buildenv.conf, ~/.config/dpkg-buildenv/config.conf then /etc/dpkg-buildenv/config.conf
 * Copy over .git config and bash config so dev use all development tools from within the chroot terminal
 * Test installation of 2 local debs that depend on each other.
 * Test dpkg-buildenv out on Microsoft Windows - if it works then add Windows packaging to create .msi

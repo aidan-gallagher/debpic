@@ -61,6 +61,11 @@ _/etc/dpkg-buildenv/sources.list.d/default.sources_
 
 : When the `--sources` option is not supplied, dpkg-buildenv defaults to using default.sources. This is helpful is you have a private apt repository that you often use and you don't want to have specify `--sources` on every build. If this file doesn't exist then no additional sources will be configured.
 
+
+_~/.config/dpkg-buildenv/dpkg-buildenv.conf_  
+
+: User configuration file using YAML to store the same options available on the command line.
+
 _/usr/share/dpkg-buildenv/Dockerfile_
 
 : This is the dockerfile used to generate the container which the build is performed in. If you want to use other tools (such as Jenkins or VSCode) in the same containerised environment you can point them to this Dockerfile.

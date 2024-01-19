@@ -1,4 +1,5 @@
 black
 python3-pytest
+python3-yaml
 lintian
 mypy
