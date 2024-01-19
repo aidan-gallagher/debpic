@@ -1,5 +1,6 @@
 ARG DISTRIBUTION=debian:11
 FROM $DISTRIBUTION
+LABEL MAINTAINER="Aidan Gallagher <aidgal2@gmail.com>"
 USER root
 
 # ---------------------------------------------------------------------------- #
