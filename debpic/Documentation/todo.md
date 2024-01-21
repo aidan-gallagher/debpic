@@ -5,9 +5,11 @@
 
 
 ### Features
+* Add option to change the build program from dpkg-buildpackage to debuild, git-buildpackage, others?
+* Add support for signing builds with a key. How best to share a key on the host with the container.
+* Add easy support for passing flags to dpkg-buildpackage.
 * Consider other environment variables (than DEB_BUILD_OPTIONS) that should be passed through.
     * Are there any other DEB_ or DH_ env variables?
-* Add easy support for passing flags to dpkg-buildpackage.
 * Allow multiple config files? Setting from commandline, <REPO>/debpic.conf, ~/.config/debpic/config.conf then /etc/debpic/config.conf
 * Copy over .git config and bash config so dev use all development tools from within the chroot terminal
 * Test installation of 2 local debs that depend on each other.
