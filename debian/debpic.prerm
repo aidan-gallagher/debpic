@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+debpic --delete-images || true
+
+#DEBHELPER#

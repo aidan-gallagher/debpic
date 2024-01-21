@@ -1,7 +1,7 @@
 Additional sources can be specified for the docker container.
-These sources should be placed in `/etc/dpkg-buildenv/sources.list.d/`, their suffix should be `.sources` and they should conform to deb822 format.
+These sources should be placed in `/etc/debpic/sources.list.d/`, their suffix should be `.sources` and they should conform to deb822 format.
 
-By default dpkg-buildenv will use `/etc/dpkg-buildenv/sources.list.d/default.sources` if it exists. If the `-s/--sources` argument is supplied (e.g `dpkg-buildenv -s unstable`) then dpkg-buildenv will select `/etc/dpkg-buildenv/sources.list.d/unstable.sources` if it exists.
+By default debpic will use `/etc/debpic/sources.list.d/default.sources` if it exists. If the `-s/--sources` argument is supplied (e.g `debpic -s unstable`) then debpic will select `/etc/debpic/sources.list.d/unstable.sources` if it exists.
 
 An example deb822 sources:  
 (Note: The leading space before each line in the pgp key is necessary)

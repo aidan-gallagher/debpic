@@ -1,12 +1,12 @@
-% DPKG-BUILDENV(1) Version 1.0 | General Commands Manual 
+% DEBPIC(1) Version 1.0 | General Commands Manual 
 
 # NAME
 
-**dpkg-buildenv** — Debian Package Build Environment
+**debpic** — DEbian Build Package In Container
 
 # DESCRIPTION
 
-dpkg-buildenv lets you build Debian packages in an isolated Docker environment.  
+debpic lets you build Debian packages in an isolated Docker environment.  
 
 The environment is composed from:  
 * The [Debian stable docker image](https://hub.docker.com/_/debian/) (or whichever distribution is specified with the --distribution option).  
@@ -26,7 +26,7 @@ The environment is composed from:
 
 -**s** \<SOURCES\>, **--sources** \<SOURCES\>
 
-: Select a sources file stored at /etc/dpkg-buildenv/sources.list.d/\<SOURCE\>.list.
+: Select a sources file stored at /etc/debpic/sources.list.d/\<SOURCE\>.list.
 
 **-d** \<DISTRIBUTION\>, **--distribution** \<DISTRIBUTION\>  
 
@@ -52,24 +52,24 @@ The environment is composed from:
 
 # FILES
 
-_/etc/dpkg-buildenv/sources.list.d/*.sources_
+_/etc/debpic/sources.list.d/*.sources_
 
-: This is where dpkg-buildenv stores the list of APT data sources that can be used in the build container. The contents of \<SOURCE\>.source file is copied to `/etc/apt/sources.list.d/dpkg-buildenv.sources` within the container before any build dependencies are selected. The choice of which file is selected can be controlled using the `--sources` option..
-
-
-_/etc/dpkg-buildenv/sources.list.d/default.sources_
-
-: When the `--sources` option is not supplied, dpkg-buildenv defaults to using default.sources. This is helpful is you have a private apt repository that you often use and you don't want to have specify `--sources` on every build. If this file doesn't exist then no additional sources will be configured.
+: This is where debpic stores the list of APT data sources that can be used in the build container. The contents of \<SOURCE\>.source file is copied to `/etc/apt/sources.list.d/debpic.sources` within the container before any build dependencies are selected. The choice of which file is selected can be controlled using the `--sources` option..
 
 
-_~/.config/dpkg-buildenv/dpkg-buildenv.conf_  
+_/etc/debpic/sources.list.d/default.sources_
+
+: When the `--sources` option is not supplied, debpic defaults to using default.sources. This is helpful is you have a private apt repository that you often use and you don't want to have specify `--sources` on every build. If this file doesn't exist then no additional sources will be configured.
+
+
+_~/.config/debpic/debpic.conf_  
 
 : User configuration file using YAML to store the same options available on the command line.
 
-_/usr/share/dpkg-buildenv/Dockerfile_
+_/usr/share/debpic/Dockerfile_
 
 : This is the dockerfile used to generate the container which the build is performed in. If you want to use other tools (such as Jenkins or VSCode) in the same containerised environment you can point them to this Dockerfile.
-See documentation on how to use with [Jenkins](https://github.com/aidan-gallagher/dpkg-buildenv/blob/main/dpkg-buildenv/Documentation/using-with-jenkins.md) and [VSCode](https://github.com/aidan-gallagher/dpkg-buildenv/blob/main/dpkg-buildenv/Documentation/using-with-vscode.md).
+See documentation on how to use with [Jenkins](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-with-jenkins.md) and [VSCode](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-with-vscode.md).
 
 # Examples
 ### Building a package
@@ -77,9 +77,9 @@ See documentation on how to use with [Jenkins](https://github.com/aidan-gallaghe
 ```
 $ https://salsa.debian.org/apt-team/apt.git
 ```
-2 - Run dpkg-buildenv
+2 - Run debpic
 ```
-$ dpkg-buildenv
+$ debpic
 ```
 3 - Find your newly created debian packages
 ```
@@ -88,13 +88,13 @@ $ ls ./built_packages
 ### Running a command inside the container
 
 ```
-$ dpkg-buildenv '<your_command_to_run>'
+$ debpic '<your_command_to_run>'
 ```
 ```
-$ dpkg-buildenv 'echo Hi I'm inside the container. See the output of whoami command; whoami'
+$ debpic 'echo Hi I'm inside the container. See the output of whoami command; whoami'
 ```
 ### Selecting sources
-1 - Write apt source in deb822 format to a file in /etc/dpkg-buildenv/sources.list.d/. For example /etc/dpkg-buildenv/sources.list.d/unstable.sources
+1 - Write apt source in deb822 format to a file in /etc/debpic/sources.list.d/. For example /etc/debpic/sources.list.d/unstable.sources
 ```
 Enabled: Yes
 Types: deb
@@ -102,11 +102,11 @@ URIs: http://my_private_apt_repo/Tools/Debian11/
 Suites: ./
 Trusted: yes"
 ```
-2 - Pass the filename (without the suffix) to --sources when calling dpkg-buildenv
+2 - Pass the filename (without the suffix) to --sources when calling debpic
 ```
-dpkg-buildenv --sources unstable
+debpic --sources unstable
 ```
-For more information see [using additional sources](https://github.com/aidan-gallagher/dpkg-buildenv/blob/main/dpkg-buildenv/Documentation/using-additional-sources.md).
+For more information see [using additional sources](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-additional-sources.md).
 
 ### Install local packages
 Place local debian packages (.debs) in `./local_packages/` then build as normal and they will be installed in the container.
@@ -124,11 +124,11 @@ $ echo built_packages >> ~/.config/git/ignore
 
 # BUGS
 
-See GitHub Issues: https://github.com/aidan-gallagher/dpkg-buildenv/issues
+See GitHub Issues: https://github.com/aidan-gallagher/debpic/issues
 
 # HOMEPAGE
 
-https://github.com/aidan-gallagher/dpkg-buildenv
+https://github.com/aidan-gallagher/debpic
 
 # AUTHOR
 

@@ -1,5 +1,5 @@
 import subprocess
-import dpkg_buildenv as uut
+import debpic as uut
 
 
 # main(["--no-cache"])
@@ -35,13 +35,13 @@ class Test:
         uut.build_image("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host   ."
+            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/debpic/Dockerfile --network host   ."
         )
 
         uut.build_image("test_name", "--no-cache")
         assert (
             self.cli_commands.pop(0)
-            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/dpkg-buildenv/Dockerfile --network host --no-cache  ."
+            == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/debpic/Dockerfile --network host --no-cache  ."
         )
 
     def test_run_container(self):

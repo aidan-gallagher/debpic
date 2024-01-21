@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-dpkg-buildenv --delete-images || true
-
-#DEBHELPER#

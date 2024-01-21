@@ -1,4 +1,4 @@
-dpkg-buildenv (1.0.0) unstable; urgency=low
+debpic (1.0.0) unstable; urgency=low
 
   * Initial Release.
 

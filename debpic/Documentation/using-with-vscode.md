@@ -1,11 +1,11 @@
 # Using with VSCode
 
 
-1. Install dpkg-buildenv.
+1. Install debpic.
 ```
-sudo dpkg -i ./dpkg-buildenv_1.0.0_all.deb
+sudo dpkg -i ./debpic_1.0.0_all.deb
 ```
-It will store the Dockerfile in /usr/share/dpkg-buildenv/.
+It will store the Dockerfile in /usr/share/debpic/.
 
 2. Install VSCode.
 
@@ -19,7 +19,7 @@ ext install ms-vscode-remote.remote-containers
 {
 	"name": "Code Build Environment",
 
-	"dockerFile": "/usr/share/dpkg-buildenv/Dockerfile",
+	"dockerFile": "/usr/share/debpic/Dockerfile",
 
 	"remoteUser": "docker",
 
@@ -39,9 +39,9 @@ ext install ms-vscode-remote.remote-containers
 
 	5.1 Ensure on dev containers is on version v0.330.0 (Pre-Release) or later.
 
-	5.2  Invoke `dpkg-buildenv --get-build-arguments` followed by your chosen arguments.
+	5.2  Invoke `debpic --get-build-arguments` followed by your chosen arguments.
 	```
-	dpkg-buildenv --get-build-arguments --sources unstable --distribution debian:12 
+	debpic --get-build-arguments --sources unstable --distribution debian:12 
 
 	--build-arg UID="1000" --build-arg ADDITIONAL_SOURCES="Enabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Vyatta:/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.150:82/Vyatta:/Unstable/standard/\nSuites: ./\nTrusted: yes\n" --build-arg DISTRIBUTION=debian:12
 	```
@@ -49,7 +49,7 @@ ext install ms-vscode-remote.remote-containers
 	```
 	{
 		...
-		"dockerFile": "/usr/share/dpkg-buildenv/Dockerfile",
+		"dockerFile": "/usr/share/debpic/Dockerfile",
 		
 		"build": {
 			"args": {

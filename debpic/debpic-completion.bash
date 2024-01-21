@@ -1,6 +1,6 @@
-# dpkg-buildenv bash completion
+# debpic bash completion
 
-_dpkg-buildenv_complete() {
+_debpic_complete() {
 
   # Don't use colon as a special character
   # https://tiswww.case.edu/php/chet/bash/FAQ E13
@@ -36,8 +36,8 @@ _dpkg-buildenv_complete() {
 
   case "${prev}" in
     -s|--sources)
-      # Completing source file names without extensions in /etc/dpkg-buildenv/sources.list.d/
-      local source_dir="/etc/dpkg-buildenv/sources.list.d/"
+      # Completing source file names without extensions in /etc/debpic/sources.list.d/
+      local source_dir="/etc/debpic/sources.list.d/"
       local files=$(compgen -f -- "${source_dir}${cur}")
       COMPREPLY=( $(basename -a ${files} | sed 's/\..*//') )
       return 0
@@ -56,4 +56,4 @@ _dpkg-buildenv_complete() {
   return 0
 }
 
-complete -F _dpkg-buildenv_complete dpkg-buildenv
+complete -F _debpic_complete debpic
