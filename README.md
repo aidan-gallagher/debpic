@@ -3,11 +3,14 @@
 [![debpic](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml/badge.svg)](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml)
 # Introduction
 
-See the [man page](./debpic/Documentation/debpic.manpage.md) for more information.
+See the [man page](./debpic/Documentation/debpic.manpage.md) for an introduction and usage instructions.
 
+# Why use debpic
+The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) has a list of similar tools.  
 
-The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) has a list of similar tools.
+Debpic installs a [dockerfile](./debpic/Dockerfile) containing all the instructions necessary to setup the environment; the dockerfile allows tools such as [Jenkins](./Documentation/using-with-jenkins.md) and [VSCode](./Documentation/using-with-vscode.md) to be used within a container.
 
+Debpic is simple to use, has tab completion and good documentation.
 
 # Installation
 
