@@ -1,7 +1,7 @@
 # DEBPIC: DEbian Build Package In Container
 ![alt text](./debpic/Documentation/debpic-logo.png "Logo")  
 [![debpic](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml/badge.svg)](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml)
-## Introduction
+# Introduction
 
 See the [man page](./debpic/Documentation/debpic.manpage.md) for more information.
 
