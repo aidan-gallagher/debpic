@@ -1,4 +1,4 @@
-name: dpkg-buildenv
+name: debpic
 
 on:
   push:
@@ -14,34 +14,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build package using dpkg-buildpackage # Currently can't use dpkg-buildenv as it's not hosted in any apt repo.
+    - name: Build package using dpkg-buildpackage # Currently can't use debpic as it's not hosted in any apt repo.
       run: |
         sudo apt-get update && sudo apt-get install --yes --fix-missing --no-install-recommends devscripts equivs lintian
         mk-build-deps && sudo apt-get install --yes --fix-missing --no-install-recommends ./*build-deps*.deb
         rm ./*build-deps*.deb
         dpkg-buildpackage
-    - name: Lintian # Currently can't use dpkg-buildenv as it's not hosted in any apt repo.
+    - name: Lintian # Currently can't use debpic as it's not hosted in any apt repo.
       run: |
         lintian
-    - name: Install dpkg-buildenv
+    - name: Install debpic
       run: |
-        sudo dpkg -i ../dpkg-buildenv_*.deb
+        sudo dpkg -i ../debpic_*.deb
         sudo usermod -aG docker $USER
         newgrp docker
-    - name: Building package using dpkg-buildenv
+    - name: Building package using debpic
       run: |
-        dpkg-buildenv
+        debpic
     - name: Pytest
       run: |
-        dpkg-buildenv "pytest-3"
+        debpic "pytest-3"
     - name: Black
       run: |
-        dpkg-buildenv "black --check ."
+        debpic "black --check ."
     - name: Mypy
       run: |
-        dpkg-buildenv "mypy ."
+        debpic "mypy ."
     - uses: actions/upload-artifact@v3
       with:
         name: Debian Package
-        path: ./built_packages/dpkg-buildenv*.deb
+        path: ./built_packages/debpic*.deb
         if-no-files-found: error

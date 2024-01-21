@@ -58,7 +58,7 @@ Acquire::ftp::Timeout "240";\n\
 APT::Get::Assume-Yes "true";\n\
 APT::Install-Recommends "false";\n\
 APT::Install-Suggests "false";\n\
-APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99dpkg-buildenv
+APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99debpic
 # ---------------------------------------------------------------------------- #
 
 
@@ -79,7 +79,7 @@ COPY ./debian/control ./developer-packages.tx[t] ./local_package[s]/ /tmp/
 
 # ------------------------- Add additional apt repos ------------------------- #
 ARG ADDITIONAL_SOURCES=""
-RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/dpkg-buildenv.sources
+RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/debpic.sources
 # ---------------------------------------------------------------------------- #
 
 

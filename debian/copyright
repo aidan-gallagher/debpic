@@ -1,5 +1,5 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: dpkg-buildenv
+Upstream-Name: debpic
 
 Files: *
 Copyright: Aidan Gallagher 2023

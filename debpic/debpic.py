@@ -89,13 +89,13 @@ def get_build_arguments(distribution: str, sources: str) -> str:
 
     # ---------------------------------- Sources --------------------------------- #
     try:
-        with open(f"/etc/dpkg-buildenv/sources.list.d/{sources}.sources") as file:
+        with open(f"/etc/debpic/sources.list.d/{sources}.sources") as file:
             additional_sources = file.read().replace("\n", "\\n")
             build_args += f' --build-arg ADDITIONAL_SOURCES="{additional_sources}"'
     except FileNotFoundError:
         if sources != "default":
             sys.exit(
-                f"Error file not found: /etc/dpkg-buildenv/sources.list.d/{sources}.sources"
+                f"Error file not found: /etc/debpic/sources.list.d/{sources}.sources"
             )
 
     # ------------------------------- Distribution ------------------------------- #
@@ -110,7 +110,7 @@ def build_image(repository_name: str, no_cache: str = "", build_arguments: str =
 DOCKER_BUILDKIT=1
 docker image build
 --tag {repository_name}
---file /usr/share/dpkg-buildenv/Dockerfile
+--file /usr/share/debpic/Dockerfile
 --network host
 {no_cache}
 {build_arguments}
@@ -193,7 +193,7 @@ def kill_container(repository_name):
 # ---------------------------------------------------------------------------- #
 #                                     Main                                     #
 # ---------------------------------------------------------------------------- #
-def dpkg_buildenv_parse_args(argv: List[str]):
+def debpic_parse_args(argv: List[str]):
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-nc",
@@ -206,7 +206,7 @@ def dpkg_buildenv_parse_args(argv: List[str]):
     parser.add_argument(
         "-s",
         "--sources",
-        help="Select a sources file stored at /etc/dpkg-buildenv/sources.list.d/<SOURCE>.list.",
+        help="Select a sources file stored at /etc/debpic/sources.list.d/<SOURCE>.list.",
         default="default",
     )
     parser.add_argument(
@@ -250,7 +250,7 @@ def dpkg_buildenv_parse_args(argv: List[str]):
     )
 
     # Read defaults from configuration file
-    CONFIG_FILE = os.path.expanduser("~/.config/dpkg-buildenv/dpkg-buildenv.conf")
+    CONFIG_FILE = os.path.expanduser("~/.config/debpic/debpic.conf")
     try:
         with open(CONFIG_FILE, "r") as f:
             try:
@@ -268,7 +268,7 @@ def dpkg_buildenv_parse_args(argv: List[str]):
 
 def main(argv: List[str]):
     try:
-        args = dpkg_buildenv_parse_args(argv)
+        args = debpic_parse_args(argv)
 
         if args.delete_images:
             delete_images()

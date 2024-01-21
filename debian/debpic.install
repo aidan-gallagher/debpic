@@ -1,0 +1,9 @@
+#!/usr/bin/dh-exec
+# Note: Ensure this file is able to be executed (`chmod +x debian/install`)
+
+# Path to file in repository => path to install file on target
+debian/debpic.1 => usr/share/man/man1/debpic.1
+debpic/Documentation/ /usr/share/doc/debpic/
+debpic/debpic-completion.bash => /usr/share/bash-completion/completions/debpic
+debpic/Dockerfile => usr/share/debpic/Dockerfile
+debpic/debpic.py => usr/bin/debpic

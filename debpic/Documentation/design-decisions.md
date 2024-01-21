@@ -1,6 +1,6 @@
 # Build Time vs Run Time
 
-`dpkg-buildenv` has most of the logic in the Dockerfile.   
+`debpic` has most of the logic in the Dockerfile.   
 An alternative approach is to have little in the dockerfile and then set up the environment with run commands.  
 The benefit of doing all the setup in the Dockerfile is that:
 * It's easily integrated with tools like Jenkins and VSCode.
@@ -8,7 +8,7 @@ The benefit of doing all the setup in the Dockerfile is that:
 
 The drawback is the extra complexity of:  
 * Conditionally copying files
-* Copying files from outwith repository (e.g /etc/dpkg-buildenv/sources/list.d
+* Copying files from outwith repository (e.g /etc/debpic/sources/list.d
 * Conditionally running certain parts of the Dockerfile.
 
 

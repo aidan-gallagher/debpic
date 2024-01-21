@@ -1,4 +1,4 @@
-# Debugging Issues with dpkg-buildenv
+# Debugging Issues with debpic
 
 ## Known Issues
 When using a VPN to connect to a private apt repository some version of docker can have a DNS issue.
@@ -7,18 +7,18 @@ It seems like you have to restart docker.service after connecting to the VPN.
 ## Steps
 1. If it was a timeout error then build it again.
     ```
-    dpkg-buildenv
+    debpic
     ```
 2. Try building without cache.
     ```
-    dpkg-buildenv --no-cache
+    debpic --no-cache
     ```
 
 3. If you have configured private repositories, ensure you can access them.
 
    3.1. Check if private repos are enabled.
    ```
-   cat /etc/dpkg-buildenv/sources.list.d/default.sources
+   cat /etc/debpic/sources.list.d/default.sources
    ```
    3.2 Ensure the value in "URIs:" is accessible.
    ```
@@ -45,7 +45,7 @@ It seems like you have to restart docker.service after connecting to the VPN.
    4.4. If that doesn't work then you could try changing the sources to refer to the build server by IP address rather than domain name.
 
       ```
-      nano /etc/dpkg-buildenv/sources.list.d/default.sources
+      nano /etc/debpic/sources.list.d/default.sources
       ```
       ```
       # Existing
@@ -62,7 +62,7 @@ It seems like you have to restart docker.service after connecting to the VPN.
 
 4. Ensure the command line arguments look correct.
    ```
-   INFO:root:Docker build command: DOCKER_BUILDKIT=1 docker image build --tag vyatta-dataplane-buildenv --file /usr/share/dpkg-buildenv/Dockerfile --network host --build-arg UID=$(id -u) --no-cache --build-arg UID="1000" .
+   INFO:root:Docker build command: DOCKER_BUILDKIT=1 docker image build --tag vyatta-dataplane-buildenv --file /usr/share/debpic/Dockerfile --network host --build-arg UID=$(id -u) --no-cache --build-arg UID="1000" .
    ```
 
 5. Restart Docker (Not sure how much this helps).
