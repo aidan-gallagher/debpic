@@ -45,7 +45,7 @@ RUN mkdir -p /var/lib/jenkins/workspace/ && \
 RUN echo "#!/bin/bash \n\
 rm -rf /workspaces/code/built_packages \n\
 mkdir --parents /workspaces/code/built_packages/ \n\
-mv /workspaces/*.deb /workspaces/code/built_packages \
+mv /workspaces/*.* /workspaces/code/built_packages \
 " > /usr/bin/mv-debs && chmod +x /usr/bin/mv-debs
 # ---------------------------------------------------------------------------- #
 
