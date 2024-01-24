@@ -83,6 +83,13 @@ RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/debpic.sources
 # ---------------------------------------------------------------------------- #
 
 
+# ------------------ Install optional developer dependencies ----------------- #
+# "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
+RUN apt-get update && \
+    apt-get install $(cat /tmp/developer-packages.txt 2>/dev/null)
+# ---------------------------------------------------------------------------- #
+
+
 # ----------------------- Install local debian packages ---------------------- #
 # The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
 RUN find /tmp/ -name '*.deb' -exec apt install --allow-downgrades --reinstall {} +
@@ -94,11 +101,4 @@ RUN find /tmp/ -name '*.deb' -exec apt install --allow-downgrades --reinstall {}
 RUN apt-get update && \
     mk-build-deps /tmp/control && \
     apt-get install ./*build-deps*.deb
-# ---------------------------------------------------------------------------- #
-
-
-# ------------------ Install optional developer dependencies ----------------- #
-# "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
-RUN apt-get update && \
-    apt-get install $(cat /tmp/developer-packages.txt 2>/dev/null)
 # ---------------------------------------------------------------------------- #
