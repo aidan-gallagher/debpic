@@ -44,6 +44,10 @@ The environment is composed from:
 
 : Destination directory to place built packages in. If not supplied ./built_packages is used.
 
+**--** \<DPKG-BUILDPACKAGE ARGUMENTS\>
+
+: Any arguments to pass through to dpkg-buildpackage.
+
 # ENVIRONMENT
 
 **DEB_BUILD_OPTIONS**

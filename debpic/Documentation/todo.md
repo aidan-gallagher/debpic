@@ -17,7 +17,6 @@
         * Either have a file for ubuntu packages and a file for debian packages and read them depending on what --distribution has been specified.
         * Or use "apt-cache --no-generate pkgnames" Can probably just run this on host machine and it'll be close enough.
     * Install these early in dockerfile as unlikely to change
-* Add easy support for passing flags to dpkg-buildpackage.
 * Consider other environment variables (than DEB_BUILD_OPTIONS) that should be passed through.
     * Are there any other DEB_ or DH_ env variables?
 * Allow multiple config files? Setting from commandline, <REPO>/debpic.conf, ~/.config/debpic/config.conf then /etc/debpic/config.conf
