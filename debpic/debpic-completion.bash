@@ -1,5 +1,9 @@
 # debpic bash completion
 
+
+# This script is functionally correct but it is getting messy and
+# I hope most of it could be converted to Python at some point.
+
 _debpic_complete() {
 
   # Don't use colon as a special character
@@ -10,10 +14,27 @@ _debpic_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="--help --no-cache --sources --distribution --interactive --destination --delete-images"
+  opts="-- --help --no-cache --sources --distribution --interactive --destination --delete-images"
 
+
+  instances_of_double_dash=0
   # Change opts depending on existing words
   for word in "${COMP_WORDS[@]}"; do
+
+# -------------------- Handle dpkg-buildpackage/(--) args -------------------- #
+    if [[ "$word" == "--" ]]; then
+      instances_of_double_dash+=1
+    fi
+    if [[ instances_of_double_dash -gt 1 ]]; then
+      # Ideally we would supply dpkg-buildpackage tab completion here but that doesn't seem to exist :(
+      return 0
+    fi
+    # If "--" is the current word then skip otherwise we wouldn't get any tab completion since all options start with --.
+    if [[ "$word" == "--" && "--" != "$cur" ]]; then
+      # Ideally we would supply dpkg-buildpackage tab completion here but that doesn't seem to exist :(
+      return 0
+    fi
+# ---------------------------------------------------------------------------- #
     if [[ "$word" == "--delete-images" || "$word" == "-d" || "$word" == "--help" || "$word" == "-h" ]]; then
       return 0
     fi
@@ -27,7 +48,7 @@ _debpic_complete() {
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--no-cache//')
     fi
     if [[ "$word" == "--interactive" || "$word" == "-i" ]]; then
-      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//')
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//;s/--//;')
     fi
     if [[ "$word" == "--destination" || "$word" == "-dst" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--destination//')

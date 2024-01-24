@@ -48,7 +48,7 @@ class Test:
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=  test_name /bin/bash -c 'dpkg-buildpackage && mv-debs && dpkg-buildpackage --target=clean'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=  test_name /bin/bash -c 'dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"
         )
 
         uut.run_container("test_name", "echo I'm a test command")
@@ -57,7 +57,7 @@ class Test:
             == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=  test_name /bin/bash -c 'echo I'm a test command'"
         )
 
-        uut.run_container("test_name", "", "--interactive")
+        uut.run_container("test_name", "", "", "--interactive")
         assert (
             self.cli_commands.pop(0)
             == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS= --interactive test_name "
