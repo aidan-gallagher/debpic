@@ -68,15 +68,6 @@ RUN apt-get update && \
 # ---------------------------------------------------------------------------- #
 
 
-# ------------------------ Copy over dependency files ------------------------ #
-# Copy over the /debian/control file which contains the Build-Depends section.
-# If it exists, copy over the developer-packages.txt.
-# If it exists, copy over local_packages/.
-# [t] is a necessary work around to allow conditional copying https://stackoverflow.com/a/46801962/13365272.
-COPY ./debian/control ./developer-packages.tx[t] ./local_package[s]/ /tmp/
-# ---------------------------------------------------------------------------- #
-
-
 # ------------------------- Add additional apt repos ------------------------- #
 ARG ADDITIONAL_SOURCES=""
 RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/debpic.sources
@@ -84,7 +75,9 @@ RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/debpic.sources
 
 
 # ------------------ Install optional developer dependencies ----------------- #
+# [t] allows conditional copying (https://stackoverflow.com/a/31532674/13365272)
 # "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
+COPY ./developer-packages.tx[t] /tmp/
 RUN apt-get update && \
     apt-get install $(cat /tmp/developer-packages.txt 2>/dev/null)
 # ---------------------------------------------------------------------------- #
@@ -92,12 +85,14 @@ RUN apt-get update && \
 
 # ----------------------- Install local debian packages ---------------------- #
 # The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
+COPY ./local_package[s]/ /tmp/
 RUN find /tmp/ -name '*.deb' -exec apt install --allow-downgrades --reinstall {} +
 # ---------------------------------------------------------------------------- #
 
 
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
+COPY ./debian/control /tmp/
 RUN apt-get update && \
     mk-build-deps /tmp/control && \
     apt-get install ./*build-deps*.deb
