@@ -80,12 +80,20 @@ def get_uid() -> int:
 # ---------------------------------------------------------------------------- #
 #                                     Build                                    #
 # ---------------------------------------------------------------------------- #
-def get_build_arguments(distribution: str, sources: str) -> str:
+def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> str:
 
     build_args = ""
 
+    # ------------------------------- Distribution ------------------------------- #
+    if distribution:
+        build_args += f" --build-arg DISTRIBUTION={distribution}"
+
     # ---------------------------------- UserID ---------------------------------- #
-    build_args += f'--build-arg UID="{get_uid()}"'
+    build_args += f' --build-arg UID="{get_uid()}"'
+
+    # -------------------------------- Extra pkgs -------------------------------- #
+    if len(extra_pkgs) > 0:
+        build_args += f" --build-arg EXTRA_PKGS=\"{' '.join(extra_pkgs)}\""
 
     # ---------------------------------- Sources --------------------------------- #
     try:
@@ -97,10 +105,6 @@ def get_build_arguments(distribution: str, sources: str) -> str:
             sys.exit(
                 f"Error file not found: /etc/debpic/sources.list.d/{sources}.sources"
             )
-
-    # ------------------------------- Distribution ------------------------------- #
-    if distribution:
-        build_args += f" --build-arg DISTRIBUTION={distribution}"
 
     return build_args
 
@@ -236,6 +240,13 @@ def debpic_parse_args(argv: List[str]):
         default=None,
     )
     parser.add_argument(
+        "-ep",
+        "--extra-pkg",
+        help="Extra package to install in the container.",
+        action="append",
+        default=[],
+    )
+    parser.add_argument(
         "--get-build-arguments",
         # Help suppressed as this option is generally only used by tools such as Jenkins
         help=argparse.SUPPRESS,
@@ -300,7 +311,9 @@ def main(argv: List[str]):
             delete_images()
             sys.exit()
 
-        build_arguments = get_build_arguments(args.distribution, args.sources)
+        build_arguments = get_build_arguments(
+            args.distribution, args.sources, args.extra_pkg
+        )
         if args.get_build_arguments:
             print(build_arguments)
             sys.exit()

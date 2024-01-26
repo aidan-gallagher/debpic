@@ -17,12 +17,6 @@
     * Ensure "apt-get install ./*build-deps*.deb" doesn't fail because local_packages stage hasn't happened yet.
 * Add option to change the build program from dpkg-buildpackage to debuild, git-buildpackage, others?
 * Add support for signing builds with a key. How best to share a key on the host with the container.
-* Add command line flag --extra-pkgs.
-    * This means the user can have their user packages for all containers specified in their config file.
-    * Bash completion: 
-        * Either have a file for ubuntu packages and a file for debian packages and read them depending on what --distribution has been specified.
-        * Or use "apt-cache --no-generate pkgnames" Can probably just run this on host machine and it'll be close enough.
-    * Install these early in dockerfile as unlikely to change
 * All the user to specify a post_create_hook that can run any arbitrary setup in the container. Maybe a pre_create_hook too? 
 * Consider other environment variables (than DEB_BUILD_OPTIONS) that should be passed through.
     * Are there any other DEB_ or DH_ env variables?

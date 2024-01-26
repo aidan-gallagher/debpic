@@ -74,6 +74,12 @@ RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/debpic.sources
 # ---------------------------------------------------------------------------- #
 
 
+# -------------------------- Install Extra Packages -------------------------- #
+ARG EXTRA_PKGS=""
+RUN apt-get update && \
+    apt-get install $EXTRA_PKGS
+# ---------------------------------------------------------------------------- #
+
 # ------------------ Install optional developer dependencies ----------------- #
 # [t] allows conditional copying (https://stackoverflow.com/a/31532674/13365272)
 # "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
