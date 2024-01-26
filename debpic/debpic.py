@@ -222,29 +222,29 @@ def debpic_parse_args(argv: List[str]):
         const="--no-cache",
     )
     parser.add_argument(
-        "-s",
-        "--sources",
-        help="Select a sources file stored at /etc/debpic/sources.list.d/<SOURCE>.list.",
-        default="default",
-    )
-    parser.add_argument(
         "-d",
         "--distribution",
         help="Select a linux distribution for the docker parent image (e.g.debian:11).",
         default=None,
     )
     parser.add_argument(
-        "-dst",
-        "--destination",
-        help="Chose a destination directory to store built debian packages.",
-        default=None,
+        "-s",
+        "--sources",
+        help="Select a sources file stored at /etc/debpic/sources.list.d/<SOURCE>.list.",
+        default="default",
     )
     parser.add_argument(
         "-ep",
         "--extra-pkg",
-        help="Extra package to install in the container.",
+        help="Extra package to install in the container. This option can be specified multiple times for multiple packages.",
         action="append",
         default=[],
+    )
+    parser.add_argument(
+        "-dst",
+        "--destination",
+        help="Chose a destination directory to store built debian packages.",
+        default=None,
     )
     parser.add_argument(
         "--get-build-arguments",
