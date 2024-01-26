@@ -37,3 +37,15 @@ Two commands is preferred because if it fails then the the user is told which pa
 #12 2.096 E: Unable to correct problems, you have held broken packages.
 ```
 
+## --build-context
+[Docker supports multiple build contexts](https://www.docker.com/blog/dockerfiles-now-support-multiple-build-contexts/).  
+This is in docker build (>23). Unfortunately it not available in Debian.
+* Deb11: Docker version 20.10.5       -  Too old
+* Deb12: Docker version: 20.10.24   -  Too old
+* Ubuntu 20.04: Docker version 24.0.5  - Good for it
+
+If it was then instead of passing 
+```
+--build-arg ADDITIONAL_SOURCES="Enabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Vyatta:/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.150:82/Vyatta:/Unstable/standard/\nSuites: ./\nTrusted: yes\n" .
+```
+We could COPY the file from `/etc/debpic/sources.list.d/` instead.

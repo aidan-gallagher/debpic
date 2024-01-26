@@ -8,7 +8,7 @@ See the [man page](./debpic/Documentation/debpic.manpage.md) for an introduction
 # Why use debpic
 The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) has a list of similar tools.  
 
-Debpic installs a [dockerfile](./debpic/Dockerfile) containing all the instructions necessary to setup the environment; the dockerfile allows tools such as [Jenkins](./Documentation/using-with-jenkins.md) and [VSCode](./Documentation/using-with-vscode.md) to be used within a container.
+Debpic installs a [dockerfile](./debpic/Dockerfile) containing all the instructions necessary to setup the environment; the dockerfile allows tools such as [Jenkins](./debpic/Documentation/using-with-jenkins.md) and [VSCode](./debpic/Documentation/using-with-vscode.md) to be used within a container.
 
 Debpic is simple to use, has tab completion and good documentation.
 
