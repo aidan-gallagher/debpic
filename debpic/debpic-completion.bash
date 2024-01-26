@@ -14,7 +14,7 @@ _debpic_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="-- --help --no-cache --sources --distribution --interactive --destination --delete-images"
+  opts="-- --help --no-cache --sources --distribution --interactive --destination --extra-pkg --delete-images"
 
 
   instances_of_double_dash=0
@@ -53,6 +53,9 @@ _debpic_complete() {
     if [[ "$word" == "--destination" || "$word" == "-dst" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--destination//')
     fi
+    if [[ "$word" == "--extra-pkg" || "$word" == "-e" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;')
+    fi
   done
 
   case "${prev}" in
@@ -67,6 +70,13 @@ _debpic_complete() {
       return 0
       ;;
     -dst|--destination)
+      return 0
+      ;;
+    -ep|--extra-pkg)
+      # This is the same tab completion "apt install" uses.
+      # It will be mostly correct but the host OS package list may be different to what the container OS package list is.
+      COMPREPLY=( $( apt-cache --no-generate pkgnames "$cur" \
+          2> /dev/null ) )
       return 0
       ;;
     *)
