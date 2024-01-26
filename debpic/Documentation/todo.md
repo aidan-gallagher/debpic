@@ -49,3 +49,4 @@
 ### Awaiting upstream fix
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
 * Add inline gpg key to vyatta sources (other repo) when we move to debian 12.
+* use `--build-context` once docker build > 23 is in Debian.
