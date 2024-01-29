@@ -70,14 +70,27 @@ _/etc/debpic/sources.list.d/default.sources_
 : When the `--sources` option is not supplied, debpic defaults to using default.sources. This is helpful is you have a private apt repository that you often use and you don't want to have specify `--sources` on every build. If this file doesn't exist then no additional sources will be configured.
 
 
-_~/.config/debpic/debpic.conf_  
-
-: User configuration file using YAML to store the same options available on the command line.
-
 _/usr/share/debpic/Dockerfile_
 
 : This is the dockerfile used to generate the container which the build is performed in. If you want to use other tools (such as Jenkins or VSCode) in the same containerised environment you can point them to this Dockerfile.
 See documentation on how to use with [Jenkins](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-with-jenkins.md) and [VSCode](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-with-vscode.md).
+
+
+## Configuration files
+
+All config files use the same YAML format to store the same options available on the command line. 
+
+_/etc/debpic/debpic.conf_
+
+: System specific configuration
+
+_~/.config/debpic/debpic.conf_
+
+: User specific configuration
+
+_./.debpic.conf_
+
+: Repository specific configuration
 
 # Examples
 ### Building a package
