@@ -184,8 +184,8 @@ docker run
 
 def move_built_packages(destination):
     run(f"mkdir --parents {destination}")
-    run(f"mv built_packages/*.deb {destination}")
-    run("rm -r built_packages/")
+    run(f"[ ! -d built_packages ] || mv built_packages/*.deb {destination}")
+    run("rm -rf built_packages/")
 
 
 def kill_container(repository_name):
