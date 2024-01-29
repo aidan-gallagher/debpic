@@ -290,7 +290,7 @@ def debpic_parse_args(argv: List[str]):
     USER_CONFIG_FILE = os.path.expanduser("~/.config/debpic/debpic.conf")
     read_config(USER_CONFIG_FILE, parser)
 
-    # Extract dpkg-buildpacakge ("--") args before argparse parsing
+    # Extract dpkg-buildpackage ("--") args before argparse parsing
     for idx, arg in enumerate(argv):
         if arg == "--":
             debpic_args = argv[:idx]
