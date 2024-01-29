@@ -212,6 +212,19 @@ def debpic_parse_args(argv: List[str]):
                 original_help + "  --\t\t\tArguments to pass to dpkg-buildpackage. \n"
             )
 
+    def read_config(filename: str, parser: argparse.ArgumentParser):
+        # Read defaults from configuration file
+        try:
+            with open(filename, "r") as f:
+                try:
+                    config = yaml.safe_load(f)
+                    if config:
+                        parser.set_defaults(**config)
+                except:
+                    sys.exit(f"Bad format in config file: {filename}")
+        except FileNotFoundError:
+            pass
+
     parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
     parser.add_argument(
         "-nc",
@@ -274,18 +287,8 @@ def debpic_parse_args(argv: List[str]):
         action="store_true",
     )
 
-    # Read defaults from configuration file
-    CONFIG_FILE = os.path.expanduser("~/.config/debpic/debpic.conf")
-    try:
-        with open(CONFIG_FILE, "r") as f:
-            try:
-                config = yaml.safe_load(f)
-                if config:
-                    parser.set_defaults(**config)
-            except:
-                sys.exit(f"Bad format in config file: {CONFIG_FILE}")
-    except FileNotFoundError:
-        pass
+    USER_CONFIG_FILE = os.path.expanduser("~/.config/debpic/debpic.conf")
+    read_config(USER_CONFIG_FILE, parser)
 
     # Extract dpkg-buildpacakge ("--") args before argparse parsing
     for idx, arg in enumerate(argv):
