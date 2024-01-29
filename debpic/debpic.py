@@ -213,17 +213,23 @@ def debpic_parse_args(argv: List[str]):
             )
 
     def read_config(filename: str, parser: argparse.ArgumentParser):
-        # Read defaults from configuration file
+        # Read defaults from configuration file.
+        # Save config read_config.prev_config.
+        # combined_config = prev_config + new config from file (preferred)
         try:
             with open(filename, "r") as f:
                 try:
                     config = yaml.safe_load(f)
                     if config:
-                        parser.set_defaults(**config)
-                except:
+                        combined_config = {**read_config.prev_config, **config}
+                        parser.set_defaults(**combined_config)
+                        read_config.prev_config = combined_config
+                except yaml.parser.ParserError:
                     sys.exit(f"Bad format in config file: {filename}")
         except FileNotFoundError:
             pass
+
+    read_config.prev_config = {}
 
     parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
     parser.add_argument(
@@ -287,8 +293,12 @@ def debpic_parse_args(argv: List[str]):
         action="store_true",
     )
 
+    SYSTEM_CONFIG_FILE = os.path.expanduser("/etc/debpic/debpic.conf")
     USER_CONFIG_FILE = os.path.expanduser("~/.config/debpic/debpic.conf")
+    REPO_CONFIG_FILE = os.path.expanduser("./debpic.conf")
+    read_config(SYSTEM_CONFIG_FILE, parser)
     read_config(USER_CONFIG_FILE, parser)
+    read_config(REPO_CONFIG_FILE, parser)
 
     # Extract dpkg-buildpackage ("--") args before argparse parsing
     for idx, arg in enumerate(argv):
