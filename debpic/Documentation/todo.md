@@ -1,20 +1,13 @@
 ## TODO
 
 ### Bugs
-* ./local_packages are ignored when the container is setup using devcontainers with VSCode.
+* ./local_repository is ignored when the container is setup using devcontainers with VSCode. TODO: is this still the case?
 
 
 ### Features
-* Allow local_packages to be specified anywhere on host machine. Either use:
+* Allow local_repository to be specified anywhere on host machine. Either use:
     * --build-context: only available on docker build > 23 (not in debian)
     * Hard links
-* Only install local_packages that are referenced in build-depends or developer-packages.txt rather than all of them.
-    * apt-get install --assume-yes apt-utils
-    * cd "$DEPSPATH"; apt-ftparchive packages . > Packages )
-    * echo "deb [trusted=yes] file://$DEPSPATH ./" >> /etc/apt/sources.list
-    * Maybe do something here to set the priority of that repo?
-    * apt-get update
-    * Ensure "apt-get install ./*build-deps*.deb" doesn't fail because local_packages stage hasn't happened yet.
 * Add option to change the build program from dpkg-buildpackage to debuild, git-buildpackage, others?
 * Add support for signing builds with a key. How best to share a key on the host with the container.
 * All the user to specify a post_create_hook that can run any arbitrary setup in the container. Maybe a pre_create_hook too? 

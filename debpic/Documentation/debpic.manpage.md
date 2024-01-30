@@ -11,8 +11,8 @@ debpic lets you build Debian packages in an isolated Docker environment.
 The environment is composed from:  
 * The [Debian stable docker image](https://hub.docker.com/_/debian/) (or whichever distribution is specified with the --distribution option).  
 * Build dependencies described in the Build-Depends section of ``./debian/control``  
-* Any additional developer tools described in `./developer-packages.txt`.  
-* Any debian packages (.debs) placed in `./local_packages/`.  
+* Any additional developer tools described in `./developer-packages.txt`.
+* Any packages defined in the `--extra-pkg` flag.
 
 # Options
 
@@ -130,7 +130,10 @@ debpic --sources unstable
 For more information see [using additional sources](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-additional-sources.md).
 
 ### Install local packages
-Place local debian packages (.debs) in `./local_packages/` then build as normal and they will be installed in the container.
+1. Place local debian packages (.debs) in `./local_repository/`.
+2. Ensure the packages you want installed are referenced in either debian/control, developer-packages.txt or `--extra-pkg` flag.
+3. Build as normal
+
 
 ### Install optional developer packages
 Create file `./developer-packages.txt` with list of packages to be installed within the container.
