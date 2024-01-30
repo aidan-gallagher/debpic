@@ -72,14 +72,20 @@ def get_uid() -> int:
     if uid == 0:
         uid = int(os.environ.get("SUDO_UID", "1000"))
     return uid
-
-
 # ---------------------------------------------------------------------------- #
 
 
 # ---------------------------------------------------------------------------- #
 #                                     Build                                    #
 # ---------------------------------------------------------------------------- #
+def hardlink_local_repository(local_repository_path: str):
+    # TODO: Explain why this is needed
+    if local_repository_path:
+        if not os.path.isdir(local_repository_path):
+            sys.exit(f"Local repository \"{local_repository_path}\" is not a directory")
+        run("rm -rf ./local_repository && mkdir --parents ./local_repository")
+        run(f"ln {local_repository_path}/* ./local_repository/")
+
 def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> str:
 
     build_args = ""
@@ -246,6 +252,12 @@ def debpic_parse_args(argv: List[str]):
         default=None,
     )
     parser.add_argument(
+        "-lr",
+        "--local-repository",
+        help="Local path to folder with .debs to be used as local apt repository. Defaults to ./local_repository",
+        # Default handled in dockerfile
+    )
+    parser.add_argument(
         "-s",
         "--sources",
         help="Select a sources file stored at /etc/debpic/sources.list.d/<SOURCE>.list.",
@@ -332,6 +344,7 @@ def main(argv: List[str]):
             sys.exit()
 
         prerequisite_check()
+        hardlink_local_repository(args.local_repository)
         repository_name = generate_image_name()
         build_image(repository_name, args.no_cache, build_arguments)
         run_container(
@@ -340,6 +353,10 @@ def main(argv: List[str]):
 
         if args.destination:
             move_built_packages(args.destination)
+
+        # Undo hardlink_local_repository()
+        if args.local_repository:
+            run("rm -rf ./local_repository")
 
     except KeyboardInterrupt:
         kill_container(repository_name)
