@@ -68,7 +68,7 @@ Dev Containers: Reopen in Container
 ```
 
 
-WARNING: When the devcontainer is setup the ./local_packages directory is not copied into the container and therefore any local packages will not be installed.
+WARNING: When the devcontainer is setup the ./local_repository directory is not copied into the container and therefore any local packages will not be installed.
 This bug requires investigation.
 
 

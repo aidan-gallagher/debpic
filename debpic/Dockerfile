@@ -62,15 +62,33 @@ APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99debpic
 # ---------------------------------------------------------------------------- #
 
 
-# --------------------------- Install mk-build-deps -------------------------- #
+# ------------------ Install mk-build-deps & apt-ftparchive ------------------ #
 RUN apt-get update && \
-    apt-get install devscripts equivs
+    apt-get install devscripts equivs apt-utils
+# ---------------------------------------------------------------------------- #
+
+
+# ----------------------- Setup local local repository ----------------------- #
+COPY ./local_repositor[y] /tmp/local_repository
+RUN if [ -d /tmp/local_repository ]; then \
+        cd /tmp/local_repository && \
+        apt-ftparchive packages . > Packages && \
+        echo "\
+Types: deb \n\
+URIs: file:/tmp/local_repository \n\
+Suites: ./ \n\
+Trusted: yes \n" >> /etc/apt/sources.list.d/01debpic.sources && \
+    echo "\
+Package: * \n\
+Pin: origin \"\" \n\
+Pin-Priority: 1001 \n" >> /etc/apt/preferences.d/01debpic; \
+    fi
 # ---------------------------------------------------------------------------- #
 
 
 # ------------------------- Add additional apt repos ------------------------- #
 ARG ADDITIONAL_SOURCES=""
-RUN echo "$ADDITIONAL_SOURCES" > /etc/apt/sources.list.d/debpic.sources
+RUN echo "$ADDITIONAL_SOURCES" >> /etc/apt/sources.list.d/01debpic.sources
 # ---------------------------------------------------------------------------- #
 
 
@@ -79,6 +97,7 @@ ARG EXTRA_PKGS=""
 RUN apt-get update && \
     apt-get install $EXTRA_PKGS
 # ---------------------------------------------------------------------------- #
+
 
 # ------------------ Install optional developer dependencies ----------------- #
 # [t] allows conditional copying (https://stackoverflow.com/a/31532674/13365272)
@@ -89,13 +108,6 @@ RUN apt-get update && \
 # ---------------------------------------------------------------------------- #
 
 
-# ----------------------- Install local debian packages ---------------------- #
-# The "+" returns an error code on failure (https://apple.stackexchange.com/a/337961)
-COPY ./local_package[s]/ /tmp/
-RUN find /tmp/ -name '*.deb' -exec apt install --allow-downgrades --reinstall {} +
-# ---------------------------------------------------------------------------- #
-
-
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
 COPY ./debian/control /tmp/
@@ -103,3 +115,4 @@ RUN apt-get update && \
     mk-build-deps /tmp/control && \
     apt-get install ./*build-deps*.deb
 # ---------------------------------------------------------------------------- #
+
