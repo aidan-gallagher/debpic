@@ -254,7 +254,7 @@ def debpic_parse_args(argv: List[str]):
     parser.add_argument(
         "-lr",
         "--local-repository",
-        help="Local path to folder with .debs to be used as local apt repository. Defaults to ./local_repository",
+        help="Local path to folder with .debs to be used as local apt repository. Defaults to ./local_repository.",
         # Default handled in dockerfile
     )
     parser.add_argument(

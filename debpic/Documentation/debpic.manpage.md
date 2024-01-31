@@ -28,6 +28,10 @@ The environment is composed from:
 
 : Select a linux distribution for the docker parent image (e.g.debian:11).
 
+**-lr** \<LOCAL_REPOSITORY\>, **--local-repository** \<LOCAL_REPOSITORY\>  
+
+: Local path to folder with .debs to be used as local apt repository. Defaults to ./local_repository.
+
 -**s** \<SOURCES\>, **--sources** \<SOURCES\>
 
 : Select a sources file stored at /etc/debpic/sources.list.d/\<SOURCE\>.list.
