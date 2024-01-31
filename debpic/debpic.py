@@ -72,6 +72,8 @@ def get_uid() -> int:
     if uid == 0:
         uid = int(os.environ.get("SUDO_UID", "1000"))
     return uid
+
+
 # ---------------------------------------------------------------------------- #
 
 
@@ -79,12 +81,14 @@ def get_uid() -> int:
 #                                     Build                                    #
 # ---------------------------------------------------------------------------- #
 def hardlink_local_repository(local_repository_path: str):
-    # TODO: Explain why this is needed
+    # Docker can't access files outwith it's build context.
+    # This adds the contents of the local_repository into the build context.
     if local_repository_path:
         if not os.path.isdir(local_repository_path):
-            sys.exit(f"Local repository \"{local_repository_path}\" is not a directory")
+            sys.exit(f'Local repository "{local_repository_path}" is not a directory')
         run("rm -rf ./local_repository && mkdir --parents ./local_repository")
         run(f"ln {local_repository_path}/* ./local_repository/")
+
 
 def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> str:
 
