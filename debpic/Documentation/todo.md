@@ -1,9 +1,5 @@
 ## TODO
 
-### Bugs
-* ./local_repository is ignored when the container is setup using devcontainers with VSCode. TODO: is this still the case?
-
-
 ### Features
 * Allow local_repository to be specified anywhere on host machine. Either use:
     * --build-context: only available on docker build > 23 (not in debian)

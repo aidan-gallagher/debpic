@@ -67,9 +67,4 @@ ext install ms-vscode-remote.remote-containers
 Dev Containers: Reopen in Container
 ```
 
-
-WARNING: When the devcontainer is setup the ./local_repository directory is not copied into the container and therefore any local packages will not be installed.
-This bug requires investigation.
-
-
 For more help look at VSCode documentation on [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers).
