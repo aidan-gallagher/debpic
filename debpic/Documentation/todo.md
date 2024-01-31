@@ -1,24 +1,18 @@
 ## TODO
 
 ### Features
-* Allow local_repository to be specified anywhere on host machine. Either use:
-    * --build-context: only available on docker build > 23 (not in debian)
-    * Hard links
 * Add option to change the build program from dpkg-buildpackage to debuild, git-buildpackage, others?
 * Add support for signing builds with a key. How best to share a key on the host with the container.
 * All the user to specify a post_create_hook that can run any arbitrary setup in the container. Maybe a pre_create_hook too? 
 * Consider other environment variables (than DEB_BUILD_OPTIONS) that should be passed through.
     * Are there any other DEB_ or DH_ env variables?
-* Allow multiple config files? Setting from commandline, <REPO>/debpic.conf, ~/.config/debpic/config.conf then /etc/debpic/config.conf
 * Copy over .git config and bash config so dev use all development tools from within the chroot terminal
 * Test installation of 2 local debs that depend on each other.
 * Test debpic out on Microsoft Windows - if it works then add Windows packaging to create .msi
-* Use debconf to ask the user if they want to add ./built_packages to their global git ignore (?)
-
+* Performance: Can anything be done to speed up building the container?
 
 ### Clean up 
-* It's not good having the COPY statements all as 1 big copy because it means any changes always have to redo all of them again.
-
+* Split up debpic.py into multiple files.
 * Long wait times when container can't reach private server
     * When not connected to a VPN and trying to reach a private DNS server debpic hangs for a while.
     * Consider reducing apt timeout times.
@@ -32,4 +26,4 @@
 ### Awaiting upstream fix
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
 * Add inline gpg key to vyatta sources (other repo) when we move to debian 12.
-* use `--build-context` once docker build > 23 is in Debian.
+* Consider using `--build-context` once docker build > 23 is in Debian.
