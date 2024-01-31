@@ -14,7 +14,7 @@ _debpic_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="-- --help --no-cache --sources --distribution --interactive --destination --extra-pkg --delete-images"
+  opts="--help --no-cache --distribution --sources --extra-pkg --destination --interactive --delete-images --"
 
 
   instances_of_double_dash=0
@@ -38,23 +38,23 @@ _debpic_complete() {
     if [[ "$word" == "--delete-images" || "$word" == "-d" || "$word" == "--help" || "$word" == "-h" ]]; then
       return 0
     fi
-    if [[ "$word" == "--sources" || "$word" == "-s" ]]; then
-      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--sources//')
+    if [[ "$word" == "--no-cache" || "$word" == "-nc" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--no-cache//')
     fi
     if [[ "$word" == "--distribution" || "$word" == "-d" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--distribution//')
     fi
-    if [[ "$word" == "--no-cache" || "$word" == "-nc" ]]; then
-      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--no-cache//')
+    if [[ "$word" == "--sources" || "$word" == "-s" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--sources//')
     fi
-    if [[ "$word" == "--interactive" || "$word" == "-i" ]]; then
-      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//;s/--//;')
+    if [[ "$word" == "--extra-pkg" || "$word" == "-e" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;')
     fi
     if [[ "$word" == "--destination" || "$word" == "-dst" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--destination//')
     fi
-    if [[ "$word" == "--extra-pkg" || "$word" == "-e" ]]; then
-      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;')
+    if [[ "$word" == "--interactive" || "$word" == "-i" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//;s/--//;')
     fi
   done
 
