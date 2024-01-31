@@ -14,7 +14,7 @@ _debpic_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="--help --no-cache --distribution --sources --extra-pkg --destination --interactive --delete-images --"
+  opts="--help --no-cache --distribution --local-repository --sources --extra-pkg --destination --interactive --delete-images --"
 
 
   instances_of_double_dash=0
@@ -44,6 +44,9 @@ _debpic_complete() {
     if [[ "$word" == "--distribution" || "$word" == "-d" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--distribution//')
     fi
+    if [[ "$word" == "--local-repository" || "$word" == "-lr" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--local-repository//')
+    fi
     if [[ "$word" == "--sources" || "$word" == "-s" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--sources//')
     fi
@@ -59,6 +62,14 @@ _debpic_complete() {
   done
 
   case "${prev}" in
+    -d|--distribution)
+      return 0
+      ;;
+    -lr|--local-repository)
+      # Completing folder names for any absolute or relative path
+      # TODO
+      return 0
+      ;;
     -s|--sources)
       # Completing source file names without extensions in /etc/debpic/sources.list.d/
       local source_dir="/etc/debpic/sources.list.d/"
@@ -66,17 +77,14 @@ _debpic_complete() {
       COMPREPLY=( $(basename -a ${files} | sed 's/\..*//') )
       return 0
       ;;
-    -d|--distribution)
-      return 0
-      ;;
-    -dst|--destination)
-      return 0
-      ;;
     -ep|--extra-pkg)
       # This is the same tab completion "apt install" uses.
       # It will be mostly correct but the host OS package list may be different to what the container OS package list is.
       COMPREPLY=( $( apt-cache --no-generate pkgnames "$cur" \
           2> /dev/null ) )
+      return 0
+      ;;
+    -dst|--destination)
       return 0
       ;;
     *)
