@@ -74,7 +74,11 @@ _debpic_complete() {
       # Completing source file names without extensions in /etc/debpic/sources.list.d/
       local source_dir="/etc/debpic/sources.list.d/"
       local files=$(compgen -f -- "${source_dir}${cur}")
-      COMPREPLY=( $(basename -a ${files} | sed 's/\..*//') )
+      if [ -n "${files}" ]; then
+        COMPREPLY=( $(basename -a ${files} | sed 's/\..*//') )
+      else
+        COMPREPLY=()  # No matching files, so no completions
+      fi
       return 0
       ;;
     -ep|--extra-pkg)
