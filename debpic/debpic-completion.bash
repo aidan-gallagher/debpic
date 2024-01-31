@@ -66,10 +66,10 @@ _debpic_complete() {
       return 0
       ;;
     -lr|--local-repository)
-      # Completing folder names for any absolute or relative path
-      # TODO
+      local directories=$(compgen -d -- "${cur}")
+      COMPREPLY=( ${directories})
       return 0
-      ;;
+    ;;
     -s|--sources)
       # Completing source file names without extensions in /etc/debpic/sources.list.d/
       local source_dir="/etc/debpic/sources.list.d/"
