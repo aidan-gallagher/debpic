@@ -7,6 +7,7 @@ import subprocess
 import sys
 import yaml
 from typing import List
+from contextlib import contextmanager
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
@@ -80,6 +81,7 @@ def get_uid() -> int:
 # ---------------------------------------------------------------------------- #
 #                                     Build                                    #
 # ---------------------------------------------------------------------------- #
+@contextmanager
 def hardlink_local_repository(local_repository_path: str):
     # Docker can't access files outwith it's build context.
     # This adds the contents of the local_repository into the build context.
@@ -88,6 +90,11 @@ def hardlink_local_repository(local_repository_path: str):
             sys.exit(f'Local repository "{local_repository_path}" is not a directory')
         run("rm -rf ./local_repository && mkdir --parents ./local_repository")
         run(f"ln {local_repository_path}/* ./local_repository/")
+
+    yield
+
+    if local_repository_path:
+        run("rm -rf ./local_repository")
 
 
 def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> str:
@@ -348,19 +355,15 @@ def main(argv: List[str]):
             sys.exit()
 
         prerequisite_check()
-        hardlink_local_repository(args.local_repository)
         repository_name = generate_image_name()
-        build_image(repository_name, args.no_cache, build_arguments)
+        with hardlink_local_repository(args.local_repository):
+            build_image(repository_name, args.no_cache, build_arguments)
         run_container(
             repository_name, args.command, args.dpkg_buildpackage_args, args.interactive
         )
 
         if args.destination:
             move_built_packages(args.destination)
-
-        # Undo hardlink_local_repository()
-        if args.local_repository:
-            run("rm -rf ./local_repository")
 
     except KeyboardInterrupt:
         kill_container(repository_name)
