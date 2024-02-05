@@ -1,6 +1,22 @@
 ## TODO
 
 ### Features
+* Add support for ccache
+    * https://askubuntu.com/questions/470545/how-do-i-set-up-ccache
+    * mount ~/.cache
+    * PATH=/usr/lib/ccache:$PATH DEB_BUILD_OPTIONS="no_lto" dpkg-buildpackage -b
+    * When -no-cache option is given then delete ccache too
+* Consider adding VSCode flag 
+    * Checks installations are good. Maybe try then catch if these go wrong.
+        * VSCode exists
+        * Devcontainers extension is installed. 
+            * "code --install-extension ms-vscode-remote.remote-containers"
+        * Devcontainers CLI is installed
+    * If .devcontainer file doesn't exist then, 
+        * produce a .devcontainer file with correct build arguments
+    * Calls vscode devcontainer CLI to open the project.
+        * ~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin/devcontainer open .
+    * If .devcontainer was created  on this run then delete it.
 * Add option to change the build program from dpkg-buildpackage to debuild, git-buildpackage, others?
 * Add support for signing builds with a key. How best to share a key on the host with the container.
 * All the user to specify a post_create_hook that can run any arbitrary setup in the container. Maybe a pre_create_hook too? 
@@ -13,6 +29,7 @@
 
 ### Clean up 
 * Split up debpic.py into multiple files.
+    * /usr/lib/python3/dist-packages/
 * Long wait times when container can't reach private server
     * When not connected to a VPN and trying to reach a private DNS server debpic hangs for a while.
     * Consider reducing apt timeout times.
