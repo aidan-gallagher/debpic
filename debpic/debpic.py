@@ -188,7 +188,7 @@ docker run
 --network host
 --tty
 --rm
---env DEB_BUILD_OPTIONS={deb_build_options}
+--env DEB_BUILD_OPTIONS="{deb_build_options}"
 {interactive}
 {repository_name}
 {command}\
