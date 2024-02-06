@@ -49,6 +49,9 @@ newgrp docker"""
             f"Could not find /debian/control file. Are you in the correct directory?"
         )
 
+    # Check ccache directory exists
+    run("mkdir -p $HOME/.cache/ccache")
+
 
 def delete_images():
     find_result = run("docker images '*buildenv' --format {{.Repository}}").replace(
@@ -180,6 +183,7 @@ dpkg-buildpackage --target=clean\
     run_cmd = f"""\
 docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
+--mount type=bind,src=${{HOME}}/.cache/ccache,dst=/home/docker/.cache/ccache
 --user {get_uid()}:$(id -g {get_uid()})
 --network host
 --tty

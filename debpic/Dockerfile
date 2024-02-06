@@ -62,9 +62,9 @@ APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99debpic
 # ---------------------------------------------------------------------------- #
 
 
-# ------------------ Install mk-build-deps & apt-ftparchive ------------------ #
+# -------------- Install mk-build-deps, apt-ftparchive & ccache -------------- #
 RUN apt-get update && \
-    apt-get install devscripts equivs apt-utils
+    apt-get install devscripts equivs apt-utils ccache
 # ---------------------------------------------------------------------------- #
 
 

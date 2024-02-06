@@ -1,9 +1,7 @@
 ## TODO
 
 ### Features
-* Add support for ccache
-    * https://askubuntu.com/questions/470545/how-do-i-set-up-ccache
-    * mount ~/.cache
+* Support for ccache
     * PATH=/usr/lib/ccache:$PATH DEB_BUILD_OPTIONS="no_lto" dpkg-buildpackage -b
     * When -no-cache option is given then delete ccache too
 * Consider adding VSCode flag 
