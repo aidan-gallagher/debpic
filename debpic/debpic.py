@@ -365,11 +365,10 @@ def debpic_parse_args(argv: List[str]):
 def vscode(repository_name, distribution, sources, extra_pkgs):
     # TODO:
     # General clean up.
+    # Do I need to do devcontainer build first?
     # If file doesn't exist then copy it over template.
     # Change build args based off of cmd line args
-    # Set "image": "{vyatta-dataplane-build-env}",
-    # Set environment DEB_BUILD_OPTIONS environment variable
-    # Mount ccache location
+    # Use "initializeCommand" to copy the local_repository in place
 
     # ----------------------------- Prerequite check ----------------------------- #
     # Check VSCode
@@ -392,9 +391,13 @@ def vscode(repository_name, distribution, sources, extra_pkgs):
 
         if distribution == None:
             distribution = "debian:11"
+
+        deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
+
         devcontainer = f"""
 {{
         "name": "{repository_name}",
+        "image": "{repository_name}",
         "dockerFile": "/usr/share/debpic/Dockerfile",
         "build": {{
                 "args": {{
@@ -403,6 +406,13 @@ def vscode(repository_name, distribution, sources, extra_pkgs):
                         "EXTRA_PKGS" : "{' '.join(extra_pkgs)}"
                 }}
         }},
+        "mounts": [
+            "source=${{localEnv:HOME}}/.cache/ccache,target=/home/docker/.cache/ccache,type=bind,consistency=cached"
+        ],
+        "containerEnv": {{
+            "DEB_BUILD_OPTIONS": "{deb_build_options}"
+        }},
+        "runArgs": ["--hostname", "{repository_name}"],
 
         "remoteUser": "docker",
         "context" : ".",
