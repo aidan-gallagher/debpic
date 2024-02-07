@@ -69,7 +69,11 @@ RUN apt-get update && \
 
 
 # -------------------------- Setup local repository -------------------------- #
-COPY ./local_repositor[y] /tmp/local_repository
+COPY ./local_repositor[y] ./debian/changelog /tmp/local_repository/
+# [y] allows conditional copying (https://stackoverflow.com/a/31532674/13365272)
+# ./debian/changelog isn't needed, but without BUILDKIT conditional copying requires
+# at least one file is copied so chose a file that is guaranted to be there and won't
+# change often. I can't work out how to get VSCode to use BUILDKIT on debian.
 RUN if [ -d /tmp/local_repository ]; then \
         cd /tmp/local_repository && \
         apt-ftparchive packages . > Packages && \
@@ -100,9 +104,8 @@ RUN apt-get update && \
 
 
 # ------------------ Install optional developer dependencies ----------------- #
-# [t] allows conditional copying (https://stackoverflow.com/a/31532674/13365272)
 # "2>/dev/null" will prevent cat from printing an error if the file doesn't exit.
-COPY ./developer-packages.tx[t] /tmp/
+COPY ./developer-packages.tx[t] ./debian/changelog /tmp/
 RUN apt-get update && \
     apt-get install $(cat /tmp/developer-packages.txt 2>/dev/null)
 # ---------------------------------------------------------------------------- #
@@ -110,9 +113,8 @@ RUN apt-get update && \
 
 # ---------------- Install Debian build/packaging dependencies --------------- #
 # Install application's build/packaging dependencies.
-COPY ./debian/control /tmp/
+COPY ./debian/control ./debian/changelog /tmp/
 RUN apt-get update && \
     mk-build-deps /tmp/control && \
     apt-get install ./*build-deps*.deb
 # ---------------------------------------------------------------------------- #
-
