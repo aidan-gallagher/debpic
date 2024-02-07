@@ -39,6 +39,9 @@
 * Uninstall fails if trying to uninstall whilst using a docker image that debpic wants to delete.
 
 ### Awaiting upstream fix
+* Add docker-buildx as a dependency once it's in Debian. Then VSCode will use buildx/buildkit and the Dockerfile will no longer have to copy debian/copyright.
+    * https://github.com/microsoft/vscode-remote-release/issues/1409
+    * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1063381 
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
 * Add inline gpg key to vyatta sources (other repo) when we move to debian 12.
 * Consider using `--build-context` once docker build > 23 is in Debian.
