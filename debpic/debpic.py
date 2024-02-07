@@ -100,6 +100,19 @@ def hardlink_local_repository(local_repository_path: str):
         run("rm -rf ./local_repository")
 
 
+def read_sources_file(sources: str):
+    additional_sources = ""
+    try:
+        with open(f"/etc/debpic/sources.list.d/{sources}.sources") as file:
+            additional_sources = file.read().replace("\n", "\\n")
+    except FileNotFoundError:
+        if sources != "default":
+            sys.exit(
+                f"Error file not found: /etc/debpic/sources.list.d/{sources}.sources"
+            )
+    return additional_sources
+
+
 def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> str:
 
     build_args = ""
@@ -116,15 +129,9 @@ def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> st
         build_args += f" --build-arg EXTRA_PKGS=\"{' '.join(extra_pkgs)}\""
 
     # ---------------------------------- Sources --------------------------------- #
-    try:
-        with open(f"/etc/debpic/sources.list.d/{sources}.sources") as file:
-            additional_sources = file.read().replace("\n", "\\n")
-            build_args += f' --build-arg ADDITIONAL_SOURCES="{additional_sources}"'
-    except FileNotFoundError:
-        if sources != "default":
-            sys.exit(
-                f"Error file not found: /etc/debpic/sources.list.d/{sources}.sources"
-            )
+    additional_sources = read_sources_file(sources)
+    if additional_sources != "":
+        build_args += f' --build-arg ADDITIONAL_SOURCES="{read_sources_file(sources)}"'
 
     return build_args
 
@@ -221,7 +228,7 @@ def kill_container(repository_name):
 
 
 # ---------------------------------------------------------------------------- #
-#                                     Main                                     #
+#                                 Configuration                                #
 # ---------------------------------------------------------------------------- #
 def debpic_parse_args(argv: List[str]):
 
@@ -307,6 +314,12 @@ def debpic_parse_args(argv: List[str]):
         const="--interactive",
     )
     exclusive_group_parser.add_argument(
+        "-vs",
+        "--vscode",
+        help="Open repository using Visual Studio Code Dev Container (https://code.visualstudio.com/docs/devcontainers/containers).",
+        action="store_true",
+    )
+    exclusive_group_parser.add_argument(
         "command",
         help="Command to execute in the container.",
         nargs="?",
@@ -343,6 +356,83 @@ def debpic_parse_args(argv: List[str]):
     return args
 
 
+# ---------------------------------------------------------------------------- #
+
+
+# ---------------------------------------------------------------------------- #
+#                                    VSCode                                    #
+# ---------------------------------------------------------------------------- #
+def vscode(repository_name, distribution, sources, extra_pkgs):
+    # TODO:
+    # General clean up.
+    # If file doesn't exist then copy it over template.
+    # Change build args based off of cmd line args
+    # Set "image": "{vyatta-dataplane-build-env}",
+    # Set environment DEB_BUILD_OPTIONS environment variable
+    # Mount ccache location
+
+    # ----------------------------- Prerequite check ----------------------------- #
+    # Check VSCode
+    from shutil import which
+
+    if which("code") is None:
+        sys.exit("Please install VSCode first")
+
+    # Check Dev Container
+    devcontainer_cli = os.path.expanduser(
+        "~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin/devcontainer"
+    )
+    if not os.path.isfile(devcontainer_cli):
+        sys.exit(
+            "Please install Dev Containers extension for VSCode:  (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)"
+        )
+
+    # --------------- Create .devcontainer file if it doesn't exist -------------- #
+    if not os.path.isfile("./.devcontainer.json"):
+
+        if distribution == None:
+            distribution = "debian:11"
+        devcontainer = f"""
+{{
+        "name": "{repository_name}",
+        "dockerFile": "/usr/share/debpic/Dockerfile",
+        "build": {{
+                "args": {{
+                        "DISTRIBUTION" : "{distribution}",
+                        "ADDITIONAL_SOURCES" : "{read_sources_file(sources)}",
+                        "EXTRA_PKGS" : "{' '.join(extra_pkgs)}"
+                }}
+        }},
+
+        "remoteUser": "docker",
+        "context" : ".",
+
+        // Add the IDs of extensions you want installed in the container
+        "customizations": {{
+                "vscode": {{
+                        "extensions": [
+                                "eamodio.gitlens",
+                                "alefragnani.Bookmarks",
+                                "littlefoxteam.vscode-python-test-adapter"
+                        ]
+                }}
+        }}
+}}
+"""
+        with open("./.devcontainer.json", "w") as file:
+            file.write(devcontainer)
+
+    # ------------------------- Open VSCode in container ------------------------- #
+    run(
+        "~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin/devcontainer open ."
+    )
+
+    sys.exit(0)
+
+
+# ---------------------------------------------------------------------------- #
+#                                     Main                                     #
+# ---------------------------------------------------------------------------- #
 def main(argv: List[str]):
     try:
         args = debpic_parse_args(argv)
@@ -360,6 +450,11 @@ def main(argv: List[str]):
 
         prerequisite_check()
         repository_name = generate_image_name()
+
+        if args.vscode:
+            with hardlink_local_repository(args.local_repository):
+                vscode(repository_name, args.distribution, args.sources, args.extra_pkg)
+
         with hardlink_local_repository(args.local_repository):
             build_image(repository_name, args.no_cache, build_arguments)
         run_container(
