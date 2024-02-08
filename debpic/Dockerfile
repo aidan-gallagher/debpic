@@ -65,6 +65,11 @@ APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99debpic
 # -------------- Install mk-build-deps, apt-ftparchive & ccache -------------- #
 RUN apt-get update && \
     apt-get install devscripts equivs apt-utils ccache
+# Work around to ensure the intermediate directory ~/.cache isn't owned by root
+# https://github.com/moby/moby/issues/21738. TODO: consider using volume instead.
+USER docker
+RUN mkdir --parents /home/docker/.cache/ccache
+USER root
 # ---------------------------------------------------------------------------- #
 
 
