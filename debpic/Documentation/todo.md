@@ -26,6 +26,7 @@
 * Performance: Can anything be done to speed up building the container?
 
 ### Clean up 
+* Cache: consider using docker volume instead of bind
 * Split up debpic.py into multiple files.
     * /usr/lib/python3/dist-packages/
 * Long wait times when container can't reach private server
