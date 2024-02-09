@@ -31,10 +31,13 @@ WORKDIR /workspaces/code
 
 # Jenkins mounts the directory at /var/lib/jenkins/workspace/DANOS_{REPO}_PR-XXX.
 # VSCode mounts the directory at /workspaces/{REPO}
-RUN mkdir -p /var/lib/jenkins/workspace/ && \
-    chmod -R a+w /var/lib/jenkins/workspace/ && \
+RUN mkdir -p /var/lib/jenkins/workspace && \
+    chown -R docker:docker /var/lib/jenkins/workspace && \
     mkdir -p /workspaces && \
-    chmod -R a+w /workspaces
+    chown -R docker:docker /workspaces
+
+RUN mkdir --parents /home/docker/.cache/ccache && \
+    chown -R docker:docker /home/docker/.cache
 # ---------------------------------------------------------------------------- #
 
 
@@ -65,11 +68,6 @@ APT::Get::Fix-Missing;' > /etc/apt/apt.conf.d/99debpic
 # -------------- Install mk-build-deps, apt-ftparchive & ccache -------------- #
 RUN apt-get update && \
     apt-get install devscripts equivs apt-utils ccache
-# Work around to ensure the intermediate directory ~/.cache isn't owned by root
-# https://github.com/moby/moby/issues/21738. TODO: consider using volume instead.
-USER docker
-RUN mkdir --parents /home/docker/.cache/ccache
-USER root
 # ---------------------------------------------------------------------------- #
 
 

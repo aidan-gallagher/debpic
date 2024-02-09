@@ -26,7 +26,11 @@
 * Performance: Can anything be done to speed up building the container?
 
 ### Clean up 
-* Cache: consider using docker volume instead of bind
+* VScode (--vscode) use image which is already built my debpic. 
+    * This means vscode doesn't have to build from scratch despite debpic already having built it.
+    * This gets around the problem that VSCode doesn't use BUILDKIT (removes /debian/changelog workaround)
+    * This ensures always opens latest version (no prompt from VSCode)
+    * Don't need to populate build args.
 * Split up debpic.py into multiple files.
     * /usr/lib/python3/dist-packages/
 * Long wait times when container can't reach private server
