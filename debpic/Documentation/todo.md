@@ -1,9 +1,9 @@
 ## TODO
 
 ### Features
-* Support for ccache
-    * PATH=/usr/lib/ccache:$PATH DEB_BUILD_OPTIONS="no_lto" dpkg-buildpackage -b
-    * When -no-cache option is given then delete ccache too
+* Allow dpkg-buildpackage arguments to be specified in config file
+* When --no-cache is given then delete volume ccache.
+    * docker volume rm ccache_volume
 * Consider adding VSCode flag 
     * Checks installations are good. Maybe try then catch if these go wrong.
         * VSCode exists
@@ -26,6 +26,7 @@
 * Performance: Can anything be done to speed up building the container?
 
 ### Clean up 
+* Unlink rather than delete ./local_repository
 * VScode (--vscode) use image which is already built my debpic. 
     * This means vscode doesn't have to build from scratch despite debpic already having built it.
     * This gets around the problem that VSCode doesn't use BUILDKIT (removes /debian/changelog workaround)
@@ -33,6 +34,9 @@
     * Don't need to populate build args.
 * Split up debpic.py into multiple files.
     * /usr/lib/python3/dist-packages/
+* Consider making DEB_BUILD_OPTIONS an argument rather than environment variable.
+    * This stops host env accidentally being used in container build.
+    * Makes it possible to add options to config file.
 * Long wait times when container can't reach private server
     * When not connected to a VPN and trying to reach a private DNS server debpic hangs for a while.
     * Consider reducing apt timeout times.
@@ -47,6 +51,7 @@
 * Add docker-buildx as a dependency once it's in Debian. Then VSCode will use buildx/buildkit and the Dockerfile will no longer have to copy debian/copyright.
     * https://github.com/microsoft/vscode-remote-release/issues/1409
     * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1063381 
+    * This problem can be mitigated by VSCode launching an image rather than dockerfile.
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
 * Add inline gpg key to vyatta sources (other repo) when we move to debian 12.
 * Consider using `--build-context` once docker build > 23 is in Debian.
