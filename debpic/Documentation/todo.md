@@ -4,17 +4,6 @@
 * Allow dpkg-buildpackage arguments to be specified in config file
 * When --no-cache is given then delete volume ccache.
     * docker volume rm ccache_volume
-* Consider adding VSCode flag 
-    * Checks installations are good. Maybe try then catch if these go wrong.
-        * VSCode exists
-        * Devcontainers extension is installed. 
-            * "code --install-extension ms-vscode-remote.remote-containers"
-        * Devcontainers CLI is installed
-    * If .devcontainer file doesn't exist then, 
-        * produce a .devcontainer file with correct build arguments
-    * Calls vscode devcontainer CLI to open the project.
-        * ~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin/devcontainer open .
-    * If .devcontainer was created  on this run then delete it.
 * Add option to change the build program from dpkg-buildpackage to debuild, git-buildpackage, others?
 * Add support for signing builds with a key. How best to share a key on the host with the container.
 * All the user to specify a post_create_hook that can run any arbitrary setup in the container. Maybe a pre_create_hook too? 
@@ -27,6 +16,7 @@
 
 ### Clean up 
 * Unlink rather than delete ./local_repository
+* VSCode handle already existing .devcontainer file.
 * VScode (--vscode) use image which is already built my debpic. 
     * This means vscode doesn't have to build from scratch despite debpic already having built it.
     * This gets around the problem that VSCode doesn't use BUILDKIT (removes /debian/changelog workaround)
@@ -40,6 +30,8 @@
 * Long wait times when container can't reach private server
     * When not connected to a VPN and trying to reach a private DNS server debpic hangs for a while.
     * Consider reducing apt timeout times.
+* Improve CI testing
+    * Try building different repositories (especially ones which require private repositories or local_repository)
 * Add dockerfile linter (hadolint)
     * clean up errors
     * add hadolint to CI : https://stackoverflow.com/a/62370018/13365272
