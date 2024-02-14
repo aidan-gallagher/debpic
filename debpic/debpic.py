@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 # ---------------------------------------------------------------------------- #
 #                                    Common                                    #
 # ---------------------------------------------------------------------------- #
-def run(cmd: str, capture_output=True) -> str:
+def run(cmd: str, capture_output=True, check=True) -> str:
     if capture_output == False:
         green_txt_start = "\033[92m"
         bold_txt_start = "\033[1m"
@@ -23,7 +23,7 @@ def run(cmd: str, capture_output=True) -> str:
             f"{bold_txt_start}{green_txt_start}Running command:{fmt_txt_end} {green_txt_start}{cmd}{fmt_txt_end}"
         )
     return subprocess.run(
-        cmd, shell=True, text=True, capture_output=capture_output, check=True
+        cmd, shell=True, text=True, capture_output=capture_output, check=check
     ).stdout
 
 
@@ -384,32 +384,24 @@ def vscode(repository_name, distribution, sources, extra_pkgs):
         )
 
     # --------------- Create .devcontainer file if it doesn't exist -------------- #
-    if not os.path.isfile("./.devcontainer.json"):
 
-        if distribution == None:
-            distribution = "debian:11"
+    if distribution == None:
+        distribution = "debian:11"
 
-        deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
+    deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
 
-        devcontainer = f"""
+    devcontainer = f"""
 {{
         "name": "{repository_name}",
-        "image": "{repository_name}",
-        "dockerFile": "/usr/share/debpic/Dockerfile",
-        "build": {{
-                "args": {{
-                        "DISTRIBUTION" : "{distribution}",
-                        "ADDITIONAL_SOURCES" : "{read_sources_file(sources)}",
-                        "EXTRA_PKGS" : "{' '.join(extra_pkgs)}"
-                }}
-        }},
+        "image": "{repository_name}:latest",
         "mounts": [
             "source=ccache_volume,target=/home/docker/.cache/ccache,type=volume"
         ],
         "containerEnv": {{
             "DEB_BUILD_OPTIONS": "{deb_build_options}"
         }},
-        "runArgs": ["--hostname", "{repository_name}"],
+        "runArgs": ["--hostname", "{repository_name}",
+                    "--name", "vscode-{repository_name}"],
 
         "remoteUser": "docker",
         "context" : ".",
@@ -426,15 +418,18 @@ def vscode(repository_name, distribution, sources, extra_pkgs):
         }}
 }}
 """
-        with open("./.devcontainer.json", "w") as file:
-            file.write(devcontainer)
+    with open("./.devcontainer.json", "w") as file:
+        file.write(devcontainer)
 
     # ------------------------- Open VSCode in container ------------------------- #
+    # Delete existing container
+    # This doesn't seem to delete it??
+    # run (f"docker rm vscode-{repository_name}", capture_output=True, check=False)
+    #print(f"docker rm vscode-{repository_name}")
+
     run(
         "~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin/devcontainer open ."
     )
-
-    sys.exit(0)
 
 
 # ---------------------------------------------------------------------------- #
@@ -458,12 +453,13 @@ def main(argv: List[str]):
         prerequisite_check()
         repository_name = generate_image_name()
 
-        if args.vscode:
-            with hardlink_local_repository(args.local_repository):
-                vscode(repository_name, args.distribution, args.sources, args.extra_pkg)
-
         with hardlink_local_repository(args.local_repository):
             build_image(repository_name, args.no_cache, build_arguments)
+
+        if args.vscode:
+            vscode(repository_name, args.distribution, args.sources, args.extra_pkg)
+            sys.exit(0)
+
         run_container(
             repository_name, args.command, args.dpkg_buildpackage_args, args.interactive
         )

@@ -49,3 +49,10 @@ If it was then instead of passing
 --build-arg ADDITIONAL_SOURCES="Enabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Vyatta:/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.150:82/Vyatta:/Unstable/standard/\nSuites: ./\nTrusted: yes\n" .
 ```
 We could COPY the file from `/etc/debpic/sources.list.d/` instead.
+
+# VSCode Image vs Dockerfile
+The .devcontainer file can use `"image": "debpic-buildenv"` or `"dockerFile": "/usr/share/debpic/Dockerfile"`.
+The image choice is better because:
+* There is less code required (partly )
+
+
