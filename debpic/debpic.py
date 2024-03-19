@@ -11,6 +11,7 @@ from contextlib import contextmanager
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
+
 # ---------------------------------------------------------------------------- #
 #                                    Common                                    #
 # ---------------------------------------------------------------------------- #
@@ -28,7 +29,6 @@ def run(cmd: str, capture_output=True) -> str:
 
 
 def prerequisite_check():
-
     # Check the user can run docker without sudo
     result = subprocess.run(
         "docker info", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
@@ -97,21 +97,27 @@ def hardlink_local_repository(local_repository_path: str):
         run("rm -rf ./local_repository")
 
 
-def read_sources_file(sources: str):
-    additional_sources = ""
+def read_sources_and_preferences_files(sources: str):
+    filename = f"/etc/debpic/sources.list.d/{sources}.sources"
     try:
-        with open(f"/etc/debpic/sources.list.d/{sources}.sources") as file:
+        with open(filename) as file:
             additional_sources = file.read().replace("\n", "\\n")
     except FileNotFoundError:
         if sources != "default":
-            sys.exit(
-                f"Error file not found: /etc/debpic/sources.list.d/{sources}.sources"
-            )
-    return additional_sources
+            sys.exit(f"Error file not found: {filename}")
+        additional_sources = ""
+
+    filename = f"/etc/debpic/preferences.d/{sources}.pref"
+    try:
+        with open(filename) as file:
+            additional_preferences = file.read().replace("\n", "\\n")
+    except FileNotFoundError:
+        additional_preferences = ""
+
+    return additional_sources, additional_preferences
 
 
 def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> str:
-
     build_args = ""
 
     # ------------------------------- Distribution ------------------------------- #
@@ -126,9 +132,13 @@ def get_build_arguments(distribution: str, sources: str, extra_pkgs: List) -> st
         build_args += f" --build-arg EXTRA_PKGS=\"{' '.join(extra_pkgs)}\""
 
     # ---------------------------------- Sources --------------------------------- #
-    additional_sources = read_sources_file(sources)
+    additional_sources, additional_preferences = read_sources_and_preferences_files(
+        sources
+    )
     if additional_sources != "":
-        build_args += f' --build-arg ADDITIONAL_SOURCES="{read_sources_file(sources)}"'
+        build_args += f' --build-arg ADDITIONAL_SOURCES="{additional_sources}"'
+    if additional_preferences != "":
+        build_args += f' --build-arg ADDITIONAL_PREFERENCES="{additional_preferences}"'
 
     return build_args
 
@@ -228,7 +238,6 @@ def kill_container(repository_name):
 #                                 Configuration                                #
 # ---------------------------------------------------------------------------- #
 def debpic_parse_args(argv: List[str]):
-
     # Customer formatter required to print help message for "--" option.
     class CustomHelpFormatter(argparse.HelpFormatter):
         def format_help(self):
@@ -385,7 +394,6 @@ def vscode(repository_name, distribution, sources, extra_pkgs):
 
     # --------------- Create .devcontainer file if it doesn't exist -------------- #
     if not os.path.isfile("./.devcontainer.json"):
-
         if distribution == None:
             distribution = "debian:11"
 

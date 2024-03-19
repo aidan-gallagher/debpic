@@ -70,12 +70,17 @@ The environment is composed from:
 
 _/etc/debpic/sources.list.d/*.sources_
 
-: This is where debpic stores the list of APT data sources that can be used in the build container. The contents of \<SOURCE\>.source file is copied to `/etc/apt/sources.list.d/debpic.sources` within the container before any build dependencies are selected. The choice of which file is selected can be controlled using the `--sources` option..
+: This is where debpic stores the list of APT data sources that can be used in the build container. The contents of \<SOURCE\>.source are copied to `/etc/apt/sources.list.d/debpic.sources` within the container before any build dependencies are selected. The choice of which file is selected can be controlled using the `--sources` option.
 
 
 _/etc/debpic/sources.list.d/default.sources_
 
 : When the `--sources` option is not supplied, debpic defaults to using default.sources. This is helpful is you have a private apt repository that you often use and you don't want to have specify `--sources` on every build. If this file doesn't exist then no additional sources will be configured.
+
+
+_/etc/debpic/preferences.d/*.pref_
+
+: This is where debpic stores the list of preference control files for APT.  The contents of \<SOURCE\>.pref are copied to /etc/apt/preferences/debpic.pref within the container before any build dependencies are selected. The choice of which file is selected can be controlled using the --sources option.
 
 
 _/usr/share/debpic/Dockerfile_
@@ -168,5 +173,5 @@ Aidan Gallagher <aidgal2@gmail.com>
 
 # SEE ALSO
 
-**docker**(1), **dpkg-buildpackage**(1), **sources.list**(5)
+**docker**(1), **dpkg-buildpackage**(1), **sources.list**(5), **apt_preferences**(5)
 
