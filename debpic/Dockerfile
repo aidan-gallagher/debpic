@@ -1,4 +1,4 @@
-ARG DISTRIBUTION=debian:11
+ARG DISTRIBUTION=debian:12
 FROM $DISTRIBUTION
 LABEL MAINTAINER="Aidan Gallagher <aidgal2@gmail.com>"
 USER root
@@ -96,6 +96,9 @@ Pin-Priority: 1001 \n" >> /etc/apt/preferences.d/01debpic; \
 # ------------------------- Add additional apt repos ------------------------- #
 ARG ADDITIONAL_SOURCES=""
 RUN echo "$ADDITIONAL_SOURCES" >> /etc/apt/sources.list.d/01debpic.sources
+
+ARG ADDITIONAL_PREFERENCES=""
+RUN echo "$ADDITIONAL_PREFERENCES" >> /etc/apt/preferences.d/01debpic.pref
 # ---------------------------------------------------------------------------- #
 
 

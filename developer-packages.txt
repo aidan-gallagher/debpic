@@ -3,3 +3,4 @@ python3-pytest
 python3-yaml
 lintian
 mypy
+python3-typeshed
