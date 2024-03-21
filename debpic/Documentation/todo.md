@@ -13,6 +13,10 @@
 * Test installation of 2 local debs that depend on each other.
 * Test debpic out on Microsoft Windows - if it works then add Windows packaging to create .msi
 * Performance: Can anything be done to speed up building the container?
+* debconf: Use debconf to ask user if want to run docker without sudo 
+    http://www.fifi.org/doc/debconf-doc/tutorial.html
+* Podman: Consider using podman instead of docker.
+    Blocked until move to deb12 as need this feature: https://stackoverflow.com/questions/77619338/conditional-copy-add-in-podman-file
 
 ### Clean up 
 * Unlink rather than delete ./local_repository
