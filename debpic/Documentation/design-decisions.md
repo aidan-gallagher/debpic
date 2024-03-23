@@ -49,3 +49,19 @@ If it was then instead of passing
 --build-arg ADDITIONAL_SOURCES="Enabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Vyatta:/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.150:82/Vyatta:/Unstable/standard/\nSuites: ./\nTrusted: yes\n" .
 ```
 We could COPY the file from `/etc/debpic/sources.list.d/` instead.
+
+## Buildkit's "RUN --mount" vs copying at built time
+Instead of copying files at build time they can be mounted using the following syntax:
+```
+RUN --mount=type=bind,source=/local_repository,target=/tmp/local_repository \
+    ls /tmp/local_repository
+```
+
+The root of source is the build context (where docker build was invoked) for example ~/Code/debpic rather than the root of the host machine.
+If the source doesn't exist then the build commands fails.
+
+Because debpic requires local_repository to be optional it means it has to use the conditional copying rather than mounting.
+
+
+
+
