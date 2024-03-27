@@ -34,6 +34,12 @@
         * This stops host env accidentally being used in container build.
         * Makes it possible to add options to config file.
 
+* Add --tech-support (hidden option)
+    * When dealing with user issues I usually have to ask them run several commands on their machine
+    * --tech-support will generate a (zipped?) file with all the info I need
+    * debpic version, docker version, /etc/debpic/* files, ~/.config/debpic/* files, is current user part of docker group, can host machine reach private repos in sources, output from the build log, etc.
+
+
 * Test installation of 2 local debs that depend on each other.
 
 * Performance: Can anything be done to speed up building the container?
