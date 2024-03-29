@@ -1,4 +1,6 @@
 ## TODO
+Gradually moving todo's to github issues. 
+https://github.com/aidan-gallagher/debpic/issues
 
 ### Features
 * Add --update-only flag (?)
@@ -17,16 +19,6 @@
             * docker commit container_ID image_ID
             * docker rm container
         4. subsequent runs will have to use "--update-only" too otherwise they will call "docker build" which may take some time and will overwrite the existing image.
-
-
-* When --no-cache is given then delete volume ccache.
-    * docker volume rm ccache_volume
-
-* Allow dpkg-buildpackage arguments to be specified in config file
-    * This is handy as usually always want "-build=binary" specified.
-
-* Add support for signing builds with a key.
-    * Probably mount ~/.gnupg as read only during the run
 
 * DEB environment variables
     * Support all DEB_ and DH_ environment variables (not just DEB_BUILD_OPTIONS)
@@ -58,16 +50,6 @@
 * Test debpic out on Microsoft Windows - if it works then add Windows packaging to create .msi
 
 ### Clean up 
-* Unlink rather than delete ./local_repository
-
-* VSCode (--vscode)
-    * Need to handle existing .devcontainer file.
-    * .devcontainer file to specify image name rather than dockerfile 
-        * This means vscode doesn't have to build from scratch despite debpic already having built it.
-        * This gets around the problem that VSCode doesn't use BUILDKIT (removes /debian/changelog workaround)
-        * This ensures always opens latest version (no prompt from VSCode)
-        * Don't need to populate build args.
-
 * Split up debpic.py into multiple files.
     * /usr/lib/python3/dist-packages/
 
