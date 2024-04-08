@@ -45,8 +45,6 @@ https://github.com/aidan-gallagher/debpic/issues
 * Improve interactive mode development by copying user config files like .git and bash config
     * Should mount (as read only) ~/.config during run time? mount bash files too? Or mount all of $HOME?
 
-* Support user defined post_create_hook that is run in container after setup.
-
 * Test debpic out on Microsoft Windows - if it works then add Windows packaging to create .msi
 
 ### Clean up 
