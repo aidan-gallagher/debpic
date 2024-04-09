@@ -27,7 +27,7 @@ Enter the container in interactive mode
 debpic --interactive
 ```
 
-Run the following commands
+Copy and paste the following commands
 ```
 # Turn off Go modules
 go env -w GO111MODULE=off
@@ -49,4 +49,9 @@ sudo rm -r /usr/share/gocode/src/$DH_GOPKG
 
 # Symbolic link current directory to DH_GOPKG location.
 sudo ln -s $(pwd) /usr/share/gocode/src/$DH_GOPKG
+```
+
+Now you can run
+```
+go test ./...
 ```
