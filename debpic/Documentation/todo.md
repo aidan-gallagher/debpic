@@ -72,11 +72,6 @@ https://github.com/aidan-gallagher/debpic/issues
 * Podman: Consider using podman instead of docker.
     Blocked until move to deb12 as need this feature: https://stackoverflow.com/questions/77619338/conditional-copy-add-in-podman-file
 
-* Add docker-buildx as a dependency once it's in Debian. Then VSCode will use buildx/buildkit and the Dockerfile will no longer have to copy debian/copyright.
-    * https://github.com/microsoft/vscode-remote-release/issues/1409
-    * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1063381 
-    * This problem can be mitigated by VSCode launching an image rather than dockerfile.
-
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
 
 * Add inline gpg key to vyatta sources (other repo) when we move to debian 12. (Didn't seem to work - needs investigation)
