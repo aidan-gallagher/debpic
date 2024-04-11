@@ -14,7 +14,7 @@ _debpic_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="--help --no-cache --distribution --local-repository --sources --extra-pkg --destination --interactive --vscode --delete-images -- "
+  opts="--help --no-cache --distribution --local-repository --sources --extra-pkg --destination --interactive --hook --vscode --delete-images -- "
 
 
   instances_of_double_dash=0
@@ -59,6 +59,9 @@ _debpic_complete() {
     if [[ "$word" == "--interactive" || "$word" == "-i" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//;s/-- //;s/--vscode//')
     fi
+    if [[ "$word" == "--hook" || "$word" == "-hk" ]]; then
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--hook//')
+    fi
     if [[ "$word" == "--vscode" || "$word" == "-vs" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--vscode//;s/-- //;s/--interactive//;s/--no-cache//;s/--destination//;')
     fi
@@ -92,6 +95,17 @@ _debpic_complete() {
       return 0
       ;;
     -dst|--destination)
+      return 0
+      ;;
+    -hk|--hook)
+      # Completing source file names without extensions in /etc/debpic/sources.list.d/
+      local source_dir="/etc/debpic/hooks/"
+      local files=$(compgen -f -- "${source_dir}${cur}")
+      if [ -n "${files}" ]; then
+        COMPREPLY=( $(basename -a ${files}))
+      else
+        COMPREPLY=()  # No matching files, so no completions
+      fi
       return 0
       ;;
     *)

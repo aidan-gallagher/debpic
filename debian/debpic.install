@@ -8,3 +8,4 @@ debpic/debpic-completion.bash => /usr/share/bash-completion/completions/debpic
 debpic/debpic.conf => /etc/debpic/debpic.conf
 debpic/Dockerfile => usr/share/debpic/Dockerfile
 debpic/debpic.py => usr/bin/debpic
+debpic/hooks/ /etc/debpic/
