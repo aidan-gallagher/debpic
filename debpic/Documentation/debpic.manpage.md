@@ -48,6 +48,10 @@ The environment is composed from:
 
 : Open an interactive terminal to the container.
 
+**-hk**, **--hook**  
+
+: Select a bash script stored at /etc/debpic/hooks/\<SCRIPT\> to run after the container starts.
+
 **-vs**, **--vscode**  
 
 : Open repository using Visual Studio Code Dev Container (https://code.visualstudio.com/docs/devcontainers/containers).
@@ -81,6 +85,11 @@ _/etc/debpic/sources.list.d/default.sources_
 _/etc/debpic/preferences.d/*.pref_
 
 : This is where debpic stores the list of preference control files for APT.  The contents of \<SOURCE\>.pref are copied to /etc/apt/preferences/debpic.pref within the container before any build dependencies are selected. The choice of which file is selected can be controlled using the --sources option.
+
+
+_/etc/debpic/hooks/*_
+
+: This is where debpic stores bash scripts which can be invoked after the container is started. The choice of which file is selected can be controlled using the `--hook` option.
 
 
 _/usr/share/debpic/Dockerfile_

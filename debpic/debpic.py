@@ -97,6 +97,26 @@ def hardlink_local_repository(local_repository_path: str):
         run("rm -rf ./local_repository")
 
 
+@contextmanager
+def copy_hook(hook_filename: str):
+    hook_path = f"/etc/debpic/hooks/{hook_filename}"
+
+    # Check hook file exists and is valid
+    if not os.path.isfile(hook_path):
+        if hook_filename != "default":
+            sys.exit(f"{hook_path} does not exist")
+    else:
+        if not os.access(hook_path, os.X_OK):
+            run(f"chmod +x {hook_path}")
+
+        run(f"cp {hook_path} ./debpic_hook")
+
+    yield
+
+    if os.path.isfile("./debpic_hook"):
+        run(f"rm ./debpic_hook")
+
+
 def read_sources_and_preferences_files(sources: str):
     filename = f"/etc/debpic/sources.list.d/{sources}.sources"
     try:
@@ -185,8 +205,8 @@ dpkg-buildpackage --target=clean\
         )
 
     # Regardless of command origin (user provided or assumed), prepend the
-    # command with "/bin/bash -c".
-    command = f"/bin/bash -c '{command}'"
+    # command with "/bin/bash -c" and invoke the hook.
+    command = f"/bin/bash -c 'if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi && {command}'"
 
     # If interactive mode is specified then remove any commands
     if interactive != "":
@@ -310,6 +330,12 @@ def debpic_parse_args(argv: List[str]):
         help=argparse.SUPPRESS,
         action="store_true",
     )
+    parser.add_argument(
+        "-hk",
+        "--hook",
+        help="script to run after directory setup",
+        default="default",
+    )
     exclusive_group_parser = parser.add_mutually_exclusive_group()
     exclusive_group_parser.add_argument(
         "-i",
@@ -414,6 +440,8 @@ def vscode(repository_name):
         "remoteUser": "docker",
         "context" : ".",
 
+        "postStartCommand": "bash -c  'if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi'",
+
         // Add the IDs of extensions you want installed in the container
         "customizations": {{
                 "vscode": {{
@@ -463,7 +491,8 @@ def main(argv: List[str]):
         repository_name = generate_image_name()
 
         with hardlink_local_repository(args.local_repository):
-            build_image(repository_name, args.no_cache, build_arguments)
+            with copy_hook(args.hook):
+                build_image(repository_name, args.no_cache, build_arguments)
 
         if args.vscode:
             vscode(repository_name)

@@ -121,3 +121,6 @@ RUN apt-get update && \
     mk-build-deps /tmp/control && \
     apt-get install ./*build-deps*.deb
 # ---------------------------------------------------------------------------- #
+
+COPY debpic_hoo[k] /usr/bin/hook
+CMD ["bash", "-c", "if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi && bash"]

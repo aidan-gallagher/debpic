@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# GOPATH setup script
+#
+# This script will allow the developer to run go tools such as "go test ./..." or "go build"
+# without having to invoke dpkg-buildpackage.
+
+# Turn off Go modules
+go env -w GO111MODULE=off
+
+# Set the path to the location where debian packages install go code
+export GOPATH=/usr/share/gocode/
+echo "export GOPATH=/usr/share/gocode/" >> ~/.bashrc
+
+# Check DH_GOPKG is set before progressing
+grep -q "^export DH_GOPKG" debian/rules || { echo "Error: DH_GOPKG is not set in the file."; }
+
+# Determine DH_GOPKG
+DH_GOPKG=$(grep -Po '(?<=export DH_GOPKG := ).*' debian/rules)
+
+# Create parent directories to DH_GOPKG location.
+sudo mkdir -p /usr/share/gocode/src/$DH_GOPKG
+
+# Remove last directory as it will be symbolic linked and if it's not removed ln will complain/
+sudo rm -r /usr/share/gocode/src/$DH_GOPKG
+
+# Symbolic link current directory to DH_GOPKG location.
+sudo ln -s $(pwd) /usr/share/gocode/src/$DH_GOPKG
