@@ -438,11 +438,10 @@ def vscode(repository_name):
                     "--rm"],
 
         "remoteUser": "docker",
-        "context" : ".",
 
         "postStartCommand": "bash -c  'if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi'",
 
-        // Add the IDs of extensions you want installed in the container
+        // TODO: allow the user to configure these? Maybe put this file as a template in /etc/debpic ?
         "customizations": {{
                 "vscode": {{
                         "extensions": [
