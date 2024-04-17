@@ -218,6 +218,7 @@ dpkg-buildpackage --target=clean\
 docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
 --mount type=volume,src=ccache_volume,dst=/home/docker/.cache/ccache
+--mount type=volume,src=go_cache_volume,dst=/home/docker/.cache/go-build
 --user {get_uid()}:$(id -g {get_uid()})
 --network host
 --tty
@@ -428,7 +429,8 @@ def vscode(repository_name):
         "name": "{repository_name}",
         "image": "{repository_name}",
         "mounts": [
-            "source=ccache_volume,target=/home/docker/.cache/ccache,type=volume"
+            "source=ccache_volume,target=/home/docker/.cache/ccache,type=volume",
+            "source=go_cache_volume,target=/home/docker/.cache/go-build,type=volume"
         ],
         "containerEnv": {{
             "DEB_BUILD_OPTIONS": "{deb_build_options}"
