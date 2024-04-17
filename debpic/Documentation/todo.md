@@ -31,7 +31,6 @@ https://github.com/aidan-gallagher/debpic/issues
     * --tech-support will generate a (zipped?) file with all the info I need
     * debpic version, docker version, /etc/debpic/* files, ~/.config/debpic/* files, is current user part of docker group, can host machine reach private repos in sources, output from the build log, etc.
 
-
 * Test installation of 2 local debs that depend on each other.
 
 * Performance: Can anything be done to speed up building the container?
@@ -65,8 +64,6 @@ https://github.com/aidan-gallagher/debpic/issues
 * Shellcheck for bash completion (Fix and add to CI)
 
 * Fix lintian warnings
-
-* Uninstall fails if trying to uninstall whilst using a docker image that debpic wants to delete.
 
 ### Awaiting upstream fix
 * Podman: Consider using podman instead of docker.
