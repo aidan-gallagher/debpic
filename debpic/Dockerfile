@@ -120,4 +120,4 @@ RUN apt-get update && \
 # ---------------------------------------------------------------------------- #
 
 COPY debpic_hoo[k] /usr/bin/hook
-CMD ["bash", "-c", "if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi && bash"]
+CMD ["bash", "-c", "if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && bash"]

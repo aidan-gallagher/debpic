@@ -26,3 +26,6 @@ sudo rm -r /usr/share/gocode/src/$DH_GOPKG
 
 # Symbolic link current directory to DH_GOPKG location.
 sudo ln -s $(pwd) /usr/share/gocode/src/$DH_GOPKG
+
+# Open new shell that has GOPATH env variable set
+exec bash

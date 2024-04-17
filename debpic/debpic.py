@@ -206,7 +206,9 @@ dpkg-buildpackage --target=clean\
 
     # Regardless of command origin (user provided or assumed), prepend the
     # command with "/bin/bash -c" and invoke the hook.
-    command = f"/bin/bash -c 'if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi && {command}'"
+    command = (
+        f"/bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && {command}'"
+    )
 
     # If interactive mode is specified then remove any commands
     if interactive != "":
@@ -439,7 +441,7 @@ def vscode(repository_name):
 
         "remoteUser": "docker",
 
-        "postStartCommand": "bash -c  'if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi'",
+        "postStartCommand": "bash -c  'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi'",
 
         // TODO: allow the user to configure these? Maybe put this file as a template in /etc/debpic ?
         "customizations": {{

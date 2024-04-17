@@ -48,17 +48,17 @@ class Test:
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=ccache_volume,dst=/home/docker/.cache/ccache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi && dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=home_volume,dst=/home/docker --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"
         )
 
         uut.run_container("test_name", "echo I'm a test command")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=ccache_volume,dst=/home/docker/.cache/ccache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then source /usr/bin/hook; fi && echo I'm a test command'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=home_volume,dst=/home/docker --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && echo I'm a test command'"
         )
 
         uut.run_container("test_name", "", "", "--interactive")
         assert (
             self.cli_commands.pop(0)
-            == 'docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=ccache_volume,dst=/home/docker/.cache/ccache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS="" --interactive test_name '
+            == 'docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=home_volume,dst=/home/docker --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS="" --interactive test_name '
         )
