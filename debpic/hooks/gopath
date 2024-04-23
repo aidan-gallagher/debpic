@@ -10,7 +10,10 @@ go env -w GO111MODULE=off
 
 # Set the path to the location where debian packages install go code
 export GOPATH=/usr/share/gocode/
-echo "export GOPATH=/usr/share/gocode/" >> ~/.bashrc
+if ! grep -qxF 'export GOPATH=/usr/share/gocode/' ~/.bashrc; then
+    # If the line doesn't exist, append it
+    echo 'export GOPATH=/usr/share/gocode/' >> ~/.bashrc
+fi
 
 # Check DH_GOPKG is set before progressing
 grep -q "^export DH_GOPKG" debian/rules || { echo "Error: DH_GOPKG is not set in the file."; }
