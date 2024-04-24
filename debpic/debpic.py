@@ -56,9 +56,11 @@ def delete_images():
     )
 
     if find_result != "":
-        run(f"docker rmi {find_result}; docker image prune --force")
+        run(f"docker rmi --force {find_result}; docker image prune --force")
     else:
         logging.info("No images to delete")
+
+    run("docker volume rm debpic_home", check=False)
 
 
 def generate_image_name() -> str:
