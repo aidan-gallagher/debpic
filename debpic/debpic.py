@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 # ---------------------------------------------------------------------------- #
 #                                    Common                                    #
 # ---------------------------------------------------------------------------- #
-def run(cmd: str, capture_output=True) -> str:
+def run(cmd: str, capture_output=True, check=True) -> str:
     if capture_output == False:
         green_txt_start = "\033[92m"
         bold_txt_start = "\033[1m"
@@ -24,7 +24,7 @@ def run(cmd: str, capture_output=True) -> str:
             f"{bold_txt_start}{green_txt_start}Running command:{fmt_txt_end} {green_txt_start}{cmd}{fmt_txt_end}"
         )
     return subprocess.run(
-        cmd, shell=True, text=True, capture_output=capture_output, check=True
+        cmd, shell=True, text=True, capture_output=capture_output, check=check
     ).stdout
 
 
@@ -490,6 +490,9 @@ def main(argv: List[str]):
 
         prerequisite_check()
         repository_name = generate_image_name()
+
+        if args.no_cache == "--no-cache":
+            run("docker volume rm debpic_home", check=False)
 
         with hardlink_local_repository(args.local_repository):
             with copy_hook(args.hook):
