@@ -219,7 +219,7 @@ dpkg-buildpackage --target=clean\
     run_cmd = f"""\
 docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
---mount type=volume,src=home_volume,dst=/home/docker
+--mount type=volume,src=debpic_home,dst=/home/docker
 --user {get_uid()}:$(id -g {get_uid()})
 --network host
 --tty
@@ -430,7 +430,7 @@ def vscode(repository_name):
         "name": "{repository_name}",
         "image": "{repository_name}",
         "mounts": [
-            "source=home_volume,target=/home/docker,type=volume",
+            "source=debpic_home,target=/home/docker,type=volume",
         ],
         "containerEnv": {{
             "DEB_BUILD_OPTIONS": "{deb_build_options}"
