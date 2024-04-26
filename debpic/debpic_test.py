@@ -29,7 +29,11 @@ class Test:
             self.cli_commands.pop(0)
             == "docker images '*buildenv' --format {{.Repository}}"
         )
-        assert self.cli_commands.pop(0) == "docker rmi test; docker image prune --force"
+        assert (
+            self.cli_commands.pop(0)
+            == "docker rmi --force test; docker image prune --force"
+        )
+        assert self.cli_commands.pop(0) == "docker volume rm debpic_home"
 
     def test_build_image(self):
         uut.build_image("test_name")
