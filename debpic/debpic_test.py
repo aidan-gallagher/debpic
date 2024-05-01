@@ -1,6 +1,6 @@
 import subprocess
 import debpic as uut
-
+import os
 
 # main(["--no-cache"])
 
@@ -22,6 +22,11 @@ class Test:
             return 1000
 
         uut.get_uid = get_uid_mock
+
+        def get_env_var_mock(_, default_value):
+            return default_value
+
+        os.environ.get = get_env_var_mock
 
     def test_delete_images(self):
         uut.delete_images()
