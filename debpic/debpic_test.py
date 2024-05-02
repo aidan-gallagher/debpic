@@ -38,7 +38,7 @@ class Test:
             self.cli_commands.pop(0)
             == "docker rmi --force test; docker image prune --force"
         )
-        assert self.cli_commands.pop(0) == "docker volume rm debpic_home"
+        assert self.cli_commands.pop(0) == "docker volume rm debpic_cache"
 
     def test_build_image(self):
         uut.build_image("test_name")
@@ -57,17 +57,17 @@ class Test:
         uut.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_home,dst=/home/docker --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"
         )
 
         uut.run_container("test_name", "echo I'm a test command")
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_home,dst=/home/docker --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && echo I'm a test command'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && echo I'm a test command'"
         )
 
         uut.run_container("test_name", "", "", "--interactive")
         assert (
             self.cli_commands.pop(0)
-            == 'docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_home,dst=/home/docker --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS="" --interactive test_name '
+            == 'docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS="" --interactive test_name '
         )

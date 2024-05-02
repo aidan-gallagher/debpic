@@ -60,7 +60,7 @@ def delete_images():
     else:
         logging.info("No images to delete")
 
-    run("docker volume rm debpic_home", check=False)
+    run("docker volume rm debpic_cache", check=False)
 
 
 def generate_image_name() -> str:
@@ -221,7 +221,7 @@ dpkg-buildpackage --target=clean\
     run_cmd = f"""\
 docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
---mount type=volume,src=debpic_home,dst=/home/docker
+--mount type=volume,src=debpic_cache,dst=/home/docker/.cache
 --user {get_uid()}:$(id -g {get_uid()})
 --network host
 --tty
@@ -432,7 +432,7 @@ def vscode(repository_name):
         "name": "{repository_name}",
         "image": "{repository_name}",
         "mounts": [
-            "source=debpic_home,target=/home/docker,type=volume",
+            "source=debpic_cache,target=/home/docker/.cache,type=volume",
         ],
         "containerEnv": {{
             "DEB_BUILD_OPTIONS": "{deb_build_options}"
@@ -494,7 +494,7 @@ def main(argv: List[str]):
         repository_name = generate_image_name()
 
         if args.no_cache == "--no-cache":
-            run("docker volume rm debpic_home", check=False)
+            run("docker volume rm debpic_cache", check=False)
 
         with hardlink_local_repository(args.local_repository):
             with copy_hook(args.hook):

@@ -38,6 +38,14 @@ RUN mkdir -p /var/lib/jenkins/workspace && \
 # ---------------------------------------------------------------------------- #
 
 
+# -------------------------- Cache volume workaround ------------------------- #
+# Docker volume is owned by root if target directory doesn't exist.
+# https://stackoverflow.com/questions/50818029/mounted-folder-created-as-root-instead-of-current-user-in-docker/50820023#50820023
+RUN mkdir --parents /home/docker/.cache && \
+    chown -R docker:docker /home/docker/.cache
+# ---------------------------------------------------------------------------- #
+
+
 # --------------------------- Add convenience script-------------------------- #
 # If the user is in interactive mode and runs `dpkg-buildpackage` the generated
 # .debs are placed in the parent directory which isn't mounted and therefore not
