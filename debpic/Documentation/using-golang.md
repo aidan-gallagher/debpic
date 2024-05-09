@@ -22,33 +22,9 @@ The benefits I see to using the Debian packing / go path workflow over go module
     ```
     
 # Steps
-Enter the container in interactive mode
+Enter the container in interactive mode and invoke the gopath setup script
 ```
-debpic --interactive
-```
-
-Copy and paste the following commands
-```
-# Turn off Go modules
-go env -w GO111MODULE=off
-
-# Set the path to the location where debian packages install go code
-export GOPATH=/usr/share/gocode/
-
-# Check DH_GOPKG is set before progressing
-grep -q "^export DH_GOPKG" debian/rules || { echo "Error: DH_GOPKG is not set in the file."; }
-
-# Determine DH_GOPKG
-DH_GOPKG=$(grep -Po '(?<=export DH_GOPKG := ).*' debian/rules)
-
-# Create parent directories to DH_GOPKG location.
-sudo mkdir -p /usr/share/gocode/src/$DH_GOPKG
-
-# Remove last directory as it will be symbolic linked and if it's not removed ln will complain/
-sudo rm -r /usr/share/gocode/src/$DH_GOPKG
-
-# Symbolic link current directory to DH_GOPKG location.
-sudo ln -s $(pwd) /usr/share/gocode/src/$DH_GOPKG
+debpic --interactive --hook gopath
 ```
 
 Now you can run
