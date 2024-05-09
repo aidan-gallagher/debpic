@@ -1,4 +1,4 @@
-# Invoke with "make -f tasks.makefile" to run all checks locally
+# Invoke with "make -f checks.mk" to run all checks locally
 
 commits := master..HEAD
 

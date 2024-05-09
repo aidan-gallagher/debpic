@@ -1,3 +1,7 @@
+# Developer---->|                    |----> External tool (eg. gitlint)
+#               |----> makefile ---->|
+# CI System---->|                    |----> External tool (eg. mypy)
+
 name: debpic
 
 on:
@@ -14,32 +18,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build package using dpkg-buildpackage # Currently can't use debpic as it's not hosted in any apt repo.
-      run: |
-        sudo apt-get update && sudo apt-get install --yes --fix-missing --no-install-recommends devscripts equivs lintian
-        mk-build-deps && sudo apt-get install --yes --fix-missing --no-install-recommends ./*build-deps*.deb
-        rm ./*build-deps*.deb
-        dpkg-buildpackage
-    - name: Lintian # Currently can't use debpic as it's not hosted in any apt repo.
-      run: |
-        lintian
     - name: Install debpic
       run: |
-        sudo dpkg -i ../debpic_*.deb
+        wget https://github.com/aidan-gallagher/debpic/releases/download/v1.0.0/debpic_1.0.0_all.deb
+        sudo apt install ./debpic_1.0.0_all.deb
         sudo usermod -aG docker $USER
         newgrp docker
-    - name: Building package using debpic
-      run: |
-        debpic
-    - name: Pytest
-      run: |
-        debpic "pytest-3"
     - name: Black
       run: |
-        debpic "black --check ."
+        make -f checks.mk black
     - name: Mypy
       run: |
-        debpic "mypy ."
+        make -f checks.mk mypy
+    - name: Pytest
+      run: |
+        make -f checks.mk pytest
+    - name: Package
+      run: |
+        make -f checks.mk package
+    - name: Lintian
+      run: |
+        make -f checks.mk lintian
+    - name: Clean
+      run: |
+        make -f checks.mk clean
     - uses: actions/upload-artifact@v3
       with:
         name: Debian Package
