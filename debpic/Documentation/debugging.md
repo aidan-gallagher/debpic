@@ -21,9 +21,6 @@ It seems like you have to restart docker.service after connecting to the VPN.
    cat /etc/debpic/sources.list.d/default.sources
    ```
    3.2 Ensure the value in "URIs:" is accessible.
-   ```
-   xdg-open http://build-release.eng.vyatta.net:82/Vyatta:/Shipping:/2308/standard/
-   ```
 
 4. If Docker can not resolve you private repositories then you can tell it use your private DNS server
 
@@ -44,26 +41,8 @@ It seems like you have to restart docker.service after connecting to the VPN.
 
    4.4. If that doesn't work then you could try changing the sources to refer to the build server by IP address rather than domain name.
 
-      ```
-      nano /etc/debpic/sources.list.d/default.sources
-      ```
-      ```
-      # Existing
-      ...
-      URIs: http://build-release.eng.vyatta.net:82/Vyatta:/Unstable/standard/
-      ...
-
-      # Replace
-      ...
-      URIs: http://10.156.50.150:82/Vyatta:/Unstable/standard/
-      ...
-      ```
-
 
 4. Ensure the command line arguments look correct.
-   ```
-   INFO:root:Docker build command: DOCKER_BUILDKIT=1 docker image build --tag vyatta-dataplane-buildenv --file /usr/share/debpic/Dockerfile --network host --build-arg UID=$(id -u) --no-cache --build-arg UID="1000" .
-   ```
 
 5. Restart Docker (Not sure how much this helps).
    ```

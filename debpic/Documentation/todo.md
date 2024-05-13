@@ -71,7 +71,5 @@ https://github.com/aidan-gallagher/debpic/issues
 
 * Integrate docker debug-shell when available: https://github.com/docker/buildx/pull/1640.
 
-* Add inline gpg key to vyatta sources (other repo) when we move to debian 12. (Didn't seem to work - needs investigation)
-
 * Consider using `--build-context` once docker build > 23 is in Debian.
 

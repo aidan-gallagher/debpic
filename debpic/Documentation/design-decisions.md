@@ -30,10 +30,10 @@ Two commands is preferred because if it fails then the the user is told which pa
 ...
 #12 2.053 
 #12 2.053 The following packages have unmet dependencies:
-#12 2.091  vplane-config-qos-build-deps : Depends: dh-yang but it is not installable
-#12 2.091                                 Depends: dh-vci but it is not installable
-#12 2.091                                 Depends: golang-github-danos-vyatta-dataplane-protobuf-dev but it is not installable
-#12 2.091                                 Depends: golang-github-danos-vci-dev but it is not installable
+#12 2.091  <PACKAGE_1>                  : Depends: <PACKAGE_2> but it is not installable
+#12 2.091                                 Depends: <PACKAGE_3> but it is not installable
+#12 2.091                                 Depends: <PACKAGE_4> but it is not installable
+#12 2.091                                 Depends: <PACKAGE_5> but it is not installable
 #12 2.096 E: Unable to correct problems, you have held broken packages.
 ```
 
@@ -46,7 +46,7 @@ This is in docker build (>23). Unfortunately it not available in Debian.
 
 If it was then instead of passing 
 ```
---build-arg ADDITIONAL_SOURCES="Enabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.45:82/Vyatta:/Tools/Debian11/\nSuites: ./\nTrusted: yes\n\nEnabled: Yes\nTypes: deb\nURIs: http://10.156.50.150:82/Vyatta:/Unstable/standard/\nSuites: ./\nTrusted: yes\n" .
+--build-arg ADDITIONAL_SOURCES="Enabled: Yes\nTypes: deb\nURIs: http://my_apt_repo/Debian11/\nSuites: ./\nTrusted: yes\n\n.
 ```
 We could COPY the file from `/etc/debpic/sources.list.d/` instead.
 
