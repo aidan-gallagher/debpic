@@ -1,5 +1,6 @@
 black
 python3-pytest
+python3-pytest-cov
 python3-yaml
 lintian
 mypy

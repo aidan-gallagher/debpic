@@ -33,6 +33,10 @@ jobs:
     - name: Pytest
       run: |
         make -f checks.mk pytest
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3.1.6
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
     - name: Package
       run: |
         make -f checks.mk package

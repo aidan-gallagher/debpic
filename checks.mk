@@ -20,7 +20,7 @@ mypy:
 	$(PREFIX) mypy . $(SUFFIX)
 
 pytest:
-	$(PREFIX) pytest-3 $(SUFFIX)
+	$(PREFIX) pytest-3 --cov-report=xml --cov $(SUFFIX)
 
 package:
 	$(PREFIX) dpkg-buildpackage && mv-debs $(SUFFIX)

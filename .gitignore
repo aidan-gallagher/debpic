@@ -1,2 +1,3 @@
-built_packages/
 __pycache__/
+.coverage
+coverage.xml
