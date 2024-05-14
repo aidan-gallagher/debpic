@@ -6,14 +6,41 @@
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 # Introduction
 
+Debpic lets you build Debian packages in an isolated Docker environment.
+
 See the [man page](./debpic/Documentation/debpic.manpage.md) for an introduction and usage instructions.
 
-# Why use debpic
 The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) has a list of similar tools.  
+# Overview
 
-Debpic installs a [dockerfile](./debpic/Dockerfile) containing all the instructions necessary to setup the environment; the dockerfile allows tools such as [Jenkins](./debpic/Documentation/using-with-jenkins.md) and [VSCode](./debpic/Documentation/using-with-vscode.md) to be used within a container.
+| Tasks                                   | Steps                                                               |
+|-----------------------------------------|---------------------------------------------------------------------|
+| Build                                   | `debpic`                                                            |
+| Interactive mode                        | `debpic --interactive`                                              |
+| Open VSCode in container                | `debpic --vscode`                                                   |
+| Local Apt Repository                    | `debpic --local-repository ~/mydebs`                                |
+| Private Apt Repository (Configure)      | Write deb822 format sources to `/etc/debpic/sources.list.d/MyServer`|
+| Private Apt Repository (Use)            | `debpic --sources MyServer`                                         |
+| Use DEB_BUILD_OPTIONS                   | `DEB_BUILD_OPTIONS="nocheck no_lto" debpic`                         |
+| Run Command in container                | `debpic "my command"`                                               |
+| Install extra packages                  | `debpic --extra-pkg gdb`                                            |
+| Set destination directory               | `debpic --destination ~/my_built_packages`                          |
+| Pass args to dpkg-buildpackage          | `debpic -- -b`                                                      |
+| Hook script (Configure)                 | Write script to `/etc/debpic/hooks/myscript`                        |
+| Hook script (Use)                       | `debpic --hook myscript`                                            |
+| Use golang tooling                      | `debpic --hook gopath --interactive`                                |
+| Jenkins Integration                     | See [Using With Jenkins](debpic/Documentation/using-with-jenkins.md). |
 
-Debpic is simple to use, has tab completion and good documentation.
+
+| User Experience                         | Info                                                                |
+|-----------------------------------------|---------------------------------------------------------------------|
+| Tab completion                          | Yes                                                                 |
+| Man page                                | Yes                                                                 |
+| Coloured Output                         | Yes                                                                 |
+| Caching                                 | Container is cached. Ccache enabled by default.                     |
+| Config file                             | `~/.config/debpic/debpic.conf`                                      |
+| Built package location                  | `./built_packages/`                                                 |
+| Include extra tools                     | Edit ./developer-packages.txt                                       |
 
 # Installation
 
@@ -29,4 +56,8 @@ sudo apt install ~/Downloads/debpic_1.0.0_all.deb
 ```
 sudo usermod -aG docker $USER
 newgrp docker
+```
+4. . Optionally - configure git to globally ignore generated built_packages directory
+```
+echo built_packages >> ~/.config/git/ignore
 ```
