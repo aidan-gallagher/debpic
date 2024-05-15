@@ -91,7 +91,7 @@ def hardlink_local_repository(local_repository_path: str):
         if not os.path.isdir(local_repository_path):
             sys.exit(f'Local repository "{local_repository_path}" is not a directory')
         run("rm -rf ./local_repository && mkdir --parents ./local_repository")
-        run(f"ln {local_repository_path}/* ./local_repository/")
+        run(f"ln {local_repository_path}/*.deb ./local_repository/")
 
     yield
 
