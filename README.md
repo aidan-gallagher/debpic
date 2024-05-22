@@ -61,3 +61,8 @@ newgrp docker
 ```
 echo built_packages >> ~/.config/git/ignore
 ```
+
+# Documentation
+
+For more information see the [documentation](debpic/Documentation).
+

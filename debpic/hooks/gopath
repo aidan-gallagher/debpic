@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# GOPATH setup script
+# GOPATH setup script to configure go tooling to use debian Go dev packages
 #
 # This script will allow the developer to run go tools such as "go test ./..." or "go build"
 # without having to invoke dpkg-buildpackage.

@@ -1,8 +1,9 @@
-# Introduction
-Go modules are the recommended method for handling dependencies, however, debian packaging uses GOPATH instead.
+# Golang Debian Dependencies 
+## Introduction
+Go modules are the recommended method for handling dependencies in Go, however, debian packaging uses GOPATH instead.
 
-# Benefits
-The benefits I see to using the Debian packing / go path workflow over go modules are:
+## Benefits
+Some benefits to using the Debian packing / go path workflow over go modules are:
  
 * **Consistent Workflow:** By following the Debian packaging approach, the workflow remains consistent with other packages written in different languages. For instance, in Python development, we typically install packages using sudo apt install python3-<packageName> rather than pip install <packageName>.
  
@@ -21,7 +22,7 @@ The benefits I see to using the Debian packing / go path workflow over go module
     debpic --local-repository ~/my_debs
     ```
     
-# Steps
+## Steps
 Enter the container in interactive mode and invoke the gopath setup script
 ```
 debpic --interactive --hook gopath
