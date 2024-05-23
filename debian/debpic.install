@@ -5,7 +5,7 @@
 debian/debpic.1 => usr/share/man/man1/debpic.1
 debpic/Documentation/ /usr/share/doc/debpic/
 debpic/debpic-completion.bash => /usr/share/bash-completion/completions/debpic
-debpic/debpic.conf => /etc/debpic/debpic.conf
+debpic/debpic.conf.template => /etc/debpic/debpic.conf.template
 debpic/Dockerfile => usr/share/debpic/Dockerfile
 debpic/debpic.py => usr/bin/debpic
 debpic/hooks/ /etc/debpic/

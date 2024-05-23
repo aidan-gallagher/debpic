@@ -337,7 +337,7 @@ def debpic_parse_args(argv: List[str]):
     parser.add_argument(
         "-hk",
         "--hook",
-        help="script to run after directory setup",
+        help="Select a hook script stored at /etc/debpic/hooks/<SCRIPT>.",
         default="default",
     )
     exclusive_group_parser = parser.add_mutually_exclusive_group()
