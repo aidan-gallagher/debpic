@@ -374,20 +374,21 @@ def debpic_parse_args(argv: List[str]):
     system_config = read_config(SYSTEM_CONFIG_FILE, {})
     user_config = read_config(USER_CONFIG_FILE, system_config)
     repo_config = read_config(REPO_CONFIG_FILE, user_config)
+
+    dpkg_buildpackage_args = repo_config["--"] if "--" in repo_config else ""
     parser.set_defaults(**repo_config)
 
     # Extract dpkg-buildpackage ("--") args before argparse parsing
     for idx, arg in enumerate(argv):
         if arg == "--":
             debpic_args = argv[:idx]
-            dpkg_buildpackage_args = argv[idx + 1 :]
+            dpkg_buildpackage_args += " " + " ".join(argv[idx + 1 :])
             break
     else:
         debpic_args = argv
-        dpkg_buildpackage_args = [""]
 
     args = parser.parse_args(debpic_args)
-    args.dpkg_buildpackage_args = " ".join(dpkg_buildpackage_args)
+    args.dpkg_buildpackage_args = dpkg_buildpackage_args
 
     return args
 
