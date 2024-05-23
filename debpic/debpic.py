@@ -266,9 +266,12 @@ def debpic_parse_args(argv: List[str]):
     class CustomHelpFormatter(argparse.HelpFormatter):
         def format_help(self):
             original_help = super().format_help()
-            return (
-                original_help + "  --\t\t\tArguments to pass to dpkg-buildpackage. \n"
-            )
+            if "--version" not in argv and "-v" not in argv:
+                return (
+                    original_help
+                    + "  --\t\t\tArguments to pass to dpkg-buildpackage. \n"
+                )
+            return original_help
 
     def read_config(filename: str, config: dict):
         # Read defaults from configuration file.
@@ -289,6 +292,7 @@ def debpic_parse_args(argv: List[str]):
         return config
 
     parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
+    parser.add_argument("-v", "--version", action="version", version="%(prog)s v1.0.0")
     parser.add_argument(
         "-nc",
         "--no-cache",
