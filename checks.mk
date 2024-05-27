@@ -29,4 +29,6 @@ lintian: package
 	$(PREFIX) lintian --fail-on warning ./built_packages/*.changes  $(SUFFIX)
 
 clean:
-	$(PREFIX) dpkg-buildpackage --target=clean $(SUFFIX)
+	$(PREFIX) dpkg-buildpackage --target=clean && \
+			  py3clean . && \
+			  rm -rf .mypy_cache .pytest_cache .coverage coverage.xml $(SUFFIX)
