@@ -1,8 +1,8 @@
 import subprocess
-import debpic as uut
 import os
-
-# main(["--no-cache"])
+import common
+import build
+import run
 
 
 class Test:
@@ -16,12 +16,12 @@ class Test:
             self.cli_commands.append(command)
             return "test"
 
-        uut.run = run_mock
+        common.run = run_mock
 
         def get_uid_mock():
             return 1000
 
-        uut.get_uid = get_uid_mock
+        common.get_uid = get_uid_mock
 
         def get_env_var_mock(_, default_value):
             return default_value
@@ -29,7 +29,7 @@ class Test:
         os.environ.get = get_env_var_mock
 
     def test_delete_images(self):
-        uut.delete_images()
+        common.delete_images()
         assert (
             self.cli_commands.pop(0)
             == "docker images '*buildenv' --format {{.Repository}}"
@@ -41,32 +41,32 @@ class Test:
         assert self.cli_commands.pop(0) == "docker volume rm debpic_cache"
 
     def test_build_image(self):
-        uut.build_image("test_name")
+        build.build_image("test_name")
         assert (
             self.cli_commands.pop(0)
             == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/debpic/Dockerfile --network host   ."
         )
 
-        uut.build_image("test_name", "--no-cache")
+        build.build_image("test_name", "--no-cache")
         assert (
             self.cli_commands.pop(0)
             == "DOCKER_BUILDKIT=1 docker image build --tag test_name --file /usr/share/debpic/Dockerfile --network host --no-cache  ."
         )
 
     def test_run_container(self):
-        uut.run_container("test_name")
+        run.run_container("test_name")
         assert (
             self.cli_commands.pop(0)
             == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"
         )
 
-        uut.run_container("test_name", "echo I'm a test command")
+        run.run_container("test_name", "echo I'm a test command")
         assert (
             self.cli_commands.pop(0)
             == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && echo I'm a test command'"
         )
 
-        uut.run_container("test_name", "", "", "--interactive")
+        run.run_container("test_name", "", "", "--interactive")
         assert (
             self.cli_commands.pop(0)
             == 'docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS="" --interactive test_name '
