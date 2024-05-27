@@ -9,7 +9,7 @@
 # Add a rule to convert Markdown to man
 override_dh_auto_build:
 	dh_auto_build
-	pandoc --standalone --to man debpic/Documentation/debpic.manpage.md -o debian/debpic.1
+	pandoc --standalone --to man debpic/documentation/debpic.manpage.md -o debian/debpic.1
 
 override_dh_auto_clean:
 	dh_auto_clean
