@@ -1,5 +1,5 @@
 # DEBPIC: DEbian Build Package In Container
-![alt text](./debpic/Documentation/debpic-logo.png "Logo")  
+![alt text](./debpic/documentation/debpic-logo.png "Logo")  
 [![debpic](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml/badge.svg)](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/aidan-gallagher/debpic/graph/badge.svg?token=G0WWQPPIIC)](https://codecov.io/gh/aidan-gallagher/debpic)
@@ -8,7 +8,7 @@
 
 Debpic lets you build Debian packages in an isolated Docker environment.
 
-See the [man page](./debpic/Documentation/debpic.manpage.md) for an introduction and usage instructions.
+See the [man page](./debpic/documentation/debpic.manpage.md) for an introduction and usage instructions.
 
 The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) has a list of similar tools.  
 # Overview
@@ -29,7 +29,7 @@ The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) 
 | Hook script (Configure)                 | Write script to `/etc/debpic/hooks/myscript`                        |
 | Hook script (Use)                       | `debpic --hook myscript`                                            |
 | Use golang tooling                      | `debpic --hook gopath --interactive`                                |
-| Jenkins Integration                     | See [Using With Jenkins](debpic/Documentation/using-with-jenkins.md). |
+| Jenkins Integration                     | See [Using With Jenkins](debpic/documentation/using-with-jenkins.md). |
 
 
 | User Experience                         | Info                                                                |
@@ -64,5 +64,5 @@ echo built_packages >> ~/.config/git/ignore
 
 # Documentation
 
-For more information see the [documentation](debpic/Documentation).
+For more information see the [documentation](debpic/documentation).
 

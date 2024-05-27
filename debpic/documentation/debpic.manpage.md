@@ -95,7 +95,7 @@ _/etc/debpic/hooks/*_
 _/usr/share/debpic/Dockerfile_
 
 : This is the dockerfile used to generate the container which the build is performed in. If you want to use other tools (such as Jenkins or VSCode) in the same containerised environment you can point them to this Dockerfile.
-See documentation on how to use with [Jenkins](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-with-jenkins.md) and [VSCode](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-with-vscode.md).
+See documentation on how to use with [Jenkins](https://github.com/aidan-gallagher/debpic/blob/main/debpic/documentation/using-with-jenkins.md) and [VSCode](https://github.com/aidan-gallagher/debpic/blob/main/debpic/documentation/using-with-vscode.md).
 
 
 ## Configuration files
@@ -149,7 +149,7 @@ Trusted: yes"
 ```
 debpic --sources unstable
 ```
-For more information see [using additional sources](https://github.com/aidan-gallagher/debpic/blob/main/debpic/Documentation/using-additional-sources.md).
+For more information see [using additional sources](https://github.com/aidan-gallagher/debpic/blob/main/debpic/documentation/using-additional-sources.md).
 
 ### Install local packages
 1. Place local debian packages (.debs) in `./local_repository/`.

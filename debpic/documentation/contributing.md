@@ -7,7 +7,7 @@ Issues and Pull Requests are welcome on [Github](https://github.com/aidan-gallag
 
 ├── __debian/:__ Debian packaging information for debpic.  
 ├── __debpic/:__ Source code for debpic.  
-│   ├── __Documentation/:__  Documentation for debpic  
+│   ├── __Documentation/:__  documentation for debpic  
 │   ├── __hooks/:__  Standard scripts to be used with `debpic --hook`.  
 │   │   └── __gopath:__  Setup go tooling to use debian Go dev packages.  
 │   ├── __python/:__  
