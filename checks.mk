@@ -14,7 +14,10 @@ all: black mypy pytest package lintian clean
 	@echo SUCCESS
 
 black:
-	$(PREFIX) black . $(SUFFIX)
+	$(PREFIX) black --check . $(SUFFIX)
+
+isort:
+	$(PREFIX) isort --check . $(SUFFIX)
 
 mypy:
 	$(PREFIX) mypy . $(SUFFIX)

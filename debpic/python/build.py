@@ -1,7 +1,7 @@
-from contextlib import contextmanager
-from typing import List
 import os
 import sys
+from contextlib import contextmanager
+from typing import List
 
 import common
 

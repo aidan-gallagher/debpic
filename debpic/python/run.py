@@ -1,7 +1,8 @@
 import os
-import common
 import subprocess
 import sys
+
+import common
 
 
 def run_container(
