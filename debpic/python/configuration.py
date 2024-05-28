@@ -1,8 +1,9 @@
-from typing import List
 import argparse
 import os
-import yaml
 import sys
+from typing import List
+
+import yaml
 
 
 def debpic_parse_args(argv: List[str]):

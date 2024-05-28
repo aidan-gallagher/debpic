@@ -27,6 +27,9 @@ jobs:
     - name: Black
       run: |
         make -f checks.mk black
+    - name: Isort
+      run: |
+        make -f checks.mk isort
     - name: Mypy
       run: |
         make -f checks.mk mypy

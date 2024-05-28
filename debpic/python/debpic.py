@@ -5,14 +5,14 @@ import logging
 import os
 import subprocess
 import sys
-import yaml
 from typing import List
 
-import common
 import build
-import run
+import common
 import configuration
+import run
 import vscode
+import yaml
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 

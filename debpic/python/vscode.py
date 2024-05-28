@@ -1,6 +1,7 @@
 import os
-import common
 import sys
+
+import common
 
 
 def vscode(repository_name):

@@ -5,3 +5,4 @@ python3-yaml
 lintian
 mypy
 python3-typeshed
+isort
