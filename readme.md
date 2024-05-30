@@ -44,20 +44,31 @@ The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) 
 
 # Installation
 
-1. Download [debpic debian package]( 
-https://github.com/aidan-gallagher/debpic/releases/download/v1.0.0/debpic_1.0.0_all.deb)
-
-2. Install debpic
+1. Add the apt repository.
 ```
-sudo apt install ~/Downloads/debpic_1.0.0_all.deb
+echo "deb https://aidangallagher.co.uk/apt-repo/ unstable main" | sudo tee /etc/apt/sources.list.d/debpic.list
 ```
 
-3.  Configure docker to run as non-root user. See [official docker documentation](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) for more details.
+2. Add gpg key for apt repository.
+```
+gpg --keyserver keyserver.ubuntu.com --recv-keys 9945693042DB91DF
+
+gpg --export 9945693042DB91DF | sudo tee /etc/apt/trusted.gpg.d/debpic.gpg > /dev/null
+```
+
+3. Install debpic.
+```
+sudo apt update && sudo apt install debpic
+```
+
+> **_NOTE:_**  If you prefer you can download the [debpic debian package]( https://github.com/aidan-gallagher/debpic/releases/download/v1.0.0/debpic_1.0.0_all.deb) directly from github.
+
+4. Configure docker to run as non-root user. See [official docker documentation](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) for more details.
 ```
 sudo usermod -aG docker $USER
 newgrp docker
 ```
-4. . Optionally - configure git to globally ignore generated built_packages directory
+5. Optionally - configure git to globally ignore generated built_packages directory.
 ```
 echo built_packages >> ~/.config/git/ignore
 ```
