@@ -2,12 +2,22 @@ Source: debpic
 Section: misc
 Priority: optional
 Maintainer: Aidan Gallagher <aidgal2@gmail.com>
-Build-Depends: debhelper-compat (= 12), dh-exec, pandoc
-Standards-Version: 4.5.1
+Build-Depends: debhelper-compat (= 13), dh-exec, pandoc
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/aidan-gallagher/debpic
+Vcs-Git: https://github.com/aidan-gallagher/debpic.git
+Vcs-Browser: https://github.com/aidan-gallagher/debpic
 
 Package: debpic
 Architecture: all
 Depends: docker.io | docker-ce, python3, python3-yaml, ${misc:Depends}
 Recommends: docker-buildx, bash-completion
-Description: Builds debian packages in a docker container.
- Invoke without any arguments to simply build packages.
+Description: Build Debian packages in a docker container
+ Debpic allows developers to build Debian package in an isolated environment.
+ Invoke debpic in a repository without any arguments to simply build packages.
+ The environment is composed from:
+  * The Debian stable docker image.
+  * Build dependencies described in the ./debian/control file.
+  * Any additional developer tools described in ./developer-packages.txt.
+  * Any packages defined in the --extra-pkg flag.
