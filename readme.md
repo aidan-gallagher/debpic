@@ -13,30 +13,32 @@ See the [man page](./debpic/documentation/debpic.manpage.md) for an introduction
 The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) has a list of similar tools.  
 # Overview
 
-| Tasks                                   | Steps                                                               |
-|-----------------------------------------|---------------------------------------------------------------------|
-| Build                                   | `debpic`                                                            |
-| Interactive mode                        | `debpic --interactive`                                              |
-| Open VSCode in container                | `debpic --vscode`                                                   |
-| Local Apt Repository                    | `debpic --local-repository ~/mydebs`                                |
-| Private Apt Repository (Configure)      | Write deb822 format sources to `/etc/debpic/sources.list.d/MyServer`|
-| Private Apt Repository (Use)            | `debpic --sources MyServer`                                         |
-| Use DEB_BUILD_OPTIONS                   | `DEB_BUILD_OPTIONS="nocheck no_lto" debpic`                         |
-| Run Command in container                | `debpic "my command"`                                               |
-| Install extra packages                  | `debpic --extra-pkg gdb`                                            |
-| Set destination directory               | `debpic --destination ~/my_built_packages`                          |
-| Pass args to dpkg-buildpackage          | `debpic -- -b`                                                      |
-| Hook script (Configure)                 | Write script to `/etc/debpic/hooks/myscript`                        |
-| Hook script (Use)                       | `debpic --hook myscript`                                            |
-| Use golang tooling                      | `debpic --hook gopath --interactive`                                |
-| Jenkins Integration                     | See [Using With Jenkins](debpic/documentation/using-with-jenkins.md). |
+| Tasks                                   | Steps                                                                 |
+|-----------------------------------------|-----------------------------------------------------------------------|
+| build Package                           | `debpic`                                                              |
+| **Configure Container**                                                                                         |
+| Different linux distribution            | `debpic --distribution debian:11`                                     |
+| Local apt repository                    | `debpic --local-repository ~/mydebs`                                  |
+| Private apt repository (configure)      | Write deb822 format sources to `/etc/debpic/sources.list.d/MyServer.sources`  |
+| Private apt repository (use)            | `debpic --sources MyServer`                                           |
+| Install extra packages                  | `debpic --extra-pkg gdb`                                              |
+| **Run Container**                                                                                               |
+| Use DEB_BUILD_OPTIONS                   | `DEB_BUILD_OPTIONS="nocheck no_lto" debpic`                           |
+| Run command in container                | `debpic "my command"`                                                 |
+| Pass args to dpkg-buildpackage          | `debpic -- -b`                                                        |
+| Hook script (Configure)                 | Write script to `/etc/debpic/hooks/myscript`                          |
+| Hook script (Use)                       | `debpic --hook myscript`                                              |
+| Interactive mode                        | `debpic --interactive`                                                |
+| Open VSCode in container                | `debpic --vscode`                                                     |
+| Set destination directory               | `debpic --destination ~/my_built_packages`                            |
+| Jenkins integration                     | See [Using With Jenkins](debpic/documentation/using-with-jenkins.md). |
 
 
 | User Experience                         | Info                                                                |
 |-----------------------------------------|---------------------------------------------------------------------|
 | Tab completion                          | Yes                                                                 |
 | Man page                                | Yes                                                                 |
-| Coloured Output                         | Yes                                                                 |
+| Coloured output                         | Yes                                                                 |
 | Caching                                 | Container is cached. Ccache enabled by default.                     |
 | Config file                             | `~/.config/debpic/debpic.conf`                                      |
 | Built package location                  | `./built_packages/`                                                 |
