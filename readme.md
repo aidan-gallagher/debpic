@@ -15,7 +15,7 @@ The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) 
 
 | Tasks                                   | Steps                                                                 |
 |-----------------------------------------|-----------------------------------------------------------------------|
-| build Package                           | `debpic`                                                              |
+| Build package                           | `debpic`                                                              |
 | **Configure Container**                                                                                         |
 | Different linux distribution            | `debpic --distribution debian:11`                                     |
 | Local apt repository                    | `debpic --local-repository ~/mydebs`                                  |
@@ -31,11 +31,10 @@ The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) 
 | Interactive mode                        | `debpic --interactive`                                                |
 | Open VSCode in container                | `debpic --vscode`                                                     |
 | Set destination directory               | `debpic --destination ~/my_built_packages`                            |
-| Jenkins integration                     | See [Using With Jenkins](debpic/documentation/using-with-jenkins.md). |
-
 
 | User Experience                         | Info                                                                |
 |-----------------------------------------|---------------------------------------------------------------------|
+| Jenkins integration                     | See [Using With Jenkins](debpic/documentation/using-with-jenkins.md). |
 | Tab completion                          | Yes                                                                 |
 | Man page                                | Yes                                                                 |
 | Coloured output                         | Yes                                                                 |
