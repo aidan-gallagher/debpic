@@ -46,6 +46,7 @@ docker run
 --mount type=bind,src={gpg_socket},dst=/home/docker/.gnupg/S.gpg-agent,readonly
 --mount type=bind,src={gpg_home}/pubring.kbx,dst=/home/docker/.gnupg/pubring.kbx,readonly
 --mount type=bind,src={gpg_home}/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly
+--mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly
 --user {common.get_uid()}:$(id -g {common.get_uid()})
 --network host
 --tty

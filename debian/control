@@ -1,7 +1,7 @@
 Source: debpic
 Section: misc
 Priority: optional
-Maintainer: Aidan Gallagher <aidgal2@gmail.com>
+Maintainer: Aidan Gallagher <apjgallagher@gmail.com>
 Build-Depends: debhelper-compat (= 13), dh-exec, pandoc
 Standards-Version: 4.6.2
 Rules-Requires-Root: no

@@ -52,23 +52,14 @@ Users can install debpic directly by downloading the .deb from github or they ca
 
 The debpic apt repository is hosted on the branch [`apt-repo`](https://github.com/aidan-gallagher/debpic/tree/apt-repo).
 
-The apt repository can updated using the following commands (run in the repo).
-```
-debpic
-rm -r ~/.aptly
-aptly repo create -distribution=unstable -component=main  debpic
-aptly repo add debpic ./built_packages
-aptly publish -architectures=amd64 repo debpic
-git switch apt-repo
-rm -r *
-cp  -r ~/.aptly/public/* .
-git add .
-git commit --amend
-git push -f
-```
 
 The raw.githubusercontent.com url is used to get the raw files without any HTML prettiness. See [Packages](https://raw.githubusercontent.com/aidan-gallagher/debpic/apt-repo/dists/unstable/main/binary-amd64/Packages) for an example.
 
 A cloudflare Redirect rule is used to redict from `aidan-gallagher/apt-repo` to `https://raw.githubusercontent.com/aidan-gallagher/debpic`.
 
-TODO: It would probably be worth automating this stage in checks.mk.
+The apt repository can updated using the following commands (run in the repo).
+```
+make -f checks.mk apt-repo
+```
+
+The apt repository is automatically updated by the Github Actions when a new commit is added to main.

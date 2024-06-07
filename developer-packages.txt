@@ -6,3 +6,5 @@ lintian
 mypy
 python3-typeshed
 isort
+aptly
+git
