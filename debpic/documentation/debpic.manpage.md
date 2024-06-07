@@ -178,7 +178,7 @@ https://github.com/aidan-gallagher/debpic
 
 # AUTHOR
 
-Aidan Gallagher <aidgal2@gmail.com>
+Aidan Gallagher <apjgallagher@gmail.com>
 
 # SEE ALSO
 

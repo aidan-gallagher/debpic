@@ -35,3 +35,17 @@ clean:
 	$(PREFIX) dpkg-buildpackage --target=clean && \
 			  py3clean . && \
 			  rm -rf .mypy_cache .pytest_cache .coverage coverage.xml $(SUFFIX)
+
+apt-repo: package
+	$(PREFIX) git diff-index --quiet HEAD -- || (echo Please commit or stash changes && exit -1) && \
+	rm -rf ~/.aptly && \
+	aptly repo create -distribution=unstable -component=main  debpic && \
+	aptly repo add debpic ./built_packages && \
+	aptly publish -architectures=amd64 repo debpic && \
+	git switch apt-repo && \
+	rm -r * && \
+	cp  -r ~/.aptly/public/* . && \
+	git add . && \
+	git commit -mUpdate && \
+	git checkout - $(SUFFIX)
+	echo Now run: git push origin apt-repo:apt-repo

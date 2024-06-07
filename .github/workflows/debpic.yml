@@ -11,17 +11,26 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@01dd5d3ca463c7f10f7f4f7b4f177225ac661ee4 #v6.1.0
+      with:
+        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     - name: Install debpic
       run: |
-        wget https://github.com/aidan-gallagher/debpic/releases/download/v1.0.0/debpic_1.0.0_all.deb
-        sudo apt install ./debpic_1.0.0_all.deb
+        echo "deb https://aidangallagher.co.uk/apt-repo/ unstable main" | sudo tee /etc/apt/sources.list.d/debpic.list
+        gpg --keyserver keyserver.ubuntu.com --recv-keys 9945693042DB91DF
+        gpg --export 9945693042DB91DF | sudo tee /etc/apt/trusted.gpg.d/debpic.gpg > /dev/null
+        sudo apt update && sudo apt install debpic
         sudo usermod -aG docker $USER
         newgrp docker
     - name: Black
@@ -54,3 +63,14 @@ jobs:
         name: Debian Package
         path: ./built_packages/debpic*.deb
         if-no-files-found: error
+    - name: Update Apt Repo
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        mkdir ~/.config/git
+        echo "[user]
+          email = apjgallagher@gmail.com
+          name = Aidan Gallagher
+        [commit]
+          gpgSign = true" >> ~/.config/git/config
+        make -f checks.mk apt-repo
+        git push origin apt-repo:apt-repo
