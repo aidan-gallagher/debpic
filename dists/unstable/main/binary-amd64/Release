@@ -1,5 +1,6 @@
 Origin: . unstable
 Label: . unstable
 Archive: unstable
+Suite: unstable
 Architecture: amd64
 Component: main
