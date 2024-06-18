@@ -15,6 +15,11 @@ class Test:
 
         def run_mock(command, **kwargs):
             self.cli_commands.append(command)
+
+            if command == "gpgconf --list-dirs agent-socket":
+                return "/run/user/1000/gnupg/S.gpg-agent"
+            elif command == "gpgconf --list-dir homedir":
+                return "/home/debpic_user/.gnupg"
             return "test"
 
         common.run = run_mock
@@ -56,19 +61,25 @@ class Test:
 
     def test_run_container(self):
         run.run_container("test_name")
+        assert self.cli_commands.pop(0) == "gpgconf --list-dirs agent-socket"
+        assert self.cli_commands.pop(0) == "gpgconf --list-dir homedir"
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"
+            == """docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --mount type=bind,src=/run/user/1000/gnupg/S.gpg-agent,dst=/home/docker/.gnupg/S.gpg-agent,readonly --mount type=bind,src=/home/debpic_user/.gnupg/pubring.kbx,dst=/home/docker/.gnupg/pubring.kbx,readonly --mount type=bind,src=/home/debpic_user/.gnupg/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly --mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=""  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && dpkg-buildpackage  && mv-debs && dpkg-buildpackage --target=clean'"""
         )
 
         run.run_container("test_name", "echo I'm a test command")
+        assert self.cli_commands.pop(0) == "gpgconf --list-dirs agent-socket"
+        assert self.cli_commands.pop(0) == "gpgconf --list-dir homedir"
         assert (
             self.cli_commands.pop(0)
-            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && echo I'm a test command'"
+            == "docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --mount type=bind,src=/run/user/1000/gnupg/S.gpg-agent,dst=/home/docker/.gnupg/S.gpg-agent,readonly --mount type=bind,src=/home/debpic_user/.gnupg/pubring.kbx,dst=/home/docker/.gnupg/pubring.kbx,readonly --mount type=bind,src=/home/debpic_user/.gnupg/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly --mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS=\"\"  test_name /bin/bash -c 'if [[ -x /usr/bin/hook ]]; then /usr/bin/hook; fi && echo I'm a test command'"
         )
 
         run.run_container("test_name", "", "", "--interactive")
+        assert self.cli_commands.pop(0) == "gpgconf --list-dirs agent-socket"
+        assert self.cli_commands.pop(0) == "gpgconf --list-dir homedir"
         assert (
             self.cli_commands.pop(0)
-            == 'docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS="" --interactive test_name '
+            == 'docker run --mount type=bind,src=${PWD},dst=/workspaces/code --mount type=volume,src=debpic_cache,dst=/home/docker/.cache --mount type=bind,src=/run/user/1000/gnupg/S.gpg-agent,dst=/home/docker/.gnupg/S.gpg-agent,readonly --mount type=bind,src=/home/debpic_user/.gnupg/pubring.kbx,dst=/home/docker/.gnupg/pubring.kbx,readonly --mount type=bind,src=/home/debpic_user/.gnupg/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly --mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly --user 1000:$(id -g 1000) --network host --tty --rm --env DEB_BUILD_OPTIONS="" --interactive test_name '
         )
