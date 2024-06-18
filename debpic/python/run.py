@@ -36,8 +36,8 @@ dpkg-buildpackage --target=clean\
     deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
 
     # TODO: If the host doesn't have gpg installed then skip this.
-    gpg_home = common.run("gpgconf --list-dir homedir").strip()
     gpg_socket = common.run("gpgconf --list-dirs agent-socket").strip()
+    gpg_home = common.run("gpgconf --list-dir homedir").strip()
 
     run_cmd = f"""\
 docker run
