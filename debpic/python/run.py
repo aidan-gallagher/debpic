@@ -1,6 +1,8 @@
 import os
+import os.path
 import subprocess
 import sys
+from shutil import which
 
 import common
 
@@ -35,18 +37,24 @@ dpkg-buildpackage --target=clean\
 
     deb_build_options = os.environ.get("DEB_BUILD_OPTIONS", "")
 
-    # TODO: If the host doesn't have gpg installed then skip this.
-    gpg_socket = common.run("gpgconf --list-dirs agent-socket").strip()
-    gpg_home = common.run("gpgconf --list-dir homedir").strip()
+    gpg_mount_cmds = ""
+    if which("gpg") is not None:
+        gpg_socket = common.run("gpgconf --list-dirs agent-socket").strip()
+        gpg_home = common.run("gpgconf --list-dir homedir").strip()
+
+        if os.path.exists(f"{gpg_home}/pubring.kbx"):
+            if os.path.exists(f"{gpg_home}/trustdb.gpg"):
+                gpg_mount_cmds = f"""\
+--mount type=bind,src={gpg_socket},dst=/home/docker/.gnupg/S.gpg-agent,readonly
+--mount type=bind,src={gpg_home}/pubring.kbx,dst=/home/docker/.gnupg/pubring.kbx,readonly
+--mount type=bind,src={gpg_home}/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly"""
 
     run_cmd = f"""\
 docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
 --mount type=volume,src=debpic_cache,dst=/home/docker/.cache
---mount type=bind,src={gpg_socket},dst=/home/docker/.gnupg/S.gpg-agent,readonly
---mount type=bind,src={gpg_home}/pubring.kbx,dst=/home/docker/.gnupg/pubring.kbx,readonly
---mount type=bind,src={gpg_home}/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly
 --mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly
+{gpg_mount_cmds}
 --user {common.get_uid()}:$(id -g {common.get_uid()})
 --network host
 --tty

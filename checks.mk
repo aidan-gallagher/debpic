@@ -10,7 +10,7 @@ else
 	SUFFIX := "
 endif
 
-all: black mypy pytest package lintian clean
+all: black isort mypy pytest package lintian clean
 	@echo SUCCESS
 
 black:
