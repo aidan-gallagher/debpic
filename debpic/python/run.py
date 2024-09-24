@@ -49,11 +49,17 @@ dpkg-buildpackage --target=clean\
 --mount type=bind,src={gpg_home}/pubring.kbx,dst=/home/docker/.gnupg/pubring.kbx,readonly
 --mount type=bind,src={gpg_home}/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly"""
 
+    config_mount_cmd = ""
+    if os.path.exists("$HOME/.config"):
+        config_mount_cmd = (
+            "--mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly"
+        )
+
     run_cmd = f"""\
 docker run
 --mount type=bind,src=${{PWD}},dst=/workspaces/code
 --mount type=volume,src=debpic_cache,dst=/home/docker/.cache
---mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly
+{config_mount_cmd}
 {gpg_mount_cmds}
 --user {common.get_uid()}:$(id -g {common.get_uid()})
 --network host
