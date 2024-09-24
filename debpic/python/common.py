@@ -1,6 +1,7 @@
 import logging
 import os
 import subprocess
+import sys
 
 
 def run(cmd: str, capture_output=True, check=True) -> str:
