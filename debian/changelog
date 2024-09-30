@@ -1,5 +1,5 @@
 debpic (1.0.0) unstable; urgency=low
 
-  * Initial Release.
+  * Initial Release. (Closes: #1072313)
 
  -- Aidan Gallagher <apjgallagher@gmail.com>  Thu, 01 Jun 2023 09:00:00 +0000
