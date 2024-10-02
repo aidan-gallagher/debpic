@@ -50,7 +50,8 @@ dpkg-buildpackage --target=clean\
 --mount type=bind,src={gpg_home}/trustdb.gpg,dst=/home/docker/.gnupg/trustdb.gpg,readonly"""
 
     config_mount_cmd = ""
-    if os.path.exists("$HOME/.config"):
+    home = os.path.expanduser("~")
+    if os.path.exists(f"{home}/.config"):
         config_mount_cmd = (
             "--mount type=bind,src=$HOME/.config,dst=/home/docker/.config,readonly"
         )
