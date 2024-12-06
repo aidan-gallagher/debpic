@@ -2,5 +2,5 @@ Origin: . unstable
 Label: . unstable
 Archive: unstable
 Suite: unstable
-Architecture: amd64
+Architecture: source
 Component: main
