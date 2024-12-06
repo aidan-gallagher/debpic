@@ -2,5 +2,5 @@ Origin: . unstable
 Label: . unstable
 Archive: unstable
 Suite: unstable
-Architecture: source
+Architecture: all
 Component: main

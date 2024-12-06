@@ -1,0 +1,25 @@
+Package: debpic
+Priority: optional
+Section: misc
+Installed-Size: 126
+Maintainer: Aidan Gallagher <apjgallagher@gmail.com>
+Architecture: all
+Version: 1.0.0
+Depends: docker.io | docker-ce, python3, python3-yaml
+Recommends: docker-buildx, bash-completion
+Filename: pool/main/d/debpic/debpic_1.0.0_all.deb
+Size: 65260
+MD5sum: 15106983901cf028effa377384236f25
+SHA1: c8ee0eb437700a7a90430baaeaf2c18eb8b21356
+SHA256: f93ba875966fe5f8a6452e778e81d99795e545ceae0ed9ae20bca1dacfcd091a
+SHA512: b16699b37fa6ab09da09dc1d4011da3d02e4765b6f460dbcb897e3f9504fad38a9b1ed023a288cabdc6ce17a9abae987b150b0fa5b4b01959adb8c429344892d
+Description: Build Debian packages in a docker container
+ Debpic allows developers to build Debian package in an isolated environment.
+ Invoke debpic in a repository without any arguments to simply build packages.
+ The environment is composed from:
+  * The Debian stable docker image.
+  * Build dependencies described in the ./debian/control file.
+  * Any additional developer tools described in ./developer-packages.txt.
+  * Any packages defined in the --extra-pkg flag.
+Homepage: https://github.com/aidan-gallagher/debpic
+
