@@ -2,5 +2,6 @@ Origin: . unstable
 Label: . unstable
 Archive: unstable
 Suite: unstable
+Codename: unstable
 Architecture: amd64
 Component: main
