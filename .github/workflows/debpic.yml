@@ -22,7 +22,7 @@ jobs:
       with:
         gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Install debpic
@@ -46,7 +46,7 @@ jobs:
       run: |
         make -f checks.mk pytest
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3.1.6
+      uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Package
@@ -58,7 +58,7 @@ jobs:
     - name: Clean
       run: |
         make -f checks.mk clean
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: Debian Package
         path: ./built_packages/debpic*.deb
