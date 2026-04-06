@@ -65,7 +65,7 @@ def debpic_parse_args(argv: List[str]):
     build_group.add_argument(
         "-d",
         "--distribution",
-        help="Select a linux distribution for the docker parent image (e.g. debian:11).",
+        help="Select a linux distribution for the docker parent image (e.g. debian:13).",
         default=None,
     )
     build_group.add_argument(

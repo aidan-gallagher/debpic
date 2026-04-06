@@ -26,7 +26,7 @@ The environment is composed from:
 
 **-d** \<DISTRIBUTION\>, **--distribution** \<DISTRIBUTION\>  
 
-: Select a linux distribution for the docker parent image (e.g.debian:11).
+: Select a linux distribution for the docker parent image (e.g.debian:13).
 
 **-lr** \<LOCAL_REPOSITORY\>, **--local-repository** \<LOCAL_REPOSITORY\>  
 

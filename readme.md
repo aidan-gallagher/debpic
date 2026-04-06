@@ -17,7 +17,7 @@ The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) 
 |-----------------------------------------|-----------------------------------------------------------------------|
 | Build package                           | `debpic`                                                              |
 | **Configure Container**                                                                                         |
-| Different linux distribution            | `debpic --distribution debian:11`                                     |
+| Different linux distribution            | `debpic --distribution debian:13`                                     |
 | Local apt repository                    | `debpic --local-repository ~/mydebs`                                  |
 | Private apt repository (configure)      | Write deb822 format sources to `/etc/debpic/sources.list.d/MyServer.sources`  |
 | Private apt repository (use)            | `debpic --sources MyServer`                                           |

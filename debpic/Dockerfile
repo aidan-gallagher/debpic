@@ -1,4 +1,4 @@
-ARG DISTRIBUTION=debian:12
+ARG DISTRIBUTION=debian:stable
 FROM $DISTRIBUTION
 LABEL MAINTAINER="Aidan Gallagher <apjgallagher@gmail.com>"
 USER root
