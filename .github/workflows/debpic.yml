@@ -11,28 +11,23 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Import GPG key
-      uses: crazy-max/ghaction-import-gpg@01dd5d3ca463c7f10f7f4f7b4f177225ac661ee4 #v6.1.0
-      with:
-        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-        passphrase: ${{ secrets.PASSPHRASE }}
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
     - name: Install debpic
       run: |
-        echo "deb https://aidangallagher.co.uk/apt-repo/ unstable main" | sudo tee /etc/apt/sources.list.d/debpic.list
-        gpg --keyserver keyserver.ubuntu.com --recv-keys 9945693042DB91DF
-        gpg --export 9945693042DB91DF | sudo tee /etc/apt/trusted.gpg.d/debpic.gpg > /dev/null
-        sudo apt update && sudo apt install debpic
+        mkdir -p /tmp/debpic
+        gh release download --repo "$GITHUB_REPOSITORY" --pattern '*.deb' --dir /tmp/debpic
+        sudo apt-get update
+        sudo apt-get install --yes /tmp/debpic/*.deb
         sudo usermod -aG docker $USER
         newgrp docker
+      env:
+        GH_TOKEN: ${{ github.token }}
     - name: Black
       run: |
         make -f checks.mk black
@@ -63,14 +58,3 @@ jobs:
         name: Debian Package
         path: ./built_packages/debpic*.deb
         if-no-files-found: error
-    - name: Update Apt Repo
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: |
-        mkdir ~/.config/git
-        echo "[user]
-          email = apjgallagher@gmail.com
-          name = Aidan Gallagher
-        [commit]
-          gpgSign = true" >> ~/.config/git/config
-        make -f checks.mk apt-repo
-        git push origin apt-repo:apt-repo

@@ -46,20 +46,6 @@ make -f checks.mk
 ```
 Github Actions will run these checks after a PR is opened to ensure they pass.
 
-## Apt Repository
+## Releasing
 
-Users can install debpic directly by downloading the .deb from github or they can install debpic by editing their apt sources to point to the debpic apt repository.
-
-The debpic apt repository is hosted on the branch [`apt-repo`](https://github.com/aidan-gallagher/debpic/tree/apt-repo).
-
-
-The raw.githubusercontent.com url is used to get the raw files without any HTML prettiness. See [Packages](https://raw.githubusercontent.com/aidan-gallagher/debpic/apt-repo/dists/unstable/main/binary-amd64/Packages) for an example.
-
-A cloudflare Redirect rule is used to redict from `aidan-gallagher/apt-repo` to `https://raw.githubusercontent.com/aidan-gallagher/debpic`.
-
-The apt repository can updated using the following commands (run in the repo).
-```
-make -f checks.mk apt-repo
-```
-
-The apt repository is automatically updated by the Github Actions when a new commit is added to main.
+Users install debpic by downloading the `.deb` from the [GitHub releases page](https://github.com/aidan-gallagher/debpic/releases/latest).

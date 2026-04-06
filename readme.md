@@ -51,38 +51,18 @@ debpic
 
 # Installation
 
-## Option 1: Direct Install
-Download the latest `.deb` from the [GitHub releases page](https://github.com/aidan-gallagher/debpic/releases/latest) and install it:
+1. Download the latest `.deb` from the [GitHub releases page](https://github.com/aidan-gallagher/debpic/releases/latest) and install it:
 ```
 sudo apt install ./debpic_<version>_all.deb
 ```
 
-## Option 2: Apt Repository
-
-1. Add the apt repository.
-```
-echo "deb https://aidangallagher.co.uk/apt-repo/ unstable main" | sudo tee /etc/apt/sources.list.d/debpic.list
-```
-
-2. Add gpg key for apt repository.
-```
-gpg --keyserver keyserver.ubuntu.com --recv-keys 9945693042DB91DF
-gpg --export 9945693042DB91DF | sudo tee /etc/apt/trusted.gpg.d/debpic.gpg > /dev/null
-```
-
-3. Install debpic.
-```
-sudo apt update && sudo apt install debpic
-```
-
-## Post Install
-
-4. Configure docker to run as non-root user. See [official docker documentation](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) for more details.
+2. Configure docker to run as non-root user. See [official docker documentation](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) for more details.
 ```
 sudo usermod -aG docker $USER
 newgrp docker
 ```
-5. Optionally - configure git to globally ignore generated built_packages directory.
+
+3. Optionally - configure git to globally ignore generated built_packages directory.
 ```
 echo built_packages >> ~/.config/git/ignore
 ```
