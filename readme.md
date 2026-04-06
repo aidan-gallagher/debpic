@@ -46,10 +46,8 @@ The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) 
 ## Simple Usage
 To build any debian package - Navigate to the root directory of the source code for the debian package and run the following command. 
 ```
-debpic -- -b --no-sign
+debpic
 ```
-* the `-b` tells dpkg-buildpackage to only build the binary package which will gets past the problem `error: can't build with source format '3.0 (quilt)': no upstream tarball ...`
-* the `--no-sign` tells dpkg-buildpackage to not sign the package which gets past the problem `error: failed to sign ...`
 
 # Installation
 
