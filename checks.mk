@@ -26,7 +26,7 @@ pytest:
 	$(PREFIX) pytest-3 --cov-report=xml --cov $(SUFFIX)
 
 package:
-	$(PREFIX) dpkg-buildpackage && mv-debs $(SUFFIX)
+	$(PREFIX) dpkg-buildpackage --build=binary --no-sign && mv-debs $(SUFFIX)
 
 lintian: package
 	$(PREFIX) lintian --fail-on warning ./built_packages/*.changes  $(SUFFIX)
