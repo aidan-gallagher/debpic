@@ -10,7 +10,7 @@ Debpic lets you build Debian packages in an isolated Docker environment.
 
 See the [man page](./debpic/documentation/debpic.manpage.md) for an introduction and usage instructions.
 
-The [Debian wiki](https://wiki.debian.org/SystemBuildTools#Package_build_tools) has a list of similar tools.  
+The [Debian wiki](https://wiki.debian.org/PackagingTools) has a list of similar tools.  
 # Overview
 
 | Tasks                                   | Steps                                                                 |
