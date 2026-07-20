@@ -6,7 +6,7 @@ Issues and Pull Requests are welcome on [Github](https://github.com/aidan-gallag
 [comment]: <> (Generated using `$ tree --dirsfirst`)
 
 ├── __debian/:__ Debian packaging information for debpic.  
-├── __debpic/:__ Source code for debpic.  
+├── __src/:__ Source code for debpic.  
 │   ├── __Documentation/:__  documentation for debpic  
 │   ├── __hooks/:__  Standard scripts to be used with `debpic --hook`.  
 │   │   └── __gopath:__  Setup go tooling to use debian Go dev packages.  
@@ -32,10 +32,10 @@ To do this you must change the hardcoded path to the Dockerfile to point to the 
 
 Assuming the repository is located at `~/Code/Per/debpic`. Run:
 ```
-sed -i '/--file \/usr\/share\/debpic\/Dockerfile/ s|/usr/share/debpic/Dockerfile|/home/aidan/Code/Per/debpic/debpic/Dockerfile|' ~/Code/Per/debpic/debpic/python/build.py 
+sed -i '/--file \/usr\/share\/debpic\/Dockerfile/ s|/usr/share/debpic/Dockerfile|/home/aidan/Code/Per/debpic/src/Dockerfile|' ~/Code/Per/debpic/src/python/build.py 
 ```
 
-Then run `~/Code/Per/debpic/debpic/python/main.py`.
+Then run `~/Code/Per/debpic/src/python/debpic.py`.
 
 
 ## Code Quality

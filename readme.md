@@ -1,5 +1,5 @@
 # DEBPIC: DEbian Build Package In Container
-![alt text](./debpic/documentation/debpic-logo.png "Logo")  
+![alt text](./src/documentation/debpic-logo.png "Logo")  
 [![debpic](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml/badge.svg)](https://github.com/aidan-gallagher/debpic/actions/workflows/debpic.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/aidan-gallagher/debpic/graph/badge.svg?token=G0WWQPPIIC)](https://codecov.io/gh/aidan-gallagher/debpic)
@@ -8,7 +8,7 @@
 
 Debpic lets you build Debian packages in an isolated Docker environment.
 
-See the [man page](./debpic/documentation/debpic.manpage.md) for an introduction and usage instructions.
+See the [man page](./src/documentation/debpic.manpage.md) for an introduction and usage instructions.
 
 The [Debian wiki](https://wiki.debian.org/PackagingTools) has a list of similar tools.  
 # Overview
@@ -34,7 +34,7 @@ The [Debian wiki](https://wiki.debian.org/PackagingTools) has a list of similar 
 
 | User Experience                         | Info                                                                |
 |-----------------------------------------|---------------------------------------------------------------------|
-| Jenkins integration                     | See [Using With Jenkins](debpic/documentation/using-with-jenkins.md). |
+| Jenkins integration                     | See [Using With Jenkins](src/documentation/using-with-jenkins.md). |
 | Tab completion                          | Yes                                                                 |
 | Man page                                | Yes                                                                 |
 | Coloured output                         | Yes                                                                 |
@@ -69,5 +69,5 @@ echo built_packages >> ~/.config/git/ignore
 
 # Documentation
 
-For more information see the [documentation](debpic/documentation).
+For more information see the [documentation](src/documentation).
 
