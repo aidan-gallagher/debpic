@@ -5,7 +5,7 @@ import sys
 
 
 def run(cmd: str, capture_output=True, check=True) -> str:
-    if capture_output == False:
+    if not capture_output:
         green_txt_start = "\033[92m"
         bold_txt_start = "\033[1m"
         fmt_txt_end = "\033[0m"
@@ -35,7 +35,7 @@ newgrp docker"""
     # Check correct directory
     if not os.path.isfile("./debian/control"):
         sys.exit(
-            f"Could not find /debian/control file. Are you in the correct directory?"
+            "Could not find /debian/control file. Are you in the correct directory?"
         )
 
 

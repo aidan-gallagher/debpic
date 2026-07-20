@@ -39,7 +39,7 @@ def copy_hook(hook_filename: str):
     yield
 
     if os.path.isfile("./debpic_hook"):
-        common.run(f"rm ./debpic_hook")
+        common.run("rm ./debpic_hook")
 
 
 def read_sources_and_preferences_files(sources: str):

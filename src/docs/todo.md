@@ -47,9 +47,6 @@ https://github.com/aidan-gallagher/debpic/issues
 * Test debpic out on Microsoft Windows - if it works then add Windows packaging to create .msi
 
 ### Clean up 
-* Split up debpic.py into multiple files.
-    * /usr/lib/python3/dist-packages/
-
 * Long wait times when container can't reach private server
     * When not connected to a VPN and trying to reach a private DNS server debpic hangs for a while.
     * Consider reducing apt timeout times.

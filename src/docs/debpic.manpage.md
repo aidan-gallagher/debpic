@@ -34,7 +34,7 @@ The environment is composed from:
 
 -**s** \<SOURCES\>, **--sources** \<SOURCES\>
 
-: Select a sources file stored at /etc/debpic/sources.list.d/\<SOURCE\>.list.
+: Select a sources file stored at /etc/debpic/sources.list.d/\<SOURCE\>.sources.
 
 -**ep** \<SOURCES\>, **--extra-pkg** \<SOURCES\>
 

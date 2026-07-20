@@ -77,7 +77,7 @@ def debpic_parse_args(argv: List[str]):
     build_group.add_argument(
         "-s",
         "--sources",
-        help="Select a sources file stored at /etc/debpic/sources.list.d/<SOURCE>.list.",
+        help="Select a sources file stored at /etc/debpic/sources.list.d/<SOURCE>.sources.",
         default="default",
     )
     build_group.add_argument(

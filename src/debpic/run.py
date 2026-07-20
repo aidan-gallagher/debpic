@@ -77,7 +77,7 @@ docker run
     try:
         result = common.run(run_cmd, capture_output=False)
     except subprocess.CalledProcessError as e:
-        print(f"Build failed!")
+        print("Build failed!")
         sys.exit(e.returncode)
 
 
