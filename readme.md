@@ -11,7 +11,15 @@ Debpic lets you build Debian packages in an isolated Docker environment.
 See the [man page](./src/docs/debpic.manpage.md) for an introduction and usage instructions.
 
 The [Debian wiki](https://wiki.debian.org/PackagingTools) has a list of similar tools.  
-# Overview
+
+# Simple Usage
+
+To build any debian package - Navigate to the root directory of the source code for the debian package and run the following command. 
+```
+debpic
+```
+
+# Full Usage
 
 | Tasks                                   | Steps                                                                 |
 |-----------------------------------------|-----------------------------------------------------------------------|
@@ -32,7 +40,9 @@ The [Debian wiki](https://wiki.debian.org/PackagingTools) has a list of similar 
 | Open VSCode in container                | `debpic --vscode`                                                     |
 | Set destination directory               | `debpic --destination ~/my_built_packages`                            |
 
-| User Experience                         | Info                                                                |
+# User Experience
+
+| Feature                                 | Info                                                                |
 |-----------------------------------------|---------------------------------------------------------------------|
 | Jenkins integration                     | See [Using With Jenkins](src/docs/using-with-jenkins.md). |
 | Tab completion                          | Yes                                                                 |
@@ -42,12 +52,6 @@ The [Debian wiki](https://wiki.debian.org/PackagingTools) has a list of similar 
 | Config file                             | `~/.config/debpic/debpic.conf`                                      |
 | Built package location                  | `./built_packages/`                                                 |
 | Include extra tools                     | Edit ./developer-packages.txt                                       |
-
-## Simple Usage
-To build any debian package - Navigate to the root directory of the source code for the debian package and run the following command. 
-```
-debpic
-```
 
 # Installation
 
