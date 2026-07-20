@@ -3,10 +3,10 @@
 
 # Path to file in repository => path to install file on target
 debian/debpic.1 => usr/share/man/man1/debpic.1
-src/documentation/ /usr/share/doc/debpic/
+src/docs/ /usr/share/doc/debpic/
 src/debpic-completion.bash => /usr/share/bash-completion/completions/debpic
 src/debpic.conf => /etc/debpic/debpic.conf
 src/debpic.conf.template => /etc/debpic/debpic.conf.template
 src/Dockerfile => usr/share/debpic/Dockerfile
 src/hooks/ /etc/debpic/
-src/python/*.py usr/lib/python3/dist-packages/debpic
+src/debpic/*.py usr/lib/python3/dist-packages/debpic

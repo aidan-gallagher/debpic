@@ -7,10 +7,7 @@ Issues and Pull Requests are welcome on [Github](https://github.com/aidan-gallag
 
 ├── __debian/:__ Debian packaging information for debpic.  
 ├── __src/:__ Source code for debpic.  
-│   ├── __Documentation/:__  documentation for debpic  
-│   ├── __hooks/:__  Standard scripts to be used with `debpic --hook`.  
-│   │   └── __gopath:__  Setup go tooling to use debian Go dev packages.  
-│   ├── __python/:__  
+│   ├── __debpic/:__  Python modules for debpic.  
 │   │   ├── __build.py:__ Functions to build the container.  
 │   │   ├── __common.py:__ Miscellaneous functions.  
 │   │   ├── __configuration.py:__ Functions to parse arguments.  
@@ -18,6 +15,9 @@ Issues and Pull Requests are welcome on [Github](https://github.com/aidan-gallag
 │   │   ├── __debpic_test.py:__  Unit tests.  
 │   │   ├── __run.py:__   Functions to run the container.  
 │   │   └── __vscode.py:__  Functions for VSCode integration.  
+│   ├── __docs/:__  documentation for debpic  
+│   ├── __hooks/:__  Standard scripts to be used with `debpic --hook`.  
+│   │   └── __gopath:__  Setup go tooling to use debian Go dev packages.  
 │   ├── __debpic-completion.bash:__ Bash completion for debpic CLI options.  
 │   ├── __debpic.conf:__  Template configuration file for debpic.  
 │   └── __Dockerfile:__ Dockerfile describing container setup.  
@@ -32,10 +32,10 @@ To do this you must change the hardcoded path to the Dockerfile to point to the 
 
 Assuming the repository is located at `~/Code/Per/debpic`. Run:
 ```
-sed -i '/--file \/usr\/share\/debpic\/Dockerfile/ s|/usr/share/debpic/Dockerfile|/home/aidan/Code/Per/debpic/src/Dockerfile|' ~/Code/Per/debpic/src/python/build.py 
+sed -i '/--file \/usr\/share\/debpic\/Dockerfile/ s|/usr/share/debpic/Dockerfile|/home/aidan/Code/Per/debpic/src/Dockerfile|' ~/Code/Per/debpic/src/debpic/build.py 
 ```
 
-Then run `~/Code/Per/debpic/src/python/debpic.py`.
+Then run `~/Code/Per/debpic/src/debpic/debpic.py`.
 
 
 ## Code Quality
