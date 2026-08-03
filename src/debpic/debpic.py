@@ -47,7 +47,7 @@ def main(argv: List[str]):
             sys.exit(0)
 
         run.run_container(
-            repository_name, args.command, args.dpkg_buildpackage_args, args.interactive
+            repository_name, args.command, args.dpkg_buildpackage_args, args.interactive, args.build_tool
         )
 
         if args.destination:
