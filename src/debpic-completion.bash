@@ -14,7 +14,7 @@ _debpic_complete() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="--help --no-cache --distribution --local-repository --sources --extra-pkg --destination --interactive --hook --vscode --delete-images -- "
+  opts="--help --no-cache --distribution --local-repository --sources --extra-pkg --destination --interactive --hook --delete-images -- "
 
 
   instances_of_double_dash=0
@@ -57,13 +57,10 @@ _debpic_complete() {
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--destination//')
     fi
     if [[ "$word" == "--interactive" || "$word" == "-i" ]]; then
-      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//;s/-- //;s/--vscode//')
+      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--interactive//;s/-- //')
     fi
     if [[ "$word" == "--hook" || "$word" == "-hk" ]]; then
       opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--hook//')
-    fi
-    if [[ "$word" == "--vscode" || "$word" == "-vs" ]]; then
-      opts=$(echo "$opts" | sed 's/--help//;s/--delete-images//;s/--vscode//;s/-- //;s/--interactive//;s/--no-cache//;s/--destination//;')
     fi
   done
 

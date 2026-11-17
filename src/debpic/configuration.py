@@ -110,12 +110,6 @@ def debpic_parse_args(argv: List[str]):
         const="--interactive",
     )
     exclusive_group_parser.add_argument(
-        "-vs",
-        "--vscode",
-        help="Open repository using Visual Studio Code Dev Container (https://code.visualstudio.com/docs/devcontainers/containers).",
-        action="store_true",
-    )
-    exclusive_group_parser.add_argument(
         "command",
         help="Command to execute in the container.",
         nargs="?",

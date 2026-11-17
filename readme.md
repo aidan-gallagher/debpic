@@ -37,7 +37,6 @@ debpic
 | Hook script (Configure)                 | Write script to `/etc/debpic/hooks/myscript`                          |
 | Hook script (Use)                       | `debpic --hook myscript`                                              |
 | Interactive mode                        | `debpic --interactive`                                                |
-| Open VSCode in container                | `debpic --vscode`                                                     |
 | Set destination directory               | `debpic --destination ~/my_built_packages`                            |
 
 # User Experience

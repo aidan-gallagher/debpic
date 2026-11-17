@@ -13,8 +13,7 @@ Issues and Pull Requests are welcome on [Github](https://github.com/aidan-gallag
 │   │   ├── __configuration.py:__ Functions to parse arguments.  
 │   │   ├── __debpic.py:__  Entry point to debpic.  
 │   │   ├── __debpic_test.py:__  Unit tests.  
-│   │   ├── __run.py:__   Functions to run the container.  
-│   │   └── __vscode.py:__  Functions for VSCode integration.  
+│   │   └── __run.py:__   Functions to run the container.  
 │   ├── __docs/:__  documentation for debpic  
 │   ├── __hooks/:__  Standard scripts to be used with `debpic --hook`.  
 │   │   └── __gopath:__  Setup go tooling to use debian Go dev packages.  

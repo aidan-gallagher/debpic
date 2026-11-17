@@ -11,7 +11,6 @@ import build
 import common
 import configuration
 import run
-import vscode
 import yaml
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -41,10 +40,6 @@ def main(argv: List[str]):
         with build.hardlink_local_repository(args.local_repository):
             with build.copy_hook(args.hook):
                 build.build_image(repository_name, args.no_cache, build_arguments)
-
-        if args.vscode:
-            vscode.vscode(repository_name)
-            sys.exit(0)
 
         run.run_container(
             repository_name, args.command, args.dpkg_buildpackage_args, args.interactive
