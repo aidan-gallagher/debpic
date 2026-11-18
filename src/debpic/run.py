@@ -12,15 +12,16 @@ def run_container(
     command: str = "",
     dpkg_buildpackage_args: str = "",
     interactive: str = "",
+    build_tool: str = "dpkg-buildpackage",
 ):
     # ------------------------ Handle docker run arguments ----------------------- #
     # If the user hasn't supplied a command then assume build command.
     # Delete built_packages to clear out any old packages then move new ones over.
     if command == "":
         command = f"""\
-dpkg-buildpackage {dpkg_buildpackage_args} && \
+{build_tool} {dpkg_buildpackage_args} && \
 mv-debs && \
-dpkg-buildpackage --target=clean\
+{build_tool} --target=clean\
 """.replace(
             "\n", " "
         )

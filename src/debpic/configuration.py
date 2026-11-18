@@ -100,6 +100,12 @@ def debpic_parse_args(argv: List[str]):
         help="Select a hook script stored at /etc/debpic/hooks/<SCRIPT>.",
         default="default",
     )
+    run_group.add_argument(
+        "-bt",
+        "--build-tool",
+        help="Build tool to use (default: dpkg-buildpackage).",
+        default="dpkg-buildpackage",
+    )
     exclusive_group_parser = run_group.add_mutually_exclusive_group()
     exclusive_group_parser.add_argument(
         "-i",

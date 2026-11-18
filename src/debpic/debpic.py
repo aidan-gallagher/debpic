@@ -42,7 +42,7 @@ def main(argv: List[str]):
                 build.build_image(repository_name, args.no_cache, build_arguments)
 
         run.run_container(
-            repository_name, args.command, args.dpkg_buildpackage_args, args.interactive
+            repository_name, args.command, args.dpkg_buildpackage_args, args.interactive, args.build_tool
         )
 
         if args.destination:
